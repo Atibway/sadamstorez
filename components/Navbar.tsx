@@ -7,6 +7,7 @@ import StoreSwitcher from './StoreSwitcher'
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import prismadb from '@/lib/prismadb'
+import { ModeToggle } from './theme-tuggle'
 
 const Navbar = async() => {
     const { userId } = auth();
@@ -25,6 +26,7 @@ const Navbar = async() => {
         <StoreSwitcher items={stores} />
         <MainNav className="ml-3" />
         <div className="ml-auto flex items-center space-x-3">
+          <ModeToggle/>
           <UserButton afterSignOutUrl="/" />
         </div>
       </div>

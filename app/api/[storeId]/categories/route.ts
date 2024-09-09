@@ -66,6 +66,9 @@ export async function GET(
         const category = await prismadb.category.findMany({
             where: {
                 storeId: params.storeId,
+            },
+            include: {
+                billboard: true
             }
         });
 
