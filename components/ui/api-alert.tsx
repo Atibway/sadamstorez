@@ -23,7 +23,7 @@ const variantMap: Record<ApiAlertProps["variant"], BadgeProps["variant"]> = {
 export const ApiAlert: React.FC<ApiAlertProps> = ({
     title,
     description,
-    variant="public"
+    variant
 }) => {
 
     const onCopy = () => {
