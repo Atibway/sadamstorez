@@ -3,6 +3,7 @@ import prismadb from "@/lib/prismadb";
 
 import { NextResponse } from "next/server";
 
+
 export async function GET(
   req: Request,
   { params }: { params: {  billboardId: string } }
@@ -89,16 +90,20 @@ export async function PATCH(
   }
 }
 
+
+
 export async function DELETE(
   req: Request,
   { params }: { params: { storeId: string, billboardId: string } }
 ) {
   try {
-   const session = await auth()
- 
-    if (!session?.user) return null
+    const session = await auth();
 
-    const userId = session.user.id
+    if (!session?.user) {
+      return new NextResponse("Unauthenticated", { status: 401 });
+    }
+
+    const userId = session.user.id;
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 401 });
@@ -106,21 +111,20 @@ export async function DELETE(
 
     if (!params.billboardId) {
       return new NextResponse("Billboard id is required", { status: 400 });
-      }
+    }
 
-       const storeByUserId = await prismadb.store.findFirst({
-         where: {
-           id: params.storeId,
-           userId,
-         },
-       });
+    const storeByUserId = await prismadb.store.findFirst({
+      where: {
+        id: params.storeId,
+        userId,
+      },
+    });
 
-       if (!storeByUserId) {
-         return new NextResponse("Unauthorized", { status: 400 });
-       }
+    if (!storeByUserId) {
+      return new NextResponse("Unauthorized", { status: 403 });
+    }
 
-
-    const billboard= await prismadb.billboard.deleteMany({
+    const billboard = await prismadb.billboard.deleteMany({
       where: {
         id: params.billboardId,
       },
@@ -132,3 +136,4 @@ export async function DELETE(
     return new NextResponse("Internal error", { status: 500 });
   }
 }
+
