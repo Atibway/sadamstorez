@@ -26,7 +26,7 @@ import Link from "next/link";
 import { login } from "@/actions/login";
 
 
-export function LoginForm() {
+function LoginForm() {
 
     const [isPending, startTransition] = useTransition();
 
