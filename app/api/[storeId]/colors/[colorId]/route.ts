@@ -26,101 +26,111 @@ export async function GET(
   }
 }
 
+
+
 export async function PATCH(
   req: Request,
-  { params }: { params: { storeId: string , colorId: string} }
+  { params }: { params: { storeId: string, colorId: string } }
 ) {
   try {
-    const session = await auth()
- 
-    if (!session?.user) return null
+    const session = await auth();
 
-    const userId = session.user.id
+    if (!session?.user) {
+      // Changed to return NextResponse
+      return new NextResponse("Unauthenticated", { status: 401 });
+    }
+
+    const userId = session.user.id;
     const body = await req.json();
-
-    const { name, value} = body;
-
+    const { name, value } = body;
 
     if (!userId) {
+      // Changed to return NextResponse
       return new NextResponse("Unauthenticated", { status: 401 });
     }
     if (!name) {
-      return new NextResponse("name is required", { status: 400 });
+      // Changed to return NextResponse
+      return new NextResponse("Name is required", { status: 400 });
     }
     if (!value) {
-      return new NextResponse("value is required", { status: 400 });
-      }
+      // Changed to return NextResponse
+      return new NextResponse("Value is required", { status: 400 });
+    }
+    if (!params.colorId) {
+      // Changed to return NextResponse
+      return new NextResponse("Color Id is required", { status: 400 });
+    }
 
-     if (!params.colorId) {
-       return new NextResponse("color Id is required", { status: 400 });
-     }
+    const storeByUserId = await prismadb.store.findFirst({
+      where: {
+        id: params.storeId,
+        userId,
+      },
+    });
 
-     const storeByUserId = await prismadb.store.findFirst({
-       where: {
-         id: params.storeId,
-         userId,
-       },
-     });
-
-     if (!storeByUserId) {
-       return new NextResponse("Unauthorized", { status: 400 });
-     }
+    if (!storeByUserId) {
+      // Changed to return NextResponse
+      return new NextResponse("Unauthorized", { status: 403 });
+    }
 
     const color = await prismadb.color.updateMany({
       where: {
         id: params.colorId,
-
       },
       data: {
-          name,
-          value
+        name,
+        value,
       },
     });
 
     if (color.count === 0) {
+      // Changed to return NextResponse
       return new NextResponse("No store found or updated", { status: 404 });
     }
 
-    return NextResponse.json(color)
-
+    // Changed to return NextResponse
+    return NextResponse.json(color);
   } catch (error) {
     console.log("[COLORS_PATCH]", error);
-    return new NextResponse("Internal error", { status: 400 });
+    // Changed to return NextResponse
+    return new NextResponse("Internal error", { status: 500 });
   }
 }
+
 
 export async function DELETE(
   req: Request,
   { params }: { params: { storeId: string, colorId: string } }
 ) {
   try {
-    const session = await auth()
- 
-    if (!session?.user) return null
+    const session = await auth();
 
-    const userId = session.user.id
+    if (!session?.user) {
+      return new NextResponse("Unauthenticated", { status: 401 });
+    }
+
+    const userId = session.user.id;
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 401 });
     }
 
     if (!params.colorId) {
-      return new NextResponse("color id is required", { status: 400 });
-      }
+      return new NextResponse("Color id is required", { status: 400 });
+    }
 
-       const storeByUserId = await prismadb.store.findFirst({
-         where: {
-           id: params.storeId,
-           userId,
-         },
-       });
+    const storeByUserId = await prismadb.store.findFirst({
+      where: {
+        id: params.storeId,
+        userId,
+      },
+    });
 
-       if (!storeByUserId) {
-         return new NextResponse("Unauthorized", { status: 400 });
-       }
+    if (!storeByUserId) {
+      return new NextResponse("Unauthorized", { status: 403 });
+    }
 
-
-    const color= await prismadb.color.deleteMany({
+    const color = await prismadb.color.deleteMany({
       where: {
         id: params.colorId,
       },
@@ -132,3 +142,4 @@ export async function DELETE(
     return new NextResponse("Internal error", { status: 500 });
   }
 }
+

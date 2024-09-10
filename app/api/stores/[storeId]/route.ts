@@ -1,20 +1,21 @@
 import { auth } from "@/auth";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import prismadb from "@/lib/prismadb";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
+
+import { NextResponse } from 'next/server';
 
 export async function PATCH(
   req: Request,
   { params }: { params: { storeId: string } }
 ) {
   try {
-    const session = await auth()
- 
-    if (!session?.user) return null
+    const session = await auth();
 
-    const userId = session.user.id
+    if (!session?.user) return NextResponse.json(null);
+
+    const userId = session.user.id;
     const body = await req.json();
-
     const { name } = body;
     console.log(name);
 
@@ -42,8 +43,7 @@ export async function PATCH(
       return new NextResponse("No store found or updated", { status: 404 });
     }
 
-    return NextResponse.json(result)
-
+    return NextResponse.json(result);
   } catch (error) {
     console.log("[STORE_PATCH]", error);
     return new NextResponse("Internal error", { status: 400 });
@@ -55,11 +55,11 @@ export async function DELETE(
   { params }: { params: { storeId: string } }
 ) {
   try {
-    const session = await auth()
+    const session = await auth();
 
-    if (!session?.user) return null
+    if (!session?.user) return NextResponse.json(null);
 
-    const userId = session.user.id
+    const userId = session.user.id;
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 401 });
@@ -81,3 +81,4 @@ export async function DELETE(
     return new NextResponse("Internal error", { status: 500 });
   }
 }
+
