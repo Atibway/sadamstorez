@@ -1,5 +1,5 @@
+import { auth } from "@/auth";
 import prismadb from "@/lib/prismadb";
-import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -11,7 +11,6 @@ export async function GET(
     if (!params.productId) {
       return new NextResponse("Product id is required", { status: 400 });
     }
-
 
     const product = await prismadb.product.findUnique({
       where: {
@@ -37,7 +36,11 @@ export async function PATCH(
   { params }: { params: { storeId: string , productId: string} }
 ) {
   try {
-    const { userId } = auth();
+    const session = await auth()
+ 
+    if (!session?.user) return null
+
+    const userId = session.user.id
     const body = await req.json();
 
     const { 
@@ -136,8 +139,11 @@ export async function DELETE(
   { params }: { params: { storeId: string, productId: string } }
 ) {
   try {
-    const { userId } = auth();
+    const session = await auth()
+ 
+    if (!session?.user) return null
 
+    const userId = session.user.id
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 401 });
     }

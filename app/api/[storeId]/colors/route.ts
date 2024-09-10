@@ -1,5 +1,6 @@
+import { auth } from "@/auth";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import prismadb from "@/lib/prismadb";
-import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 export async function POST(
@@ -7,7 +8,10 @@ export async function POST(
 {params}: {params: {storeId: string}}
 ) {
     try {
-        const { userId } = auth()
+        const session = await auth()
+    if (!session?.user) return null
+
+    const userId = session.user.id
         const body = await req.json()
 
         const { name, value } = body

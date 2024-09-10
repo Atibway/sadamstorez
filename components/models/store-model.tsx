@@ -1,7 +1,7 @@
 "use client";
 
 import { useStoreModel } from "@/hooks/use-store-model";
-import { Model } from "../ui/Model";
+import { Model } from "../ui1/Model";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,9 +13,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+} from "../ui1/form1";
+import { Input } from "../ui1/input";
+import { Button } from "../ui1/button";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";

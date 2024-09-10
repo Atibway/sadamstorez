@@ -1,10 +1,20 @@
 
+import { auth } from '@/auth'
+import { userId } from '@/hooks/use-current-user'
 import React from 'react'
 
-const page = () => {
+
+
+const page = async() => {
+
+  
+  const session = await auth()
+ 
+  if (!session?.user) return null
   return (
-    <div>
-      Settings
+    <div className=' text-white'>
+      {session.expires}
+      hello
     </div>
   )
 }

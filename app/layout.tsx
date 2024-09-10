@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
+
 import { ModelProvider } from "@/providers/model-provider";
 import { ToastProvider } from "@/providers/toast-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,13 +15,15 @@ export const metadata: Metadata = {
   description: "Admin Dashboard",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const session = await auth()
     return (
-      <ClerkProvider>
+      <SessionProvider session={session}>
         <html lang="en">
                 <body className={inter.className}>
                 <ThemeProvider
@@ -41,6 +39,6 @@ export default function RootLayout({
           </ThemeProvider>
           </body>
         </html>
-      </ClerkProvider>
+        </SessionProvider>
     );
 }

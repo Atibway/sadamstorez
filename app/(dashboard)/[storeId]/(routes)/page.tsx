@@ -4,9 +4,9 @@ import { getStockCount } from "@/actions/get-stock-count"
 import { getTotalRevenue } from "@/actions/get-total-revenue"
 import Overview from "@/components/Overview"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import Heading from "@/components/ui/Heading"
-import { Separator } from "@/components/ui/separator"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui1/card"
+import Heading from "@/components/ui1/Heading"
+import { Separator } from "@/components/ui1/separator"
 import { formatter } from "@/lib/utils"
 import { CreditCard, DollarSign, Package } from "lucide-react"
 

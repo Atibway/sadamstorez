@@ -1,9 +1,9 @@
 
 "use cleint";
 
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger,DropdownMenuLabel, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger,DropdownMenuLabel, DropdownMenuItem } from "@/components/ui1/dropdown-menu";
 import { SizeColumn } from "./columns";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui1/button";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";

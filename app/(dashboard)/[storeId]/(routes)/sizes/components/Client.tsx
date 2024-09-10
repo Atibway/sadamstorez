@@ -1,14 +1,14 @@
 "use client"
 
-import { Button } from '@/components/ui/button'
-import Heading from '@/components/ui/Heading'
-import { Separator } from '@/components/ui/separator'
+import { Button } from '@/components/ui1/button'
+import Heading from '@/components/ui1/Heading'
+import { Separator } from '@/components/ui1/separator'
 import { Plus } from 'lucide-react'
 import { useParams, useRouter } from 'next/navigation'
 import React from 'react'
 import { SizeColumn, columns } from './columns'
-import { DataTable } from '@/components/ui/data-table'
-import ApiList from '@/components/ui/api-list'
+import { DataTable } from '@/components/ui1/data-table'
+import ApiList from '@/components/ui1/api-list'
 
 
 interface SizesClientProps {

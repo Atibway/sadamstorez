@@ -8,9 +8,9 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Button } from "@/components/ui/button";
-import Heading from "@/components/ui/Heading";
-import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui1/button";
+import Heading from "@/components/ui1/Heading";
+import { Separator } from "@/components/ui1/separator";
 import {
   Form,
   FormControl,
@@ -18,13 +18,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "@/components/ui1/form1";
+import { Input } from "@/components/ui1/input";
 import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "@/components/models/AlertModel";
 
 import { useOrigin } from "@/hooks/use-origin";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui1/select";
 
 
 const formSchema = z.object({

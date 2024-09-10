@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Model } from "../ui/Model";
-import { Button } from "../ui/button";
+import { Model } from "../ui1/Model";
+import { Button } from "../ui1/button";
 
 interface AlertModalProps {
   isOpen: boolean;
