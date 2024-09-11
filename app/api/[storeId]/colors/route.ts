@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { useCurrentUser } from "@/hooks/use-current-user";
+
 import prismadb from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 
