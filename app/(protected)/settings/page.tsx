@@ -15,9 +15,19 @@ const Settings = () => {
     }
 
     const user = useCurrentUser()
+
   return (
     <div>
-      {JSON.stringify(user)}
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
         <Button onClick={onClick} type="submit">Sign Out</Button>
 
     </div>
