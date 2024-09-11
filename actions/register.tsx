@@ -14,16 +14,21 @@ export const SignUp = async (values: z.infer<typeof registerSchema>) => {
     return { error: "Invalid fields" };
   }
   const { email, password, firstName, lastName } = validatedFields.data;
+  console.log(email);
+  
 if(!email && !password && !firstName && !lastName){
     return {error: "Fill in all fields"}
 }
   const hashedPassword = await bcrypt.hash(password, 10);
+console.log(hashedPassword);
+
 
   const existingUser = await getUserByEmail(email);
 
   if (existingUser) {
     return { error: "Email already in use!" };
-  } else {
+  } 
+
     await prismadb.user.create({
       data: {
         email,
@@ -32,16 +37,7 @@ if(!email && !password && !firstName && !lastName){
         firstName
       },
     });
-    //Send verification token
 
-    //   const verificationToken = await generateVerificationToken(email);
-
-    //   await sendVerificationEmail(
-    //       verificationToken.email,
-    //       verificationToken.token
-    //    )
-    // return { success: "Confirmation Email Sent Check and Tap in The Link to confirm" };
-
-    return { success: "Registerde Successfully" };
+    return { success: "Registerd Successfully" };
   }
-};
+

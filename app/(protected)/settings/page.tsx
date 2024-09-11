@@ -3,7 +3,6 @@
 
 import { logout } from '@/actions/logout';
 import { Button } from '@/components/ui/button';
-import { useCurrentUser } from '@/hooks/use-current-user';
 import { useSession, signOut } from 'next-auth/react';
 
 
@@ -13,8 +12,6 @@ const Settings = () => {
     const onClick = () => {
     logout()
     }
-
-    const user = useCurrentUser()
 
   return (
     <div>

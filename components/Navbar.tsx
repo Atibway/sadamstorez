@@ -7,9 +7,10 @@ import StoreSwitcher from './StoreSwitcher'
 import { redirect } from 'next/navigation'
 import prismadb from '@/lib/prismadb'
 import { ModeToggle } from './theme-tuggle'
-import { auth } from '@/auth'
+import { auth, signOut } from '@/auth'
 
 import MobileDrawer from './mobileMenue'
+import { Button } from './ui/button'
 
 const Navbar = async() => {
   const session = await auth()
@@ -33,6 +34,16 @@ const Navbar = async() => {
         <StoreSwitcher items={stores} />
         <MainNav className=" ml-3 hidden  lg:block " />
         <div className="ml-auto flex items-center space-x-3">
+          <div>
+          <form
+ action={async () => {
+ "use server"
+ await signOut()
+ }}
+ >
+ <Button type="submit">Sign Out</Button>
+ </form>
+          </div>
           <ModeToggle  />
           <div className=" ml-3  lg:hidden ">
           <MobileDrawer/>
