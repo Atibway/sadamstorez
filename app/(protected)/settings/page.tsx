@@ -1,32 +1,28 @@
 
-import { auth } from '@/auth'
-import { userId } from '@/hooks/use-current-user'
-import React from 'react'
+"use client"
+
+import { logout } from '@/actions/logout';
+import { Button } from '@/components/ui/button';
+import { useCurrentUser } from '@/hooks/use-current-user';
+import { useSession, signOut } from 'next-auth/react';
 
 
+const Settings = () => {
+    const session = useSession();
 
-const page = async() => {
+    const onClick = () => {
+    logout()
+    }
 
-  
-  const session = await auth()
- 
-  if (!session?.user) return null
+    const user = useCurrentUser()
   return (
-    <div className='text-black'>
-      {session.user.email}
-      <h1>sdffghjkl;kjcfbvnm,.,mnbvbnm,.mnbbvbnnm,m,nbnmm,..mnbm</h1>
-      <h1>sdffghjkl;kjcfbvnm,.,mnbvbnm,.mnbbvbnnm,m,nbnmm,..mnbm</h1>
-      <h1>sdffghjkl;kjcfbvnm,.,mnbvbnm,.mnbbvbnnm,m,nbnmm,..mnbm</h1>
-      <h1>sdffghjkl;kjcfbvnm,.,mnbvbnm,.mnbbvbnnm,m,nbnmm,..mnbm</h1>
-      <h1>sdffghjkl;kjcfbvnm,.,mnbvbnm,.mnbbvbnnm,m,nbnmm,..mnbm</h1>
-      <h1>sdffghjkl;kjcfbvnm,.,mnbvbnm,.mnbbvbnnm,m,nbnmm,..mnbm</h1>
-      <h1>sdffghjkl;kjcfbvnm,.,mnbvbnm,.mnbbvbnnm,m,nbnmm,..mnbm</h1>
-      <h1>sdffghjkl;kjcfbvnm,.,mnbvbnm,.mnbbvbnnm,m,nbnmm,..mnbm</h1>
-      <h1>sdffghjkl;kjcfbvnm,.,mnbvbnm,.mnbbvbnnm,m,nbnmm,..mnbm</h1>
-      <h1>sdffghjkl;kjcfbvnm,.,mnbvbnm,.mnbbvbnnm,m,nbnmm,..mnbm</h1>
+    <div>
+      {JSON.stringify(user)}
+        <Button onClick={onClick} type="submit">Sign Out</Button>
+
     </div>
-  )
+  );
 }
 
-export default page
+export default Settings
 
