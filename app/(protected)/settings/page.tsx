@@ -12,9 +12,18 @@ const page = async() => {
  
   if (!session?.user) return null
   return (
-    <div className=' text-white'>
-      {session.expires}
-      hello
+    <div className='text-black'>
+      {session.user.email}
+      <h1>sdffghjkl;kjcfbvnm,.,mnbvbnm,.mnbbvbnnm,m,nbnmm,..mnbm</h1>
+      <h1>sdffghjkl;kjcfbvnm,.,mnbvbnm,.mnbbvbnnm,m,nbnmm,..mnbm</h1>
+      <h1>sdffghjkl;kjcfbvnm,.,mnbvbnm,.mnbbvbnnm,m,nbnmm,..mnbm</h1>
+      <h1>sdffghjkl;kjcfbvnm,.,mnbvbnm,.mnbbvbnnm,m,nbnmm,..mnbm</h1>
+      <h1>sdffghjkl;kjcfbvnm,.,mnbvbnm,.mnbbvbnnm,m,nbnmm,..mnbm</h1>
+      <h1>sdffghjkl;kjcfbvnm,.,mnbvbnm,.mnbbvbnnm,m,nbnmm,..mnbm</h1>
+      <h1>sdffghjkl;kjcfbvnm,.,mnbvbnm,.mnbbvbnnm,m,nbnmm,..mnbm</h1>
+      <h1>sdffghjkl;kjcfbvnm,.,mnbvbnm,.mnbbvbnnm,m,nbnmm,..mnbm</h1>
+      <h1>sdffghjkl;kjcfbvnm,.,mnbvbnm,.mnbbvbnnm,m,nbnmm,..mnbm</h1>
+      <h1>sdffghjkl;kjcfbvnm,.,mnbvbnm,.mnbbvbnnm,m,nbnmm,..mnbm</h1>
     </div>
   )
 }
