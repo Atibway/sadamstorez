@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import prismadb from "@/lib/prismadb";
+import {db as prismadb} from "@/lib/prismadb";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(

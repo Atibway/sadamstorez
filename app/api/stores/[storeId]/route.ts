@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 
-import prismadb from "@/lib/prismadb";
-import { NextRequest } from "next/server";
+import {db as prismadb} from "@/lib/prismadb";
+
 
 import { NextResponse } from 'next/server';
 

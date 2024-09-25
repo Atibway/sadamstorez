@@ -1,5 +1,5 @@
 import React from 'react'
-import prismadb from '@/lib/prismadb'
+import {db as prismadb} from "@/lib/prismadb";
 import { ProductColumn } from './components/columns'
 import {format} from "date-fns"
 import ProductClient from './components/Client'

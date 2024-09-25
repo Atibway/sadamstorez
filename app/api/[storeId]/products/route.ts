@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import prismadb from "@/lib/prismadb";
+import {db as prismadb} from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 
 export async function POST(
@@ -74,12 +74,12 @@ export async function POST(
           storeId: params.storeId,
           images: {
             createMany: {
-              data: images.map((image: string) => ({ url: image })),
+              data: images.map((image: any) => ({ url: image.url })),  // Directly mapping strings
             },
           },
         },
       });
-  
+      
       return NextResponse.json(product);
     } catch (error) {
       console.log("[PRODUCT_POST]", error);

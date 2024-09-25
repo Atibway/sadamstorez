@@ -1,6 +1,6 @@
 import React from 'react'
 import BillboardClient from './components/Client'
-import prismadb from '@/lib/prismadb'
+import {db as prismadb} from "@/lib/prismadb";
 import { BillboardColumn } from './components/columns'
 import {format} from "date-fns"
 

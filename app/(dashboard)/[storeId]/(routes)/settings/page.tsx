@@ -1,11 +1,10 @@
-"use client"
-import prismadb from '@/lib/prismadb';
+
+import {db as prismadb} from "@/lib/prismadb";
 import { redirect } from 'next/navigation';
 import React from 'react'
 import SettingsForm from './components/SettingsForm';
 import { auth } from '@/auth';
-import { Button } from '@/components/ui/button';
-import { logout } from '@/actions/logout';
+import SettingPage from "../profile/page";
 
 interface SettingsPageProps {
     params: {
@@ -14,18 +13,14 @@ interface SettingsPageProps {
 }
 
 const SettingsPage: React.FC<SettingsPageProps> = async({ params }) => {
-    const onClick = () => {
-        logout()
-        }
-
+    
     const session = await auth()
- 
-    if (!session?.user) return null
 
-    const userId = session.user.id
+    const userId = session?.user.id
 
+    
     if (!userId) {
-        redirect("/sign-in")
+        redirect("/auth/login")
     }
 
     const store = await prismadb.store.findFirst({
@@ -39,11 +34,15 @@ const SettingsPage: React.FC<SettingsPageProps> = async({ params }) => {
         redirect("/")
     }
   return (
-    <div className='flex-col'>
-          <div className='flex-1 space-y-4 p-8 pt-6'>
+    <div className='grid lg:grid-cols-2 space-y-4'>
+        <div className='flex-1 p-3 space-y-4 md:p-8 lg:pt-20'>
+        <SettingPage/>
+      </div>
+          <div className='flex-1 p-3 space-y-4 md:p-8 lg:pt-6'>
          
               <SettingsForm initialData={store } />
       </div>
+      
     </div>
   )
 }

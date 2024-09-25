@@ -1,12 +1,11 @@
-import React from 'react'
-import BillboardClient from './components/Client'
-import prismadb from '@/lib/prismadb'
+
+import {db as prismadb} from "@/lib/prismadb";
 import { SizeColumn } from './components/columns'
 import {format} from "date-fns"
 import SizesClient from './components/Client'
 
 const SizesPage = async({params}: {params: {storeId: string}}) => {
-const sizess = await prismadb.size.findMany({
+const sizes = await prismadb.size.findMany({
     where: {
         storeId: params.storeId
     },
@@ -15,7 +14,7 @@ const sizess = await prismadb.size.findMany({
     }
 })
 
-    const formattedSizes: SizeColumn[] = sizess.map((item) => ({
+    const formattedSizes: SizeColumn[] = sizes.map((item) => ({
         id: item.id,
         name: item.name,
         value: item.value,

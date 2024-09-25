@@ -102,9 +102,9 @@ toast.error("Make sure you removed all products and categories first")
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 w-full"
+          className="space-y-8 "
         >
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-3 gap-8 w-auto">
             <FormField
               control={form.control}
               name="name"

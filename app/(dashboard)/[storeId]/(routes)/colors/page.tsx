@@ -1,6 +1,6 @@
 import React from 'react'
 
-import prismadb from '@/lib/prismadb'
+import {db as prismadb} from "@/lib/prismadb";
 import {format} from "date-fns"
 
 import ColorClient from './components/Client'

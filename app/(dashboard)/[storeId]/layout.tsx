@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import Navbar from "@/components/Navbar";
-import prismadb from "@/lib/prismadb";
+import {db as prismadb} from "@/lib/prismadb";
 
 import { redirect } from "next/navigation";
 
@@ -10,12 +10,10 @@ export default async function DashboardLayout({ children, params }: {
 }) {
     const session = await auth()
  
-    if (!session?.user) return null
-
-    const userId = session.user.id
+    const userId = session?.user.id
     
     if (!userId) {
-        redirect('/sign-in')
+        redirect('/auth/login')
     }
 
     const store = await prismadb.store.findFirst({

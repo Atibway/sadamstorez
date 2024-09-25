@@ -1,6 +1,6 @@
 import React from 'react'
 import CategoryClient from './components/Client'
-import prismadb from '@/lib/prismadb'
+import {db as prismadb} from "@/lib/prismadb";
 import {  CategoryColumn } from './components/columns'
 import {format} from "date-fns"
 

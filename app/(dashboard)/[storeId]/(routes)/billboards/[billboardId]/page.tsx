@@ -1,5 +1,5 @@
 
-import prismadb from '@/lib/prismadb'
+import {db as prismadb} from "@/lib/prismadb";
 import React from 'react'
 import BillboardForm from './components/BillboardForm'
 

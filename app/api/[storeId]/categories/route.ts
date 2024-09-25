@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 
-import prismadb from "@/lib/prismadb";
+import {db as prismadb} from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 
 
@@ -85,6 +85,7 @@ export async function GET(
                 billboard: true
             }
         });
+
 
         return NextResponse.json(category)
 

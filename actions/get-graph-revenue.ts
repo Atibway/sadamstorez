@@ -1,6 +1,6 @@
 
-import prismadb from '@/lib/prismadb'
-import React from 'react'
+import {db as prismadb} from "@/lib/prismadb";
+
 
 interface Grapdata {
   name:string;

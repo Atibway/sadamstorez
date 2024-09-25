@@ -1,29 +1,24 @@
 
-
-
 import React from 'react'
 import MainNav from './MainNav'
 import StoreSwitcher from './StoreSwitcher'
 import { redirect } from 'next/navigation'
-import prismadb from '@/lib/prismadb'
+import {db} from '@/lib/prismadb'
 import { ModeToggle } from './theme-tuggle'
-import { auth, signOut } from '@/auth'
-
 import MobileDrawer from './mobileMenue'
-import { Button } from './ui/button'
+import { UserButton } from './auth/user-button'
+import { currentUser } from '@/lib/auth'
 
 const Navbar = async() => {
-  const session = await auth()
+  const session = await currentUser()
  
-  if (!session?.user) return null
-
-  const userId = session.user.id
+  const userId = session?.id
 
     if (!userId) {
-        redirect("/sign-in")
+        redirect("/auth/login")
     }
 
-    const stores = await prismadb.store.findMany({
+    const stores = await db.store.findMany({
         where: {
             userId 
         }
@@ -32,19 +27,13 @@ const Navbar = async() => {
     <div className="border-b">
       <div className="flex h-16 items-center px-4">
         <StoreSwitcher items={stores} />
-        <MainNav className=" ml-3 hidden  lg:block " />
+        <MainNav className=" ml-3 hidden  md:block " />
         <div className="ml-auto flex items-center space-x-3">
           <div>
-          <form
- action={async () => {
- "use server"
- await signOut()
- }}
- >
- <Button type="submit">Sign Out</Button>
- </form>
           </div>
           <ModeToggle  />
+          <UserButton
+          />
           <div className=" ml-3  lg:hidden ">
           <MobileDrawer/>
           </div>

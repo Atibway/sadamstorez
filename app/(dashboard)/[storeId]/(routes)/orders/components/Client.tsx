@@ -4,7 +4,6 @@
 import Heading from '@/components/ui1/Heading'
 import { Separator } from '@/components/ui1/separator'
 
-import { useParams, useRouter } from 'next/navigation'
 import React from 'react'
 import { OrderColumn, columns } from './columns'
 import { DataTable } from '@/components/ui1/data-table'

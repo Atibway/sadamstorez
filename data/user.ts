@@ -1,27 +1,24 @@
-import prismadb from "@/lib/prismadb";
-import { User } from '@prisma/client';
+import { db } from "@/lib/prismadb"
 
+export const getUserByEmail = async (email: string | undefined )=>{
 
-export const getUserByEmail = async (email: string): Promise<User | null> => {
     try {
-        const user = await prismadb.user.findUnique({
-            where: { email },
-        });
-        return user; // This could return null if no user is found
+        const user = await db.user.findUnique({
+            where: {email}
+        })
+        return user
     } catch (error) {
-        console.error(error);
-        return null;
+       return null; 
     }
-};
+}
+export const getUserById = async (id: string | undefined)=>{
 
-export const getUserById = async (id:string): Promise<User | null> =>{
     try {
-        const user = await prismadb.user.findUnique({
+        const user = await db.user.findUnique({
             where: {id}
         })
-
-        return user;
+        return user
     } catch (error) {
-        return null
+       return null; 
     }
 }

@@ -1,22 +1,21 @@
 
 import { auth } from "@/auth";
-import prismadb from "@/lib/prismadb";
+import { currentUser } from "@/lib/auth";
+import {db} from "@/lib/prismadb";
 import { redirect } from "next/navigation";
 
 export default async function SetupLayout({ children }: {
     children: React.ReactNode
 }) {
-    const session = await auth()
+    const session = await currentUser()
  
-    if (!session?.user) return null
-
-    const userId = session.user.id
+    const userId = session?.id
 
     if (!userId) {
-redirect('/sign-in')
+redirect('/auth/login')
     }
 
-    const store = await prismadb.store.findFirst({
+    const store = await db.store.findFirst({
         where: {
             userId
         }

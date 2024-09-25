@@ -1,9 +1,8 @@
 import { auth } from "@/auth";
 
-import prismadb from "@/lib/prismadb";
+import {db as prismadb} from "@/lib/prismadb";
 
 import { NextResponse } from "next/server";
-
 
 export async function POST(
   req: Request,
