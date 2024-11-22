@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export const formatter = new Intl.NumberFormat("en-US", {
   style: "currency",
-  currency: "shs"
+  currency: "USD"
 })
 
 // git config --global user.email "you@example.com"

@@ -14,7 +14,9 @@ export default async function SetupLayout({ children }: {
     if (!userId) {
 redirect('/auth/login')
     }
-
+    if (session.role === "USER") {
+redirect('/frontend')
+    }
     const store = await db.store.findFirst({
         where: {
             userId

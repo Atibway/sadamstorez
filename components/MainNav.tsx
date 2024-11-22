@@ -53,6 +53,11 @@ const MainNav = ({
           label: "Settings",
           active: pathName === `/${params.storeId}/settings`,
         },
+        {
+          href: `/frontend`,
+          label: "Frontend",
+          active: pathName === `/frontend`,
+        },
   ];
 
   return (

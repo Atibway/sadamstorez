@@ -2,7 +2,7 @@
 import {db as prismadb} from "@/lib/prismadb";
 import { redirect } from 'next/navigation';
 import React from 'react'
-import SettingsForm from './components/SettingsForm';
+import SettingsForm from './_components/SettingsForm';
 import { auth } from '@/auth';
 import SettingPage from "../profile/page";
 
@@ -31,7 +31,7 @@ const SettingsPage: React.FC<SettingsPageProps> = async({ params }) => {
     })
 
     if (!store) {
-        redirect("/")
+        redirect("/frontend")
     }
   return (
     <div className='grid lg:grid-cols-2 space-y-4'>

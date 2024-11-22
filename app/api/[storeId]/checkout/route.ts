@@ -18,15 +18,16 @@ export async function OPTIONS() {
 // Handle POST request
 export async function POST(req: Request, { params }: { params: { storeId: string } }) {
   // Parse the request body
-  const { productIds } = await req.json();
+  const { productIds, userId } = await req.json();
 
   // Check for missing product IDs
-  if (!productIds || productIds.length === 0) {
+  if (!productIds || !userId || productIds.length === 0) {
     return new NextResponse("Product ids are required", {
       status: 400,
       headers: corsHeaders, // Include CORS headers
     });
   }
+  
 
   // Fetch products from the database
   const products = await prismadb.product.findMany({
@@ -57,6 +58,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
     data: {
       storeId: params.storeId,
       isPaid: false,
+      userId,
       orderItems: {
         create: productIds.map((productId: string) => ({
           product: {
@@ -77,8 +79,8 @@ export async function POST(req: Request, { params }: { params: { storeId: string
     phone_number_collection: {
       enabled: true,
     },
-    success_url: `${process.env.FRONTEND_STORE_URL}/cart?success=1`,
-    cancel_url: `${process.env.FRONTEND_STORE_URL}/cart?canceled=1`,
+    success_url: `http://localhost:3000/frontend/cart?success=1`,
+    cancel_url: `http://localhost:3000/frontend/cart?canceled=1`,
     metadata: {
       orderId: order.id,
     },

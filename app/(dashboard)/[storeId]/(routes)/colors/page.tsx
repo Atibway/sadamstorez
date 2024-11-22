@@ -3,8 +3,8 @@ import React from 'react'
 import {db as prismadb} from "@/lib/prismadb";
 import {format} from "date-fns"
 
-import ColorClient from './components/Client'
-import { ColorColumn } from './components/columns'
+import ColorClient from './_components/Client'
+import { ColorColumn } from './_components/columns'
 
 const SizesPage = async({params}: {params: {storeId: string}}) => {
 const colors = await prismadb.color.findMany({

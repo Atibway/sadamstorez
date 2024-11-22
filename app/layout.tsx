@@ -7,6 +7,7 @@ import { ToastProvider } from "@/providers/toast-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
+import ModalProvider from "@/providers/modal-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,17 +27,12 @@ export default async function RootLayout({
       <SessionProvider session={session}>
         <html lang="en">
                 <body className={inter.className}>
-                <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
+                
 
                     <ToastProvider/>
            <ModelProvider/>
+           <ModalProvider/>
             {children}
-          </ThemeProvider>
           </body>
         </html>
         </SessionProvider>

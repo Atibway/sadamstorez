@@ -24,6 +24,9 @@ export async function POST(
         sizeId,
         isFeatured,
         isArchived,
+        description,
+        countInStock,
+        priceDiscount,
       } = body;
   
       if (!userId) {
@@ -40,6 +43,12 @@ export async function POST(
       }
       if (!colorId) {
         return new NextResponse("Color Id is required", { status: 400 });
+      }
+      if (!description) {
+        return new NextResponse("Description Id is required", { status: 400 });
+      }
+      if (countInStock < 0) {
+        return new NextResponse("Count In Stock is required", { status: 400 });
       }
       if (!sizeId) {
         return new NextResponse("Size Id is required", { status: 400 });
@@ -69,6 +78,9 @@ export async function POST(
           categoryId,
           colorId,
           sizeId,
+          description,
+          countInStock,
+          priceDiscount,
           isFeatured,
           isArchived,
           storeId: params.storeId,

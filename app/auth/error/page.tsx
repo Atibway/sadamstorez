@@ -9,7 +9,7 @@ const AthErrorPage = async() => {
 
 if(isLoggedIn){
   
-  redirect("/settings")
+  redirect("/frontend")
 } else{
   return (
     <ErrorCard/>

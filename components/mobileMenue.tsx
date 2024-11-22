@@ -60,6 +60,12 @@ export default function Component() {
       label: "Settings",
       active: pathname === `/${params.storeId}/settings`,
     },
+        {
+          href: `/frontend`,
+          label: "Frontend",
+          active: pathname === `/frontend`,
+        }
+
   ]
 
   return (

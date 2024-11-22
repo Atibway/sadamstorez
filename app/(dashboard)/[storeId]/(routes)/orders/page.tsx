@@ -1,10 +1,10 @@
 import React from 'react'
 
 import {db as prismadb} from "@/lib/prismadb";
-import { OrderColumn } from './components/columns'
+import { OrderColumn } from './_components/columns'
 import {format} from "date-fns"
 import { formatter } from '@/lib/utils'
-import OrderClient from './components/Client'
+import OrderClient from './_components/Client'
 
 const OrderPage = async({params}: {params: {storeId: string}}) => {
 const orders = await prismadb.order.findMany({
@@ -27,6 +27,7 @@ orderItems: {
         id: item.id,
         phone: item.phone,
         address: item.address,
+        delivered: item.delivered,
         products: item.orderItems.map((orderItem)=> orderItem.product.name).join(', '),
         totalPrice: formatter.format(item.orderItems.reduce((total, item)=> {
             return total + Number(item.product.price)

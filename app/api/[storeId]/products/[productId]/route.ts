@@ -51,6 +51,9 @@ export async function PATCH(
       categoryId,
       colorId,
       sizeId,
+      description,
+      priceDiscount,
+      countInStock,
       isFeatured,
       isArchived,
     } = body;
@@ -72,6 +75,12 @@ export async function PATCH(
     }
     if (!sizeId) {
       return new NextResponse("Size Id is required", { status: 400 });
+    }
+    if (!description) {
+      return new NextResponse("Description is required", { status: 400 });
+    }
+    if (countInStock < 0) {
+      return new NextResponse("Count In Stock is required", { status: 400 });
     }
     if (!images || !images.length) {
       return new NextResponse("Images are required", { status: 400 });
@@ -103,6 +112,9 @@ export async function PATCH(
         sizeId,
         isFeatured,
         isArchived,
+        countInStock,
+        priceDiscount,
+        description,
         images: {
           deleteMany: {},
         },

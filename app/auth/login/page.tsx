@@ -9,7 +9,7 @@ const LoginPage =async () => {
   const isLoggedIn = await currentUser()
   
 if(isLoggedIn){
-  redirect("/settings")
+  redirect("/frontend")
 } else{
   return (
     <LoginForm/>

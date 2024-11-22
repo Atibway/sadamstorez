@@ -1,8 +1,8 @@
 import React from 'react'
 import {db as prismadb} from "@/lib/prismadb";
-import { ProductColumn } from './components/columns'
+import { ProductColumn } from './_components/columns'
 import {format} from "date-fns"
-import ProductClient from './components/Client'
+import ProductClient from './_components/Client'
 import { formatter } from '@/lib/utils'
 
 const ProductsPage = async({params}: {params: {storeId: string}}) => {
@@ -23,6 +23,7 @@ color: true
     const formattedProducts: ProductColumn[] = products.map((item) => ({
         id: item.id,
         name: item.name,
+        countInStock: item.countInStock,
         isFeatured: item.isFeatured,
         isArchived: item.isArchived,
         price: formatter.format(item.price.toNumber()) ,

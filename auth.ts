@@ -4,7 +4,7 @@ import {PrismaAdapter} from "@auth/prisma-adapter"
 import { db } from "./lib/prismadb"
 import { getUserById } from "./data/user"
 import { UserRole } from "@prisma/client"
-import { getTwoFactorConfirmationByUserId } from "./data/two-factor-confirmation"
+
 import { getAccountByUserId } from "./data/account"
 export const {
   handlers, auth, signIn, signOut} = NextAuth({
@@ -21,22 +21,8 @@ await db.user.update({
   }})}
     },
     callbacks: {
-      async signIn({user,account}){
+      async signIn({account}){
         if(account?.provider !== "credentials") return true
-      const existingUser = await getUserById(user?.id)
-      if(!existingUser?.emailVerified){
-        return false
-      }
-      if(existingUser.isTwoFactorEnabled) {
-        const existingConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id);
-if(!existingConfirmation) return false;
-if(existingConfirmation){
-    await db.twoFactorConfirmation.delete({
-        where: {id: existingConfirmation.id}
-    })
-}
-      }
-      
         return true;
       },
       async session({session, token}){
@@ -46,9 +32,7 @@ session.user.id = token.sub;
 if(token.role && session.user){
 session.user.role = token.role as UserRole
 }
-if(session.user){
-session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean
-}
+
 if(session.user){
 session.user.name = token.name;
 session.user.email = token.email as string
@@ -69,7 +53,7 @@ async jwt({token}){
   token.name = existingUser.name;
   token.email = existingUser.email
   token.role = existingUser.role
-  token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
+
 
   return token
 }
