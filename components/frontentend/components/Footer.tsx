@@ -5,18 +5,32 @@ import Link from 'next/link'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui1/separator"
-import { Facebook, Twitter, Instagram, Youtube, Mail } from 'lucide-react'
+import { Facebook, Twitter, Instagram, Youtube} from 'lucide-react'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
 export function Footer() {
   const [email, setEmail] = useState('')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: Implement newsletter subscription logic
-    console.log('Subscribing email:', email)
-    setEmail('')
+    try {
+      await axios.post("https://www.mailminted.com/api/subscribe", {
+        apiKey:process.env.NEXT_PUBLIC_API_KEY,
+        email: email
+      }).then((res)=> {
+        console.log(res);
+        setEmail("")
+      })
+      toast.success("Subscribed successfully")
+      setEmail("")
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong")
+      setEmail("")
+    }
   }
-
+  
   return (
     <footer className="bg-gray-100 pt-16 pb-12 text-gray-600">
       <div className="container mx-auto px-4">
