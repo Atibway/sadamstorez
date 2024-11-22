@@ -4,7 +4,6 @@ import { delivery } from "@/actions/mark-as-delivered";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { CheckCheck, CircleIcon, XCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 
@@ -20,6 +19,8 @@ export type OrderColumn = {
   products: string;
   createdAt: string;
 };
+
+
 
 export const columns: ColumnDef<OrderColumn>[] = [
   {
@@ -65,7 +66,7 @@ export const columns: ColumnDef<OrderColumn>[] = [
     accessorKey: "delivered",
     header: "Deliverly Status",
     cell: ({row})=> {
-      const router = useRouter()
+     
 const handleDeliverly = async({
   status,
   orderId
@@ -77,10 +78,9 @@ try {
   await delivery({status, orderId}).then((res)=>{
 if(res?.error){
   toast.error(res.error)
-  router.refresh()
 }else{
   toast.success(res.success as string)
-  router.refresh()
+ 
 }
   })
 } catch (error) {
