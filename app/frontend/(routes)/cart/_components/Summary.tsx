@@ -36,7 +36,7 @@ const router = useRouter()
 router.push("/auth/login")
 
     }else{
-      const response = await axios.post(`http://localhost:3000/api/ab22bcee-fa4d-469f-a9d6-25866bfa0687/checkout`, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
         productIds: items.map((item) => item.id),
         userId: user.id
       })
