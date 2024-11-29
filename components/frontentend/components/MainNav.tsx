@@ -26,20 +26,23 @@ const MainNav: React.FC<MainNavProps> = ({
      
   return (
     <div
-    className="mx-6 flex items-center gap-x-3 lg:space-x-6"
+    className="mx-6 flex items-center gap-x-3 lg:gap-x-5"
     >
       <div className="hidden md:block">
       {routes.map((route)=> (
-        <Link
+        <div className="flex gap-x-2">
+ <Link
         key={route.href}
         href={route.href}
         className={cn(
           "text-sm font-medium   transition-colors hover:text-black",
-          route.active?"text-blue-500 underline": "text-neutral-500"
+          route.active?"text-blue-400 underline": "text-neutral-500"
         )}
         >
           {route.label}
         </Link>
+        </div>
+       
       ))}
       </div>
       <div>
