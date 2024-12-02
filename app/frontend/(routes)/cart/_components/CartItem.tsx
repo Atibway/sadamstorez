@@ -75,8 +75,7 @@ export const CartItem: React.FC<CartItemProps> = ({
 
        const ProductInCartFromDb = products.find((product)=> product.id === productInCart?.id)
    
-       // Check if the product is out of stock
-       const isOutOfStock = ProductInCartFromDb?.countInStock === 0
+      
        return (
           <TableRow key={data.id}>
          <TableCell className="flex items-center space-x-3">
@@ -106,15 +105,13 @@ export const CartItem: React.FC<CartItemProps> = ({
              onChange={(e) => setQty(e.target.value)}
              className="p-2 w-[4rem] border border-slate-800 rounded-lg text-black"
            >
-             {!isOutOfStock ? (
+             { (
                Array.from(Array(Number(ProductInCartFromDb?.countInStock)).keys()).map((x) => (
                  <option
                  key={x + 1} value={x + 1}>
                    {x + 1}
                  </option>
                ))
-             ) : (
-               <option value="0">Out of stock</option>
              )}
            </select>
               

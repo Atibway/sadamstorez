@@ -62,7 +62,7 @@ router.push("/auth/login")
         </div>
         <div>
         <Button variant="outline" asChild>
-                  <Link href="/">Continue Shopping</Link>
+                  <Link href="/frontend">Continue Shopping</Link>
                 </Button>
                 
         </div>
