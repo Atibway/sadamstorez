@@ -3,15 +3,28 @@
 import { useCart } from '@/hooks/use-cart'
 import React, { useEffect, useState } from 'react'
 import {CartItem} from './CartItem'
-
-
-import { Product } from '@/types'
-
-
+import { Image } from '@/types';
+export type Product2 = {
+  id: string;
+  name: string;
+  storeId: string;
+  categoryId: string;
+  description: string;
+  countInStock: number;
+  price: number;  // price is now a number instead of Decimal
+  priceDiscount: number;
+  isFeatured: boolean;
+  isArchived: boolean;
+  sizeId: string;
+  colorId: string;
+  images: Image[];  // Assuming images is an array of URLs (adjust if different)
+  createdAt: Date;
+  updatedAt: Date;
+};
 export const CartHome = ({
     products
-}: {
-    products: Product[]
+}:{
+  products: Product2[] 
 }) => {
 
 const cart = useCart()

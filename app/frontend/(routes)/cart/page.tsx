@@ -1,17 +1,39 @@
+"use client"
+import { useEffect, useState } from 'react';
+import { CartHome } from './_components/CartHome';
+import { Product2 } from '@/types';
+import { AllProducts } from '@/actions/get-all-products';
 
-import {CartHome}from './_components/CartHome'
-import getProducts from '@/actions/get-products'
+const CartPage = () => {
+  const [products, setProducts] = useState<Product2[]>([]);
+  const [loading, setLoading] = useState(true);
 
-const CartPage =async()=>{
+  // Define the getAllProducts function before using it in useEffect
+  const getAllProducts = async () => {
+    await AllProducts()
+      .then((data) => {
+        setProducts(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching products:', error);
+        setLoading(false); // You may want to handle errors more gracefully
+      });
+  };
 
-    const products = await getProducts({isFeatured: true})
+  useEffect(() => {
+    getAllProducts();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
-        <CartHome
-        products = {products}
-        />
+      <CartHome products={products} />
     </div>
-  )
-}
+  );
+};
 
-export default CartPage
+export default CartPage;
