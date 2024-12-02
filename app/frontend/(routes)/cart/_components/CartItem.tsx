@@ -73,7 +73,7 @@ export const CartItem: React.FC<CartItemProps> = ({ products }) => {
                                 <TableCell>
                                     <div className="flex items-center space-x-2">
                                       {productInCartFromDb?.isArchived && productInCartFromDb.countInStock < 0? (
-           <select      value={qty }
+           <select      value={qty || productInCart?.countInStock || 1}
                                             onClick={() => {
                                                 cart.updateQuantity(Number(qty), data.id);
                                             }}
