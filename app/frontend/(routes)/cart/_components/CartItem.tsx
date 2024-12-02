@@ -89,7 +89,12 @@ export const CartItem: React.FC<CartItemProps> = ({ products }) => {
                                     </div>
                                 </TableCell>
                                 <TableCell className="text-right">
-                                    {totalPrice}
+
+                                    {totalPrice? (
+                                      <h2>
+                                        {totalPrice}
+                                      </h2>
+                                    ):"Out of stack"}
                                 </TableCell>
                                 <TableCell>
                                     <Button
