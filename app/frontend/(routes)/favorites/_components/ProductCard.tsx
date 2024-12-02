@@ -29,7 +29,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const cart = useCart();
     const bookmark = useBookmark()
     const handleClick = ()=> {
-        router.push(`/product/${data?.id}`)
+        router.push(`/frontend/product/${data?.id}`)
     }
     const onPreview: MouseEventHandler<HTMLButtonElement> = (event)=> {
       event.stopPropagation()  
@@ -105,7 +105,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             />
 
 <ShareButton
-  url={`/product/${data?.id}`}
+  url={`/frontend/product/${data?.id}`}
   title={data.name}
   text={"Check Our Amazing Product"}
 />

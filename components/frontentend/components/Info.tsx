@@ -76,7 +76,7 @@ Out Of Stock
           <ShoppingCart/>
         </Button>
         <ShareButton
-  url={`/product/${data?.id}`}
+  url={`/frontend/product/${data?.id}`}
   title={data.name}
   text={"Check Our Amazing Product"}
 />
