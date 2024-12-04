@@ -1,13 +1,10 @@
+// Correctly set the `dynamic` config at the file level
+export const dynamic = "force-dynamic"; // or use another valid option like "force-static"
+
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import stripe from "@/lib/stripe";
 import { db as prismadb } from "@/lib/prismadb";
-
-export const config = {
-  api: {
-    bodyParser: false, // Disable automatic body parsing for raw payload
-  },
-};
 
 const rawBody = async (req: Request): Promise<string> => {
   if (!req.body) {
@@ -33,14 +30,13 @@ export async function POST(req: Request) {
   let event: Stripe.Event;
 
   try {
-    const body = await rawBody(req); // Get raw request body
-    const signature = req.headers.get("stripe-signature"); // Get Stripe signature header
+    const body = await rawBody(req);
+    const signature = req.headers.get("stripe-signature");
 
     if (!signature) {
       return new NextResponse("Missing Stripe signature header", { status: 400 });
     }
 
-    // Verify Stripe signature
     event = stripe.webhooks.constructEvent(
       body,
       signature,
@@ -51,7 +47,6 @@ export async function POST(req: Request) {
     return new NextResponse(`Webhook Error: ${error.message}`, { status: 400 });
   }
 
-  // Handle the Stripe event
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
 
@@ -83,7 +78,6 @@ export async function POST(req: Request) {
 
       const productIds = order.orderItems.map((item) => item.productId);
 
-      // Archive products
       await prismadb.product.updateMany({
         where: { id: { in: productIds } },
         data: { isArchived: true },
