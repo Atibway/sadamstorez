@@ -1,7 +1,7 @@
 import {db as prismadb} from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 import stripe from "@/lib/stripe";
-import Stripe from "stripe";
+
 
 // CORS headers
 const corsHeaders = {
