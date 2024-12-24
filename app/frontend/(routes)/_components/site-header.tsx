@@ -70,7 +70,7 @@ export function SiteHeader({ data }: CategoryProps) {
           <Link href="/" className="shrink-0 dark:text-white">
             Sadamstores
           </Link>
-          <div className="flex items-center gap-2 ml-auto">
+          <div className="flex items-center gap-1 ml-auto">
             {user? (
               <UserButton />
             ):(
@@ -80,15 +80,19 @@ export function SiteHeader({ data }: CategoryProps) {
                 </Button>
               </Link>
             )}
-            <Button variant="ghost" size="icon" onClick={() => router.push("/frontend/cart")}>
-              <ShoppingCart className="h-5 w-5 dark:text-white" />
-              <span className="ml-2 text-sm font-medium text-orange-600">
-                ({cart.items.length})
+          
+            <div
+              onClick={() => router.push("/frontend/cart")}
+              className="relative flex items-center justify-center  cursor-pointer dark:text-white"
+            >
+              <ShoppingCart size={20} className="w-8 h-8 text-green-800" />
+              <span className="absolute top-[-1px] text-xs bg-orange-500 text-white font-bold rounded-full w-5 h-5 text-center">
+              {cart.items.length}
               </span>
-            </Button>
+            </div>
             <div
               onClick={() => router.push("/frontend/favorites")}
-              className="relative flex items-center justify-center mx-2 cursor-pointer dark:text-white"
+              className="relative flex items-center justify-center  cursor-pointer dark:text-white"
             >
               <BookmarkIcon size={20} className="w-8 h-8 dark:text-white" />
               <span className="absolute top-[-1px] text-xs bg-red-500 dark:text-white font-bold rounded-full w-5 h-5 text-center">
