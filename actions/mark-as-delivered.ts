@@ -31,13 +31,25 @@ export const delivery = async ({
             console.error("No Order Found");
             return { error: "No Order Found" };
         }
+if(status){
+    await db.order.update({
+        where: { id: order.id },
+        data: { 
+        delivered: status,
+        isPaid:true
+     }
+    });
+}else{
+    await db.order.update({
+        where: { id: order.id },
+        data: { 
+        delivered: status,
+        isPaid:false
+     }
+    });
+}
 
-        await db.order.update({
-            where: { id: order.id },
-            data: { delivered: status }
-        });
-
-        return { success: "Delivery Updated" };
+        return { success: "Delivery Status Updated" };
 
     } catch (error) {
         console.error("Error in delivery function:", error);

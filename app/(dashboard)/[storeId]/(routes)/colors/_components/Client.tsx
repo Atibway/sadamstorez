@@ -41,14 +41,7 @@ const ColorClient: React.FC<ColorClientProps> = ({
               searchKey='name'
           />
 
-          <Heading
-          title={"API"}
-          description="API calls for Colors"
-          />
-          <ApiList
-          entityName='colors'
-          entityIdName='colorId'
-          />
+       
     </>
   )
 }

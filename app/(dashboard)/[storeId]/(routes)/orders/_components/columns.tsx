@@ -1,18 +1,17 @@
 "use client";
 
-import { delivery } from "@/actions/mark-as-delivered";
-import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { CheckCheck, CircleIcon, XCircle } from "lucide-react";
-import toast from "react-hot-toast";
-
+import { CheckCheck, XCircle } from "lucide-react";
+import CellActions from "./cell-actions";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type OrderColumn = {
   id: string;
-  phone: string;
-  address: string;
+  phone: string | null
+  user: string | null
+  city: string | null
+  country: string | null
   isPaid: boolean;
   delivered: boolean;
   totalPrice: string;
@@ -28,20 +27,29 @@ export const columns: ColumnDef<OrderColumn>[] = [
     header: "Products",
   },
   {
+    accessorKey: "user",
+    header: "User",
+  },
+  {
     accessorKey: "phone",
     header: "Phone",
   },
   {
-    accessorKey: "address",
-    header: "Address",
+    accessorKey: "city",
+    header: "City",
   },
+  {
+    accessorKey: "country",
+    header: "District",
+  },
+  {
+    accessorKey: "phone",
+    header: "Phone",
+  },
+ 
   {
     accessorKey: "totalPrice",
     header: "Total Price",
-  },
-  {
-    accessorKey: "products",
-    header: "Products",
   },
   {
     accessorKey: "isPaid",
@@ -49,77 +57,21 @@ export const columns: ColumnDef<OrderColumn>[] = [
     cell:({row})=> (
       <div>
         {row.original.isPaid? (
-          <div className="flex items-center text-green-600 bg-green-100 rounded-full px-3 py-1 text-sm font-medium">
-        <CheckCheck className="mr-2 h-4 w-4" />
-        Paid
+          <div>
+        <CheckCheck className=" h-7 w-7 text-green-600" />
       </div>
         ):(
-<div className="flex items-center text-red-600 bg-red-100 rounded-full px-3 py-1 text-sm font-medium">
-      <XCircle className="mr-2 h-4 w-4" />
-      Not Paid
+<div >
+      <XCircle className=" h-7 w-7 text-destructive" />
     </div>
         )}
       </div>
     )
     },
-  {
-    accessorKey: "delivered",
-    header: "Deliverly Status",
-    cell: ({row})=> {
-     
-const handleDeliverly = async({
-  status,
-  orderId
-}:{
-  status: boolean;
-  orderId: string;
-})=>{
-try {
-  await delivery({status, orderId}).then((res)=>{
-if(res?.error){
-  toast.error(res.error)
-}else{
-  toast.success(res.success as string)
- 
+    {
+      id: "actions",
+      cell: ({ row }) => <CellActions data={row.original } />
 }
-  })
-} catch (error) {
-  toast.error("Something wenttt wrong")
-}
-}
-      return (
-        <div className="">
-{row.original.delivered? (
-   <Button
-   onClick={()=> handleDeliverly({
-    status: false,
-    orderId: row.original.id
-   })}
-   variant="ghost"
-   className="text-green-600 hover:text-green-700 bg-green-100 hover:bg-green-300"
- >
-   <CheckCheck className="mr-2 h-4 w-4" />
-   Delivered
- </Button>
-):(
-  <Button
-  onClick={()=> handleDeliverly({
-    status: true,
-    orderId: row.original.id
-   })}
-      variant="outline"
-      className="text-blue-600 hover:text-blue-700 bg-blue-100 hover:bg-blue-300"
-    >
-      <CircleIcon className="mr-2  h-4 w-4" />
-      Mark as Delivered
-    </Button>
-)}
-
-      </div>
-      )
-    }
-    },
-    
 
 
 ];

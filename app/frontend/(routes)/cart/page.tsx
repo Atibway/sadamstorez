@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { CartHome } from './_components/CartHome';
 import { Product2 } from '@/types';
 import { AllProducts } from '@/actions/get-all-products';
+import { PacmanLoader } from 'react-spinners';
 
 const CartPage = () => {
   const [products, setProducts] = useState<Product2[]>([]);
@@ -26,7 +27,11 @@ const CartPage = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <PacmanLoader color={"orange"} loading={loading} size={25} margin={2} />
+      </div>
+    );
   }
 
   return (

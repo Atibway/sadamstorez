@@ -23,6 +23,9 @@ const ProductPage = async({
     const categoris= await prismadb.category.findMany({
         where:{
             storeId: params.storeId,
+        },
+        include:{
+            subcategories: true
         }
     })
     const sizes = await prismadb.size.findMany({

@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import {db as prismadb} from "@/lib/prismadb";
-import { NextRequest, NextResponse } from "next/server";
+import {  NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
@@ -36,7 +36,7 @@ export async function PATCH(
     const session = await auth();
 
     if (!session?.user) {
-      // Changed to return NextResponse
+     
       return new NextResponse("Unauthenticated", { status: 401 });
     }
 
@@ -45,33 +45,23 @@ export async function PATCH(
     const { name, value } = body;
 
     if (!userId) {
-      // Changed to return NextResponse
+     
       return new NextResponse("Unauthenticated", { status: 401 });
     }
     if (!name) {
-      // Changed to return NextResponse
+     
       return new NextResponse("Name is required", { status: 400 });
     }
     if (!value) {
-      // Changed to return NextResponse
+     
       return new NextResponse("Value is required", { status: 400 });
     }
     if (!params.colorId) {
-      // Changed to return NextResponse
+     
       return new NextResponse("Color Id is required", { status: 400 });
     }
 
-    const storeByUserId = await prismadb.store.findFirst({
-      where: {
-        id: params.storeId,
-        userId,
-      },
-    });
-
-    if (!storeByUserId) {
-      // Changed to return NextResponse
-      return new NextResponse("Unauthorized", { status: 403 });
-    }
+  
 
     const color = await prismadb.color.updateMany({
       where: {
@@ -84,15 +74,15 @@ export async function PATCH(
     });
 
     if (color.count === 0) {
-      // Changed to return NextResponse
+     
       return new NextResponse("No store found or updated", { status: 404 });
     }
 
-    // Changed to return NextResponse
+   
     return NextResponse.json(color);
   } catch (error) {
     console.log("[COLORS_PATCH]", error);
-    // Changed to return NextResponse
+   
     return new NextResponse("Internal error", { status: 500 });
   }
 }
@@ -110,26 +100,11 @@ export async function DELETE(
     }
 
     const userId = session.user.id;
-
-    if (!userId) {
+    
+    if (session.user.role === "USER") {
       return new NextResponse("Unauthenticated", { status: 401 });
     }
-
-    if (!params.colorId) {
-      return new NextResponse("Color id is required", { status: 400 });
-    }
-
-    const storeByUserId = await prismadb.store.findFirst({
-      where: {
-        id: params.storeId,
-        userId,
-      },
-    });
-
-    if (!storeByUserId) {
-      return new NextResponse("Unauthorized", { status: 403 });
-    }
-
+    
     const color = await prismadb.color.deleteMany({
       where: {
         id: params.colorId,

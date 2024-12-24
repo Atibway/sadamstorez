@@ -41,14 +41,6 @@ const SizesClient: React.FC<SizesClientProps> = ({
               searchKey='name'
           />
 
-          <Heading
-          title={"API"}
-          description="API calls for Sizes"
-          />
-          <ApiList
-          entityName='sizes'
-          entityIdName='sizeId'
-          />
     </>
   )
 }

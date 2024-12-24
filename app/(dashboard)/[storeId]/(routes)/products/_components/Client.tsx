@@ -41,14 +41,7 @@ const ProductClient: React.FC<ProductClientProps> = ({
               searchKey='name'
           />
 
-          <Heading
-          title={"API"}
-          description="API calls for products"
-          />
-          <ApiList
-          entityName='products'
-          entityIdName='productId'
-          />
+         
     </>
   )
 }

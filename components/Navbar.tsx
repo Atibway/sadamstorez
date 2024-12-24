@@ -8,6 +8,7 @@ import { ModeToggle } from './theme-tuggle'
 import MobileDrawer from './mobileMenue'
 import { UserButton } from './auth/user-button'
 import { currentUser } from '@/lib/auth'
+import { SidebarDashboard } from '@/app/(dashboard)/[storeId]/(routes)/_components/Sidebardashboard'
 
 const Navbar = async() => {
   const session = await currentUser()
@@ -18,16 +19,14 @@ const Navbar = async() => {
         redirect("/auth/login")
     }
 
-    const stores = await db.store.findMany({
-        where: {
-            userId 
-        }
-    });
+   
   return (
-    <div className="border-b">
+    <div className="">
+       {/* <SidebarDashboard/> */}
       <div className="flex h-16 items-center px-4">
-        <StoreSwitcher items={stores} />
-        <MainNav className=" ml-3 hidden  md:block " />
+        {/* <StoreSwitcher items={stores} /> */}
+      <MainNav/>
+       
         <div className="ml-auto flex items-center space-x-3">
           <div>
           </div>

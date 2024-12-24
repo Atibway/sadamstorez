@@ -23,12 +23,7 @@ const SettingsPage: React.FC<SettingsPageProps> = async({ params }) => {
         redirect("/auth/login")
     }
 
-    const store = await prismadb.store.findFirst({
-        where: {
-            id: params.storeId,
-            userId
-        }
-    })
+    const store = await prismadb.store.findFirst()
 
     if (!store) {
         redirect("/frontend")

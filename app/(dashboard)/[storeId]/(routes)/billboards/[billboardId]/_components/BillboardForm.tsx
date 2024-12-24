@@ -1,5 +1,5 @@
 "use client";
-import { Billboard } from "@prisma/client";
+import { Billboard, BillboardImages } from "@prisma/client";
 import { Trash } from "lucide-react";
 import React, { useState } from "react";
 import * as z from "zod";
@@ -22,26 +22,24 @@ import {
 import { Input } from "@/components/ui1/input";
 import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "@/components/models/AlertModel";
-import { ApiAlert } from "@/components/ui1/api-alert";
-import { useOrigin } from "@/hooks/use-origin";
-import ImageUpload from "@/components/ui1/image-upload";
+
 import Image from "next/image";
+import { BillboardImagesForm } from "../../_components/billboardFormImages-form";
 
 const formSchema = z.object({
   label: z.string().min(1),
-  imageUrl: z.string().min(1),
 });
 
 type BillboardFormValues = z.infer<typeof formSchema>;
 
 interface BillboardFormProps {
-  initialData: Billboard | null;
+  initialData: Billboard & {BillboardImages: BillboardImages[]} | null;
 }
 
 const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
-  const origin = useOrigin();
+ 
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -57,7 +55,6 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => {
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       label: "",
-      imageUrl: "",
     },
   });
 
@@ -65,12 +62,16 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => {
     try {
         setLoading(true);
         if(initialData){
-            await axios.patch(`/api/${params.storeId}/billboards/${params.billboardId}`, data);
-        } else {
-          await axios.post(`/api/${params.storeId}/billboards`, data);
+            await axios.patch(`/api/${params.storeId}/billboards/${params.billboardId}`, data).then(()=> {
+              window.location.reload()
+            })
+          } else {
+            await axios.post(`/api/${params.storeId}/billboards`, data).then((res)=>{
+            router.push(`/${params.storeId}/billboards/${res.data.id}`);
+          });
         }
-        router.refresh();
-         router.push(`/${params.storeId}/billboards`);
+
+         
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Something went wrong");
@@ -84,7 +85,6 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => {
       setLoading(true);
       await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`);
       router.refresh();
-     router.push(`/${params.storeId}/billboards`);
       toast.success("Billboard Deleted");
     } catch (error) {
       toast.error("Make sure you removed all categories using this billboard first");
@@ -116,29 +116,12 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => {
         )}
       </div>
       <Separator />
+     
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
-          <FormField
-            control={form.control}
-            name="imageUrl"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Background image</FormLabel>
-                <FormControl>
-                  <ImageUpload
-                    value={field.value ? [field.value] : []}
-                    disabled={loading}
-                    onChange={(url) => field.onChange(url)}
-                    onRemove={() => field.onChange("")}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <div className="grid grid-cols-3 gap-8 ddr">
             <FormField
               control={form.control}
@@ -164,7 +147,9 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => {
         </form>
       </Form>
       <Separator />
-
+      {initialData && (
+      <BillboardImagesForm initialData={initialData}/>
+      )}
     </>
   );
 };

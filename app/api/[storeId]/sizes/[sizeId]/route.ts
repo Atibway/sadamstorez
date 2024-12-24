@@ -37,7 +37,7 @@ export async function PATCH(
     const body = await req.json();
     const { name, value } = body;
 
-    if (!userId) {
+    if (session.user.role === "USER") {
       return new NextResponse("Unauthenticated", { status: 401 });
     }
     if (!name) {
@@ -50,16 +50,7 @@ export async function PATCH(
       return new NextResponse("Size Id is required", { status: 400 });
     }
 
-    const storeByUserId = await prismadb.store.findFirst({
-      where: {
-        id: params.storeId,
-        userId,
-      },
-    });
-
-    if (!storeByUserId) {
-      return new NextResponse("Unauthorized", { status: 400 });
-    }
+  
 
     const size = await prismadb.size.updateMany({
       where: {
@@ -100,16 +91,6 @@ export async function DELETE(
       return new NextResponse("Size id is required", { status: 400 });
     }
 
-    const storeByUserId = await prismadb.store.findFirst({
-      where: {
-        id: params.storeId,
-        userId,
-      },
-    });
-
-    if (!storeByUserId) {
-      return new NextResponse("Unauthorized", { status: 400 });
-    }
 
     const size = await prismadb.size.deleteMany({
       where: {

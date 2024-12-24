@@ -2,14 +2,34 @@ import getCategory from "@/actions/get-Category";
 import getColors from "@/actions/get-colors";
 import getProducts from "@/actions/get-products";
 import getSizes from "@/actions/get-sizes";
-import Billboard from "@/components/frontentend/components/Billboard";
+import {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui1/dropdown-menu"
+ 
 
 import React from "react";
-import Filter from "./components/Filter";
+import Filter from "./_components/Filter";
 import NoResults from "@/components/frontentend/components/ui/NoResults";
 import ProductCard from "@/components/frontentend/components/ui/ProductCard";
-import MobileFilter from "./components/MobileFilter";
+import MobileFilter from "./_components/MobileFilter";
 import { Container } from "@/components/frontentend/components/ui/Container";
+import { db } from "@/lib/prismadb";
+import { Categorycarausal } from "./_components/main-carousal";
+import Link from "next/link";
+
+
 export const revalidate = 0;
 
 interface CategoryPageProps {
@@ -34,17 +54,92 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
 
   const sizes = await getSizes()
   const colors = await getColors();
-  const category = await getCategory(params.categoryId)
-
-
+   const category = await db.category.findUnique({
+      where:{
+        id: params.categoryId
+      },
+      include: {
+        billboard: {
+          include: {
+            BillboardImages: true,
+          },
+        },
+        subcategories: true,
+      },
+    });
+    const categories = await db.category.findMany({
+      include: {
+        billboard: {
+          include: {
+            BillboardImages: true,
+          },
+        },
+        subcategories: true,
+      },
+    });
+    
 
   
   return (
-    <div className="bg-white">
-<Container>
-  <Billboard
-  data={category.billboard}
-  />
+    <div className="">
+      <div className="m-2">
+      <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/frontend">Home</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1">
+              <BreadcrumbEllipsis className="h-4 w-4" />
+              <span className="sr-only">Toggle menu</span>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              {categories?.map((item)=>(
+                <div key={item.id}>
+                  <Link href={`/frontend/category/${item.id}/`}>
+                  
+                  <DropdownMenuItem>{item.name}</DropdownMenuItem>
+                  </Link>
+                </div>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>{category?.name}
+          </BreadcrumbPage>
+        </BreadcrumbItem>
+        {(category?.subcategories?.length ?? 0) > 0 && (
+  <>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <DropdownMenu>
+        <DropdownMenuTrigger className="flex items-center gap-1">
+          <BreadcrumbEllipsis className="h-4 w-4" />
+          <span className="sr-only">Toggle menu</span>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start">
+          {category?.subcategories?.map((item) => (
+            <div key={item.id}>
+              <Link href={`/frontend/category/${category.id}/${item.id}`}>
+                <DropdownMenuItem>{item.name}</DropdownMenuItem>
+              </Link>
+            </div>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </BreadcrumbItem>
+  </>
+)}
+
+      </BreadcrumbList>
+    </Breadcrumb>
+      </div>
+<Container className="dark:bg-background">
+ <Categorycarausal data={category} />
   <div className="px-4 sm:px-6 lg:px-8 pb-24">
 <div className="lg:grid lg:grid-cols-5 lg:gap-x-8">
 {/* Add Mobile Filter */}
@@ -64,7 +159,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
 </div>
 <div className="mt-6 lg:col-span-4 lg:mt-0">
   {products.length === 0 && <NoResults/>}
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4">
 {products?.map((item)=> (
   <ProductCard
   key={item.id}

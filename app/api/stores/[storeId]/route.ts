@@ -17,9 +17,9 @@ export async function PATCH(
     const userId = session.user.id;
     const body = await req.json();
     const { name } = body;
-    console.log(name);
+    
 
-    if (!userId) {
+    if (session.user.role === "USER") {
       return new NextResponse("Unauthenticated", { status: 401 });
     }
     if (!name) {
@@ -32,7 +32,6 @@ export async function PATCH(
     const result = await prismadb.store.updateMany({
       where: {
         id: params.storeId,
-        userId,
       },
       data: {
         name,

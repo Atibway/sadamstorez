@@ -2,7 +2,6 @@
 import { Button } from '@/components/ui/button'
 import Currency from '@/components/frontentend/components/ui/Currency'
 import { useCart } from '@/hooks/use-cart'
-import axios from 'axios'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect } from 'react'
@@ -36,12 +35,13 @@ const router = useRouter()
 router.push("/auth/login")
 
     }else{
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
-        productIds: items.map((item) => item.id),
-        userId: user.id
-      })
+      router.push("/frontend/cart/checkout")
+      // const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
+      //   productIds: items.map((item) => item.id),
+      //   userId: user.id
+      // })
   
-      window.location = response.data.url
+      // window.location = response.data.url
     }
   }
 

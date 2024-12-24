@@ -18,8 +18,8 @@ export async function POST(
 
     const { name, value } = body;
 
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 400 });
+    if (session.user.role === "USER") {
+      return new NextResponse("Unauthenticated", { status: 401 });
     }
 
     if (!name) {
@@ -32,17 +32,7 @@ export async function POST(
       return new NextResponse("Store Id is required", { status: 400 });
     }
 
-    const storeByUserId = await prismadb.store.findFirst({
-      where: {
-        id: params.storeId,
-        userId,
-      },
-    });
-
-    if (!storeByUserId) {
-      return new NextResponse("Unauthorized", { status: 400 });
-    }
-
+  
     const size = await prismadb.size.create({
       data: {
         name,

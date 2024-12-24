@@ -17,11 +17,7 @@ redirect('/auth/login')
     if (session.role === "USER") {
 redirect('/frontend')
     }
-    const store = await db.store.findFirst({
-        where: {
-            userId
-        }
-    })
+    const store = await db.store.findFirst()
 
     if(store){
         redirect(`/${store.id}`)

@@ -41,14 +41,6 @@ const CategoryClient: React.FC<CategoryClientProps> = ({
               searchKey='name'
           />
 
-          <Heading
-          title={"API"}
-          description="API calls for Categories"
-          />
-          <ApiList
-          entityName='categories'
-          entityIdName='categoriesId'
-          />
     </>
   )
 }

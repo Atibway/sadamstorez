@@ -1,12 +1,4 @@
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-  } from "@/components/ui1/table"
-import { Order } from "@prisma/client"
+
 import OrderClient from "./orders/Client"
 import { OrderColumn } from "./orders/columns"
   

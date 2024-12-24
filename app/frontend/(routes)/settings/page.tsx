@@ -4,8 +4,9 @@ import { db } from '@/lib/prismadb'
 import { currentUser } from '@/lib/auth'
 import { formatter } from '@/lib/utils'
 import {format} from "date-fns"
-import OrderClient from './_components/orders/Client'
 import { OrderColumn } from './_components/orders/columns'
+
+
 
 
 
@@ -27,23 +28,30 @@ orderItems: {
     }
 })
 
+const userInfo = await db.user.findUnique({
+    where:{
+      id: user?.id
+    }
+   })
+
     const formattedOrders: OrderColumn[] = orders.map((item) => ({
         id: item.id,
-        phone: item.phone,
-        address: item.address,
+        phone: userInfo?.phone as string,
+        address: userInfo?.city as string,
         delivered: item.delivered,
         products: item.orderItems.map((orderItem)=> orderItem.product.name).join(', '),
-        totalPrice: formatter.format(item.orderItems.reduce((total, item)=> {
-            return total + Number(item.product.price)
-        }, 0)),
+        totalPrice: formatter.format(item.orderItems.reduce((total, orderItem) => {
+              return total + Number(orderItem.product.price) * orderItem.quantity;
+            }, 0)),
         isPaid: item.isPaid,
         createdAt: format(item.createdAt, "MMMM do, yyyy")
 }))
   return (
-    <div>
+    <div >
 <ManageAccount
 orders={formattedOrders}
 />
+
     </div>
   )
 }

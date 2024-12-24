@@ -10,10 +10,11 @@ import { FaUser } from "react-icons/fa"
 
 import { LogoutButton } from "./logout-button"
 import {LogOutIcon} from "lucide-react"
-import { currentUser } from "@/lib/auth"
 
-  export const UserButton = async( ) => {
-    const user = await currentUser();
+import { useCurrentUser } from "@/hooks/use-current-user"
+
+  export const UserButton = ( ) => {
+    const user = useCurrentUser()
     return (
       <DropdownMenu>
         <DropdownMenuTrigger>

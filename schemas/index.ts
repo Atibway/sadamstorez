@@ -1,9 +1,20 @@
-import { UserRole } from "@prisma/client"
-import * as z from "zod"
+
+import * as z from "zod";
+
+export const ProfileUpdateSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  phone: z.string().min(10, "Phone is required"),
+  city: z.string().min(1, "City is required"),
+  country: z.string().min(1, "Country is required"),
+});
 
 export const SettingsSchema = z.object({
-    name: z.optional(z.string()),
-})
+  name: z.string().min(1, "Name is required"),
+  phone: z.string().optional(),
+  city: z.string().optional(),
+  country: z.string().optional(),
+});
+
 
 
 export const NewPasswordSchema = z.object({

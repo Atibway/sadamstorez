@@ -1,69 +1,56 @@
-"use client"
+'use client';
 
-import { FormError } from "../form-error"
-import { useSearchParams } from "next/navigation"
+import * as React from 'react';
+import { signIn } from 'next-auth/react';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { FormError } from '../form-error';
+import { useSearchParams } from 'next/navigation';
+import { FaGithub, FaSpinner } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-import {FcGoogle} from "react-icons/fc"
-import {FaGithub} from "react-icons/fa"
-import { signIn } from "next-auth/react";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const searchParams = useSearchParams();
+  const urlError = searchParams.get('error') === 'OAuthAccountNotLinked' ? 'Email already in use with a different provider' : '';
 
-export const LoginForm = () => {
-  const searchParams = useSearchParams()
-  const urlError = searchParams.get("error") === "OAuthAccountNotLinked"? "Email already in use with a different provider": "";
-  
+  async function onSubmit(provider: string) {
+    setIsLoading(true);
 
-  const callbackUrl = searchParams.get("callbackUrl")
-    const onClick = (provider: "google" | "github")=>{
-signIn(provider, {
-    callbackUrl: callbackUrl ||DEFAULT_LOGIN_REDIRECT
-})
+    try {
+      await signIn(provider, { callbackUrl: '/' });
+    } catch (error) {
+      // Handle error
+    } finally {
+      setIsLoading(false);
     }
-
- 
+  }
 
   return (
-   
-  <div className="flex items-center justify-center z-50 min-h-screen ">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Login</CardTitle>
-          <CardDescription className="text-center">
-            Choose your preferred login method
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-4">
-        <Button
-size={"lg"}
-className="w-full"
-variant={"outline"}
-onClick={()=> onClick("google")}
->
-            <FcGoogle className="mr-2 h-4 w-4" />
-            Login with Google
-          </Button>
-          {urlError && (
-            <FormError message={urlError}/>
-          )}
-          <Button
-size={"lg"}
-className="w-full"
-onClick={()=> onClick("github")}
->
-            <FaGithub className="mr-2 h-4 w-4" />
-            Login with GitHub
-          </Button>
-        </CardContent>
-        <CardFooter className="flex flex-col space-y-4">
-          <div className="text-sm text-center text-primary">
-            By logging in, you agree to our Terms of Service and Privacy Policy.
-          </div>
-        </CardFooter>
-      </Card>
+    <div className={cn('space-y-6 bg-white p-6 shadow-lg rounded-lg', className)} {...props}>
+      {urlError && <FormError message={urlError} />}
+      <Button
+        variant="outline"
+        type="button"
+        disabled={isLoading}
+        onClick={() => onSubmit('github')}
+        className="flex items-center justify-center w-full space-x-2 border border-gray-300 bg-gray-100 hover:bg-gray-200 text-gray-800"
+      >
+        {isLoading ? <FaSpinner className="animate-spin" /> : <FaGithub />}
+        <span>Sign in with GitHub</span>
+      </Button>
+      <Button
+        variant="outline"
+        type="button"
+        disabled={isLoading}
+        onClick={() => onSubmit('google')}
+        className="flex items-center justify-center w-full space-x-2 border border-gray-300 bg-gray-100 hover:bg-gray-200 text-gray-800"
+      >
+        {isLoading ? <FaSpinner className="animate-spin" /> : <FcGoogle />}
+        <span>Sign in with Google</span>
+      </Button>
     </div>
-   
-  )
+  );
 }

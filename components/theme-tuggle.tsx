@@ -1,40 +1,39 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import { Moon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
-
-import { Button } from "@/components/ui1/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui1/dropdown-menu"
+import * as React from 'react';
+import { Moon, Sun } from 'lucide-react';
+import { useTheme } from 'next-themes';
+import { Switch } from '@headlessui/react';
 
 export function ModeToggle() {
-  const { setTheme } = useTheme()
+  const { theme, setTheme } = useTheme();
+  const [enabled, setEnabled] = React.useState(theme === 'dark');
+
+  React.useEffect(() => {
+    setEnabled(theme === 'dark');
+  }, [theme]);
+
+  const handleChange = (checked: any) => {
+    setTheme(checked ? 'dark' : 'light');
+    setEnabled(checked);
+  };
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
+    <div className="flex items-center space-x-4">
+      {/* <Sun className={`h-6 w-6 hidden md:block ${!enabled ? 'text-yellow-500 ' : 'text-gray-500'}`} /> */}
+      <Switch
+        checked={enabled}
+        onChange={handleChange}
+        className={`${enabled ? 'bg-gray-700' : 'bg-gray-300'} relative inline-flex items-center h-6 rounded-full w-11 transition-colors`}
+      >
+        <span className="sr-only">Enable dark mode</span>
+        <span
+          className={`${
+            enabled ? 'translate-x-6' : 'translate-x-1'
+          } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+        />
+      </Switch>
+      <Moon className={`h-6 w-6 hidden md:block ${enabled ? 'text-yellow-500' : 'text-gray-500'}`} />
+    </div>
+  );
 }

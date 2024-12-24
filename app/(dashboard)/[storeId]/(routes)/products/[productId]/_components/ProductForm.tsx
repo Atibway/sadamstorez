@@ -1,7 +1,7 @@
 "use client";
-import {Category, Color, Image, Product, Size } from "@prisma/client";
+import {Category, Color, Image, Product, Size, Subcategory } from "@prisma/client";
 import { Trash } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -32,11 +32,11 @@ import { Checkbox } from "@/components/ui1/checkbox";
 
 const formSchema = z.object({
   name: z.string().min(1),
-  images: z.object({url: z.string()}).array(),
   price: z.coerce.number().min(1),
   priceDiscount: z.coerce.number().optional(),
   countInStock: z.coerce.number(),
   categoryId: z.string().min(1),
+  subcategoryId: z.string().min(1),
   colorId: z.string().min(1),
   sizeId: z.string().min(1),
   description: z.string().min(1),
@@ -50,11 +50,12 @@ interface ProductFormProps {
   initialData: Product & {
     images: Image[]
   } | null;
-  categories: Category[];
+  categories: (Category & { subcategories: Subcategory[]; })[];
   sizes: Size[];
   colors: Color[]
 }
 import { Editor } from "@/components/editor";
+import { ProductImagesForm } from "./Productmages-form";
 const ProductForm: React.FC<ProductFormProps> = ({ initialData,
   categories,
   sizes,
@@ -62,11 +63,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData,
  }) => {
   const params = useParams();
   const router = useRouter();
-  const origin = useOrigin();
+  
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const [selectedCategory, setSelectedCategory] = useState<(Category & { subcategories: Subcategory[]; })>()
   const title = initialData ? "Edit product" : "Create product";
   const description = initialData ? "Edit product" : "Add a new product";
   const toastMessage = initialData
@@ -81,10 +82,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData,
 price: parseFloat(String(initialData?.price)),
     }: {
       name: "",
-      images: [],
       price: 0,
       priceDiscount: 0,
       categoryId: "",
+      subcategoryId:"",
       colorId: "",
       sizeId: "",
       countInStock: 0,
@@ -98,12 +99,15 @@ price: parseFloat(String(initialData?.price)),
     try {
         setLoading(true);
         if(initialData){
-            await axios.patch(`/api/${params.storeId}/products/${params.productId}`, data);
+            await axios.patch(`/api/${params.storeId}/products/${params.productId}`, data).then(()=>{
+              window.location.reload()
+            })
         } else {
-          await axios.post(`/api/${params.storeId}/products`, data);
+          await axios.post(`/api/${params.storeId}/products`, data).then((res)=>{
+            router.push(`/${params.storeId}/products/${res.data.id}`);
+          })
         }
         router.refresh();
-         router.push(`/${params.storeId}/products`);
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Something went wrong");
@@ -126,6 +130,8 @@ price: parseFloat(String(initialData?.price)),
       setOpen(false);
     }
   };
+
+  useEffect(() => { if (initialData && initialData.categoryId) { const selectedCategory = categories.find(category => category.id === initialData.categoryId); setSelectedCategory(selectedCategory as (Category & { subcategories: Subcategory[]; })); } }, [initialData, categories])
 
   return (
     <>
@@ -154,27 +160,7 @@ price: parseFloat(String(initialData?.price)),
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
-          <FormField
-            control={form.control}
-            name="images"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Images</FormLabel>
-                <FormControl>
-                  <ImageUpload
-                    value={field.value.map((image)=> image.url)}
-                    disabled={loading}
-                    onChange={(url) => {
-                      const fieldValue = [...field.value, { url }];
-                      field.onChange((field.value = fieldValue));
-            }}
-                    onRemove={(url) => field.onChange([...field.value.filter((current)=> current.url !== url)])}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               control={form.control}
@@ -266,41 +252,77 @@ price: parseFloat(String(initialData?.price)),
             />
             </div>
 
+<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
 <FormField
-              control={form.control}
-              name="categoryId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Category</FormLabel>
-                  <Select
-                  disabled={loading}
-                  onValueChange={field.onChange}
-                  value={field.value}
-                  defaultValue={field.value}
-                  >
-<FormControl>
-  <SelectTrigger>
-    <SelectValue
-    defaultValue={field.value}
-    placeholder="Select a Category"
-    />
-  </SelectTrigger>
-</FormControl>
-<SelectContent>
-{categories?.map((category)=> (
-  <SelectItem
-  key={category.id}
-  value={category.id}
-  >
-{category.name}
-  </SelectItem>
-))}
-</SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+  control={form.control}
+  name="categoryId"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Category</FormLabel>
+      <Select
+        disabled={loading}
+        onValueChange={(value) => {
+          field.onChange(value);
+          const selectedCategory = categories.find(category => category.id === value);
+          setSelectedCategory(selectedCategory as (Category & { subcategories: Subcategory[]; }));
+        }}
+        value={field.value}
+        defaultValue={field.value}
+      >
+        <FormControl>
+          <SelectTrigger>
+            <SelectValue defaultValue={field.value} placeholder="Select a Category" />
+          </SelectTrigger>
+        </FormControl>
+        <SelectContent>
+          {categories?.map((category) => (
+            <SelectItem key={category.id} value={category.id}>
+              {category.name}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
+{(selectedCategory?.subcategories?.length ?? 0)>= 0 && (
+  <FormField
+    control={form.control}
+    name="subcategoryId"
+    render={({ field }) => (
+      <FormItem>
+        <FormLabel>Subcategory</FormLabel>
+        <Select
+          disabled={loading}
+          onValueChange={field.onChange}
+          value={field.value }
+          defaultValue={field.value }
+        >
+          <FormControl>
+            <SelectTrigger>
+              <SelectValue defaultValue={field.value} placeholder="Select a Subcategory" />
+            </SelectTrigger>
+          </FormControl>
+          <SelectContent>
+            {selectedCategory?.subcategories.map((subcategory) => (
+              <SelectItem key={subcategory.id} value={subcategory.id}>
+                {subcategory.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <FormMessage />
+      </FormItem>
+    )}
+  />
+)}
+
+</div>
+
+
+
 <FormField
               control={form.control}
               name="sizeId"
@@ -431,7 +453,9 @@ price: parseFloat(String(initialData?.price)),
         </form>
       </Form>
       <Separator />
-
+ {initialData && (
+      <ProductImagesForm initialData={initialData}/>
+      )}
     </>
   );
 };

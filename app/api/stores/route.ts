@@ -8,12 +8,11 @@ export async function POST(req: Request) {
 
     if (!session?.user) return NextResponse.json(null);
 
-    const userId = session.user.id;
     const body = await req.json();
     const { name } = body;
 
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 400 });
+    if (session.user.role === "USER") {
+      return new NextResponse("Unauthenticated", { status: 401 });
     }
 
     if (!name) {
@@ -23,7 +22,6 @@ export async function POST(req: Request) {
     const store = await prismadb.store.create({
       data: {
         name,
-        userId,
       },
     });
 

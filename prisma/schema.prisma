@@ -6,8 +6,6 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url  	    = env("DATABASE_URL")
-  // uncomment next line if you use Prisma <5.10
-  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 // datasource db {
@@ -28,13 +26,18 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?
+  phone String @default("")
+  city String @default("")
+  country String @default("")
   role          UserRole @default(USER)
   accounts      Account[]
+  Order Order[]
+  review Review[]
   isTwoFactorEnabled Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  review Review[]
+
 }
 
 model Account {
@@ -63,14 +66,12 @@ model Account {
 model store {
     id       String   @id @default(uuid())
     name     String   @unique
-    userId   String
     billboard Billboard[] @relation("StoreToBillboard")
     categories Category[] @relation("StoreToCategory")
     sizes        Size[] @relation("StoreTosize")
     colors        Color[] @relation("StoreToColor")
     products      Product[] @relation("StoreToProduct")
     orders       Order[] @relation("StoreToOrder")
-
     createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -81,13 +82,24 @@ model Billboard {
     storeId String
     store store @relation("StoreToBillboard", fields: [storeId], references: [id])
      label String
-     imageUrl String
      categories Category[]
      createdAt DateTime @default(now())
+  BillboardImages BillboardImages[]
   updatedAt DateTime @updatedAt
-  
     @@index([storeId])
 }
+
+model BillboardImages {
+id String @id @default(uuid())
+name String
+url String 
+billboardId String
+course Billboard @relation(fields: [billboardId], references: [id], onDelete: Cascade)
+createdAt DateTime @default(now())
+updatedAt DateTime @updatedAt
+
+  @@index([billboardId])
+ }
 
 model Category {
   id String @id @default(uuid())
@@ -97,12 +109,24 @@ model Category {
   billboard Billboard @relation(fields: [billboardId], references: [id])
   products Product[] @relation("CategoryToProduct")
   name String
+  icon        String@db.Text
+  subcategories Subcategory[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
     @@index([storeId])
     @@index([billboardId])
 }
+
+model Subcategory {
+  id         String   @id @default(cuid())
+  name       String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  Product Product[] @relation("subCategoryToProduct")
+}
+
 
 model Size {
   id String @id @default(uuid())
@@ -134,9 +158,11 @@ model Product {
   storeId String
   store store @relation("StoreToProduct", fields: [storeId], references: [id])
   categoryId String
+  subcategoryId String
   description String @db.Text
   countInStock Int
   category Category @relation("CategoryToProduct", fields: [categoryId], references: [id])
+  subCategory Subcategory @relation( "subCategoryToProduct", fields: [subcategoryId], references: [id])
   name String
   price Decimal
   priceDiscount Int
@@ -156,6 +182,7 @@ model Product {
 
   @@index([storeId])
   @@index([categoryId])
+  @@index([subcategoryId])
   @@index([sizeId])
   @@index([colorId])
 }
@@ -175,12 +202,12 @@ model Order {
   id String @id @default(uuid())
   storeId String
   store store @relation("StoreToOrder", fields: [storeId], references: [id])
-  userId String? 
+  userId String 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isPending Boolean @default(false)
   delivered Boolean @default(false)
   orderItems OrderItem[]
   isPaid Boolean @default(false)
-  phone String @default("")
-  address String @default("")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   @@index([storeId])
@@ -192,6 +219,14 @@ model OrderItem {
   order Order @relation(fields: [orderId], references: [id])
   productId String
   product Product @relation(fields: [productId], references: [id])
+  description String @db.Text
+  quantity Int
+  name String
+  price Decimal
+  priceDiscount Int
+  rating Int? @default(0)
+   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   @@index([orderId])
   @@index([productId])
 }

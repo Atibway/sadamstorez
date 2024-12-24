@@ -14,6 +14,8 @@ import { cn } from '@/lib/utils';
 import { Button } from './button';
 import { ShareButton } from '@/app/frontend/(routes)/favorites/_components/ShareButton';
 import { Product } from '@/types';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
 interface ProductCardProps {
     data: Product;
@@ -56,83 +58,92 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const discountedPrice = 200000
 
     return (
-        <div onClick={handleClick} className='bg-white group cursor-pointer rounded-xl border p-3 space-y-4'>
-            {/* Images and Actions */}
-            <div className='aspect-square rounded-xl bg-gray-100 relative'>
-                <Image
-                    src={data?.images?.[0]?.url}
-                    alt={data.name}
-                    fill
-                    className='aspect-square object-cover rounded-md'
+        <Card className="overflow-hidden bg-white dark:bg-gray-800 cursor-pointer group rounded-lg border p-3 space-y-4" onClick={handleClick}>
+      <CardContent className="p-0">
+        <div className="relative aspect-square rounded-lg bg-gray-100">
+          <Image
+            src={data?.images?.[0]?.url }
+            alt={data?.name }
+            fill
+            className="aspect-square object-cover rounded-md"
+          />
+          {isOutOfStock && (
+            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-xl font-semibold rounded-lg">
+              <span>Out of Stock</span>
+            </div>
+          )}
+         <Badge className="absolute top-2 left-2 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded"> 
+            -{data.priceDiscount && data.price ? (((data.priceDiscount - data.price) / data.price) * 100).toFixed(1) : '0.00'}%
+
+         </Badge>
+          <div className="opacity-80 group-hover:opacity-90 transition absolute w-full px-6 bottom-5">
+            {!isOutOfStock && (
+              <div className='md:flex md:gap-x-4 md:justify-center grid grid-cols-2 gap-2'>
+              <div className='hidden sm:block'>
+                <IconButton
+                  onClick={onPreview}
+                  icon={<Expand size={20} className='text-gray-600 ' />}
                 />
-                {isOutOfStock && (
-                    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-xl font-semibold rounded-lg">
-                        <span>Out of Stock</span>
-                    </div>
-                )}
-                <div className="opacity-80 group-hover:opacity-90 transition absolute w-full px-6 bottom-5">
-                    {!isOutOfStock && (
-                        <div className='flex gap-x-6 justify-center'>
-                            <IconButton
-                                onClick={onPreview}
-                                icon={<Expand size={20} className='text-gray-600' />}
-                            />
-                            <IconButton
-                                onClick={onAddToCart}
-                                icon={<ShoppingCart
-                                    size={20} className={cn("",
-                                        productInCart ? " text-green-600" : "text-gray-600"
-                                    )}
-                                />}
-                            />
-                            <IconButton
-                                onClick={onAddToBookmark}
-                                icon={productInBookmark ? <FcBookmark className='w-6 h-6' /> : <Bookmark className='w-6 h-6 text-yellow-500' />}
-                            />
-                            <ShareButton
-  url={`/frontend/product/${data?.id}`}
-  title={data.name}
-  text={"Check Our Amazing Product"}
-/>
-                        </div>
+              </div>
+                
+                <IconButton
+                  onClick={onAddToCart}
+                  icon={<ShoppingCart
+                    size={20} className={cn("",
+                      productInCart ? " text-green-600" : "text-gray-600"
                     )}
-                </div>
-            </div>
-            {/* Description */}
-            <div>
-                <p className='font-semibold text-lg'>
-                    {data.name}
-                </p>
-                <p className='text-sm text-gray-500'>
-                    {data.category?.name}
-                </p>
-            </div>
-            {/* Price Section */}
-            <div className='flex items-center justify-between'>
-                {/* If there's a discount, show both the original and discounted price */}
-                {discountedPrice ? (
-                    <div className="flex items-center space-x-2">
-                        <span className="text-sm text-gray-500 line-through">
-                        <Currency value={data?.priceDiscount} />
-                        </span>
-                        <span className="text-lg font-bold text-gray-800">
-                            <Currency value={data?.price} />
-                        </span>
-                    </div>
-                ) : (
-                    <Currency value={data?.price} />
-                )}
-            </div>
-            {/* Disabled Add to Cart button */}
-            {isOutOfStock && (
-                <div className="mt-4">
-                    <Button className="w-full py-2 bg-green-800  font-semibold rounded-lg ">
-                        Notify Me When Available
-                    </Button>
-                </div>
+                  />}
+                />
+                <IconButton
+                  onClick={onAddToBookmark}
+                  icon={productInBookmark ? <FcBookmark className='w-6 h-6' /> : <Bookmark className='w-6 h-6 text-yellow-500' />}
+                />
+                <div className='hidden sm:block'>
+                <ShareButton
+                  url={`/frontend/product/${data?.id}`}
+                  title={data?.name }
+                  text={"Check Our Amazing Product"}
+                />
+              </div>
+              </div>
             )}
+          </div>
         </div>
+        <div className="sm:p-4 p-2">
+          <h3 className="sm:mb-2 mb-1 line-clamp-2 text-sm font-medium">{data?.name }</h3>
+          <p className='text-sm text-gray-500 dark:text-primary'>
+            {data?.category?.name}
+          </p>
+          <div className="flex items-center justify-between">
+            {/* If there's a discount, show both the original and discounted price */}
+            {data.priceDiscount ? (
+              <div className="sm:flex sm:items-center sm:space-x-2 grid grid-cols-1">
+                <span className="text-lg font-bold text-gray-800 dark:text-primary-foreground">
+                  <Currency value={data?.price} />
+                </span>
+                <span className="text-sm text-gray-500 line-through">
+                  <Currency value={data?.priceDiscount} />
+                </span>
+              </div>
+            ) : (
+              <Currency value={data?.price} />
+            )}
+          </div>
+          {/* Disabled Add to Cart button */}
+          
+            <div className="mt-4">
+              <Button className="w-full py-2 bg-green-800 font-semibold rounded-lg">
+                Details...
+              </Button>
+            </div>
+          
+        </div>
+      </CardContent>
+    </Card>
     )
 }
 
 export default ProductCard;
+
+
+

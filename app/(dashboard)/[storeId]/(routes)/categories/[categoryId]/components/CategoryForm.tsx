@@ -1,5 +1,5 @@
 "use client";
-import { Billboard, Category } from "@prisma/client";
+import { Billboard, Category, Subcategory } from "@prisma/client";
 import { Trash } from "lucide-react";
 import React, { useState } from "react";
 import * as z from "zod";
@@ -23,56 +23,88 @@ import { Input } from "@/components/ui1/input";
 import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "@/components/models/AlertModel";
 
-import { useOrigin } from "@/hooks/use-origin";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui1/select";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui1/select";
+import { FormDescription } from "@/components/ui/form";
+import { SubcategoryForm } from "./subcategoryForm";
 
 const formSchema = z.object({
   name: z.string().min(1),
   billboardId: z.string().min(1),
+  icon: z.string().min(1, {
+    message: "Icon is required.",
+  }),
+  subcategories: z
+    .array(
+      z.object({
+        name: z.string().min(2, {
+          message: "Subcategory name must be at least 2 characters.",
+        }),
+      })
+    )
+    .optional(),
 });
 
 type CategoryFormValues = z.infer<typeof formSchema>;
 
 interface CategoryFormProps {
-  initialData: Category | null;
-  billboards: Billboard[]
+  initialData:
+    | (Category & {
+        subcategories: Subcategory[];
+      })
+    | null;
+  billboards: Billboard[];
 }
 
 const CategoryForm: React.FC<CategoryFormProps> = ({ initialData, billboards }) => {
+ 
+
   const params = useParams();
   const router = useRouter();
-  const origin = useOrigin();
-
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const title = initialData ? "Edit category" : "Create category";
   const description = initialData ? "Edit category" : "Add a new category";
-  const toastMessage = initialData
-    ? "Category updated."
-    : "Category Created.";
-  const action = initialData ? "Save changes" : "Create ";
+  const toastMessage = initialData ? "Category updated." : "Category created.";
+  const action = initialData ? "Save changes" : "Create";
 
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || {
-      name: "",
-      billboardId: ""
+    defaultValues: {
+      name: initialData?.name || "",
+      billboardId: initialData?.billboardId || "",
+      icon: initialData?.icon || "",
+      subcategories: initialData?.subcategories || [],
     },
   });
 
   const onSubmit = async (data: CategoryFormValues) => {
     try {
-        setLoading(true);
-        if(initialData){
-            await axios.patch(`/api/${params.storeId}/categories/${params.categoryId}`, data);
-        } else {
-          await axios.post(`/api/${params.storeId}/categories`, data);
-        }
-        router.refresh();
-         router.push(`/${params.storeId}/categories`);
+      setLoading(true);
+
+
+
+      if (initialData) {
+        await axios.patch(
+          `/api/${params.storeId}/categories/${params.categoryId}`,
+          data
+        ).then(()=> {
+          window.location.reload()
+        })
+      } else {
+        await axios.post(`/api/${params.storeId}/categories`, data) .then((res)=> {
+          router.push(`/${params.storeId}/categories/${res.data.id}`);
+        })
+      }
+
+      router.refresh();
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Something went wrong");
@@ -86,7 +118,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData, billboards }) 
       setLoading(true);
       await axios.delete(`/api/${params.storeId}/categories/${params.categoryId}`);
       router.refresh();
-     router.push(`/${params.storeId}/categories`);
+      router.push(`/${params.storeId}/categories`);
       toast.success("Category Deleted");
     } catch (error) {
       toast.error("Make sure you removed all products using this category first");
@@ -119,10 +151,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData, billboards }) 
       </div>
       <Separator />
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 w-full"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
           <div className="grid md:grid-cols-3 grid-cols-1 gap-8">
             <FormField
               control={form.control}
@@ -148,30 +177,44 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData, billboards }) 
                 <FormItem>
                   <FormLabel>Billboard</FormLabel>
                   <Select
-                  disabled={loading}
-                  onValueChange={field.onChange}
-                  value={field.value}
-                  defaultValue={field.value}
+                    disabled={loading}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
                   >
-<FormControl>
-  <SelectTrigger>
-    <SelectValue
-    defaultValue={field.value}
-    placeholder="Select a Billboard"
-    />
-  </SelectTrigger>
-</FormControl>
-<SelectContent>
-{billboards?.map((billboard)=> (
-  <SelectItem
-  key={billboard.id}
-  value={billboard.id}
-  >
-{billboard.label}
-  </SelectItem>
-))}
-</SelectContent>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a Billboard" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {billboards.map((billboard) => (
+                        <SelectItem key={billboard.id} value={billboard.id}>
+                          {billboard.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="icon"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Icon</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder="smartphone"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Enter the icon name (e.g., smartphone, tv, home).
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -183,7 +226,9 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData, billboards }) 
         </form>
       </Form>
       <Separator />
-
+      {initialData && (
+        <SubcategoryForm initialData={initialData}/>
+  )}
     </>
   );
 };
