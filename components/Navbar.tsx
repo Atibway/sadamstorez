@@ -8,7 +8,7 @@ import { ModeToggle } from './theme-tuggle'
 import MobileDrawer from './mobileMenue'
 import { UserButton } from './auth/user-button'
 import { currentUser } from '@/lib/auth'
-import { SidebarDashboard } from '@/app/(dashboard)/[storeId]/(routes)/_components/Sidebardashboard'
+
 
 const Navbar = async() => {
   const session = await currentUser()
