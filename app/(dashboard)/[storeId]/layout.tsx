@@ -4,20 +4,19 @@ import { SidebarDashboard } from "./(routes)/_components/sidebar2";
 
 
 export const metadata: Metadata = {
-  title: "Store",
-  description: "Store",
+  title: "Admin",
+  description: "Admin",
 };
 
-export default  function FrontendLayout({ children }: {
+export default  function DashboardLayout({ children }: {
   children: React.ReactNode
 }) {
 
   return (
     <>
-
-<div>
-<SidebarDashboard children={children}/>
-</div>
+<SidebarDashboard>
+  {children}
+</SidebarDashboard>
     </>
   );
 }
