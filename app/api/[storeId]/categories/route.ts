@@ -5,10 +5,8 @@ import { NextResponse } from "next/server";
 
 
 
-export async function POST(
-  req: Request,
-  { params }: { params: { storeId: string } }
-) {
+export async function POST(req: Request, props: { params: Promise<{ storeId: string }> }) {
+  const params = await props.params;
   try {
     const session = await auth();
     const body = await req.json();
@@ -39,31 +37,29 @@ export async function POST(
   }
 }
 
-export async function GET(
-    req: Request,
-{params}: {params: {storeId: string}}
-) {
-    try {
+export async function GET(req: Request, props: {params: Promise<{storeId: string}>}) {
+  const params = await props.params;
+  try {
 
-        if (!params.storeId) {
-            return new NextResponse("Store Id is required", {status: 400})
-        }
+      if (!params.storeId) {
+          return new NextResponse("Store Id is required", {status: 400})
+      }
 
-        const category = await prismadb.category.findMany({
-            where: {
-                storeId: params.storeId,
-            },
-            include: {
-                billboard: true,
-                subcategories:true
-            }
-        });
+      const category = await prismadb.category.findMany({
+          where: {
+              storeId: params.storeId,
+          },
+          include: {
+              billboard: true,
+              subcategories:true
+          }
+      });
 
-        return NextResponse.json(category)
+      return NextResponse.json(category)
 
-    } catch (error) {
-        console.log('[CATEGORY_GET]', error);
-        return new NextResponse("Internal error", { status: 500 });
+  } catch (error) {
+      console.log('[CATEGORY_GET]', error);
+      return new NextResponse("Internal error", { status: 500 });
 
-    }
+  }
 }

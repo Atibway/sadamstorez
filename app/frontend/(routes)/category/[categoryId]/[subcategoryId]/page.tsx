@@ -41,10 +41,9 @@ interface SubcategoryPageProps {
   };
 }
 
-const SubcategoryPage: React.FC<SubcategoryPageProps> = async ({
-  params,
-  searchParams,
-}) => {
+const SubcategoryPage: React.FC<SubcategoryPageProps> = async props => {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const products = await getProducts({
     subcategoryId: params.subcategoryId,
     colorId: searchParams.colorId,

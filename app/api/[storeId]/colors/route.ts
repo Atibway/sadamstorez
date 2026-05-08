@@ -4,10 +4,8 @@ import {db as prismadb} from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 
 
-export async function POST(
-  req: Request,
-  { params }: { params: { storeId: string } }
-) {
+export async function POST(req: Request, props: { params: Promise<{ storeId: string }> }) {
+  const params = await props.params;
   try {
     const session = await auth();
 
@@ -54,27 +52,25 @@ export async function POST(
   }
 }
 
-export async function GET(
-    req: Request,
-{params}: {params: {storeId: string}}
-) {
-    try {
+export async function GET(req: Request, props: {params: Promise<{storeId: string}>}) {
+  const params = await props.params;
+  try {
 
-        if (!params.storeId) {
-            return new NextResponse("Store Id is required", {status: 400})
-        }
+      if (!params.storeId) {
+          return new NextResponse("Store Id is required", {status: 400})
+      }
 
-        const color = await prismadb.color.findMany({
-            where: {
-                storeId: params.storeId,
-            }
-        });
+      const color = await prismadb.color.findMany({
+          where: {
+              storeId: params.storeId,
+          }
+      });
 
-        return NextResponse.json(color)
+      return NextResponse.json(color)
 
-    } catch (error) {
-        console.log('[COLORS_GET]', error);
-        return new NextResponse("Internal error", { status: 500 });
+  } catch (error) {
+      console.log('[COLORS_GET]', error);
+      return new NextResponse("Internal error", { status: 500 });
 
-    }
+  }
 }

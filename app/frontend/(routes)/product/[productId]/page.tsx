@@ -30,44 +30,43 @@ interface ProductPageProps {
     }
 }
 
-const ProductPage: React.FC<ProductPageProps> = async({
-    params
-}) => {
-    const product = await getProduct(params.productId)
-    const product1 = await db.product.findUnique({
-        where:{
-            id: params.productId
-        }
-    })
-    const suggestedProducts = await getProducts({
-        categoryId: product?.category?.id
-    })
+const ProductPage: React.FC<ProductPageProps> = async props => {
+  const params = await props.params;
+  const product = await getProduct(params.productId)
+  const product1 = await db.product.findUnique({
+      where:{
+          id: params.productId
+      }
+  })
+  const suggestedProducts = await getProducts({
+      categoryId: product?.category?.id
+  })
 
-    const categories = await db.category.findMany({
-        include: {
-          billboard: {
-            include: {
-              BillboardImages: true,
-            },
+  const categories = await db.category.findMany({
+      include: {
+        billboard: {
+          include: {
+            BillboardImages: true,
           },
-          subcategories: true,
         },
-      });
+        subcategories: true,
+      },
+    });
 
-      const category = await db.category.findUnique({
-        where:{
-            id:product.category.id
-        },
-        include:{
-            subcategories: true
-        }
-      })
+  const category = await db.category.findUnique({
+    where:{
+        id:product.category.id
+    },
+    include:{
+        subcategories: true
+    }
+  })
 
-      const subcategory = await db.subcategory.findUnique({
-        where:{
-            id: product1?.subcategoryId
-        }
-      })
+  const subcategory = await db.subcategory.findUnique({
+    where:{
+        id: product1?.subcategoryId
+    }
+  })
 
   return (
     <>

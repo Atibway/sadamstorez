@@ -2,10 +2,8 @@ import { auth } from "@/auth";
 import {db as prismadb} from "@/lib/prismadb";
 import {  NextResponse } from "next/server";
 
-export async function GET(
-  req: Request,
-  { params }: { params: {  productId: string } }
-) {
+export async function GET(req: Request, props: { params: Promise<{  productId: string }> }) {
+  const params = await props.params;
   try {
 
     if (!params.productId) {
@@ -33,8 +31,9 @@ export async function GET(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { storeId: string, productId: string } }
+  props: { params: Promise<{ storeId: string, productId: string }> }
 ) {
+  const params = await props.params;
   try {
     const session = await auth();
 
@@ -120,8 +119,9 @@ export async function PATCH(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { storeId: string, productId: string } }
+  props: { params: Promise<{ storeId: string, productId: string }> }
 ) {
+  const params = await props.params;
   try {
     const session = await auth();
 

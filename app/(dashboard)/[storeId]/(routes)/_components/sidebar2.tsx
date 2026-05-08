@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useParams, usePathname } from "next/navigation";

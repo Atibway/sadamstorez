@@ -3,29 +3,27 @@ import { db } from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 
 
-export async function POST(
-    req: Request,
-    {params}: {params: {categoryId: string}}
-){
-try {
-    const user = await currentUser()
-    const {name} = await req.json();
+export async function POST(req: Request, props: {params: Promise<{categoryId: string}>}) {
+    const params = await props.params;
+    try {
+        const user = await currentUser()
+        const {name} = await req.json();
 
-    if(!user?.id){
-return new NextResponse("Unauthorized", {status: 401})
-    }
-
-    const subcategory = await db.subcategory.create({
-        data: {
-            name,
-            categoryId: params.categoryId
+        if(!user?.id){
+    return new NextResponse("Unauthorized", {status: 401})
         }
-    })
 
-    return NextResponse.json(subcategory)
-} catch (error) {
-    console.log("subcategorieasID", error);
-    return new NextResponse("Internal  Error", {status: 500})
-    
-}
+        const subcategory = await db.subcategory.create({
+            data: {
+                name,
+                categoryId: params.categoryId
+            }
+        })
+
+        return NextResponse.json(subcategory)
+    } catch (error) {
+        console.log("subcategorieasID", error);
+        return new NextResponse("Internal  Error", {status: 500})
+        
+    }
 }

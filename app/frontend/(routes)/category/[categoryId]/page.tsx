@@ -41,10 +41,9 @@ interface CategoryPageProps {
         sizeId: string;
     }
 }
-const CategoryPage: React.FC<CategoryPageProps> = async ({
-    params,
-    searchParams
-}) => {
+const CategoryPage: React.FC<CategoryPageProps> = async props => {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const products = await getProducts({
     categoryId: params.categoryId,
     colorId: searchParams.colorId,
@@ -54,32 +53,32 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
 
   const sizes = await getSizes()
   const colors = await getColors();
-   const category = await db.category.findUnique({
-      where:{
-        id: params.categoryId
-      },
-      include: {
-        billboard: {
-          include: {
-            BillboardImages: true,
-          },
+  const category = await db.category.findUnique({
+     where:{
+       id: params.categoryId
+     },
+     include: {
+       billboard: {
+         include: {
+           BillboardImages: true,
+         },
+       },
+       subcategories: true,
+     },
+   });
+  const categories = await db.category.findMany({
+    include: {
+      billboard: {
+        include: {
+          BillboardImages: true,
         },
-        subcategories: true,
       },
-    });
-    const categories = await db.category.findMany({
-      include: {
-        billboard: {
-          include: {
-            BillboardImages: true,
-          },
-        },
-        subcategories: true,
-      },
-    });
-    
+      subcategories: true,
+    },
+  });
 
-  
+
+
   return (
     <div className="">
       <div className="m-2">
