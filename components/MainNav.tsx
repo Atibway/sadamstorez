@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import React, { useState } from "react";
 import { Sidebar , SidebarBody, SidebarLink } from "@/components/ui/sidebar";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import Image from "next/image";
 
 const MainNav = ({

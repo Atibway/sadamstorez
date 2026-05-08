@@ -5,8 +5,9 @@ import { NextResponse } from "next/server";
 
 export async function DELETE(
     req: Request,
-    {params}: {params: {productId: string, productimagesId: string}}
+    props: {params: Promise<{productId: string, productimagesId: string}>}
 ) {
+    const params = await props.params;
 
     try {
         const user = await currentUser()

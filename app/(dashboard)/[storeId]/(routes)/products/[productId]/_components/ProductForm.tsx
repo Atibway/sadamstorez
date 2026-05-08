@@ -1,5 +1,5 @@
 "use client";
-import {Category, Color, Image, Product, Size, Subcategory } from "@prisma/client";
+import {Category, Color, Product, Size, Subcategory, Image as PrismaImage } from "@prisma/client";
 import { Trash } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import * as z from "zod";
@@ -48,7 +48,7 @@ type ProductFormValues = z.infer<typeof formSchema>;
 
 interface ProductFormProps {
   initialData: Product & {
-    images: Image[]
+    images: PrismaImage[]
   } | null;
   categories: (Category & { subcategories: Subcategory[]; })[];
   sizes: Size[];
@@ -76,7 +76,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData,
   const action = initialData ? "Save changes" : "Create ";
 
   const form = useForm<ProductFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchema) as any,
     defaultValues: initialData? {
 ...initialData,
 price: parseFloat(String(initialData?.price)),

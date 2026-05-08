@@ -4,8 +4,9 @@ import { NextResponse } from "next/server";
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { categoryId: string; subcategoryId: string } }
+  props: { params: Promise<{ categoryId: string; subcategoryId: string }> }
 ) {
+  const params = await props.params;
   try {
     const user = await currentUser();
     if (!user?.id) {
@@ -28,8 +29,9 @@ export async function DELETE(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { categoryId: string; subcategoryId: string } }
+  props: { params: Promise<{ categoryId: string; subcategoryId: string }> }
 ) {
+  const params = await props.params;
   try {
     const user = await currentUser();
     if (!user?.id) {

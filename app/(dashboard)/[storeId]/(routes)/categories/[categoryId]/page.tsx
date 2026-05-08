@@ -3,11 +3,12 @@ import {db as prismadb} from "@/lib/prismadb";
 import React from 'react'
 import CategoryForm from './components/CategoryForm'
 
-const CategoryPage = async({
-    params
-}: {
-    params: {categoryId:string, storeId: string}
-    }) => {
+const CategoryPage = async (
+    props: {
+        params: Promise<{categoryId:string, storeId: string}>
+        }
+) => {
+    const params = await props.params;
 
     const category = await prismadb.category.findUnique({
         where: {
@@ -16,24 +17,24 @@ const CategoryPage = async({
             subcategories: true
         }
     })
-    
-const billboards = await prismadb.billboard.findMany({
-    where: {
-        storeId: params.storeId
-    }
-})
+
+    const billboards = await prismadb.billboard.findMany({
+        where: {
+            storeId: params.storeId
+        }
+    })
 
 
 
-  return (
-    <div className='flex-col'>
-          <div className='flex-1 space-y-4 p-8 pt-6'>
-              <CategoryForm 
-initialData={category} billboards={billboards}
-              />
-</div>
-    </div>
-  )
+    return (
+      <div className='flex-col'>
+            <div className='flex-1 space-y-4 p-8 pt-6'>
+                <CategoryForm 
+  initialData={category} billboards={billboards}
+                />
+  </div>
+      </div>
+    )
 }
 
 export default CategoryPage

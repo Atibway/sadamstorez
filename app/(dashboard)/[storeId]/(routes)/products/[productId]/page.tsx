@@ -3,11 +3,12 @@ import {db as prismadb} from "@/lib/prismadb";
 import React from 'react'
 import ProductForm from './_components/ProductForm'
 
-const ProductPage = async({
-    params
-}: {
-    params: {productId:string, storeId: string}
-    }) => {
+const ProductPage = async (
+    props: {
+        params: Promise<{productId:string, storeId: string}>
+        }
+) => {
+    const params = await props.params;
 
     const product = await prismadb.product.findUnique({
         where: {
@@ -18,8 +19,8 @@ const ProductPage = async({
         }
     })
 
-    
-    
+
+
     const categoris= await prismadb.category.findMany({
         where:{
             storeId: params.storeId,
@@ -38,21 +39,21 @@ const ProductPage = async({
             storeId: params.storeId,
         }
     })
-    
 
 
-  return (
-    <div className='flex-col'>
-          <div className='flex-1 space-y-4 p-8 pt-6'>
-              <ProductForm
-              categories={categoris}
-              colors={colors}
-              sizes={sizes}
-initialData={product}
-              />
-</div>
-    </div>
-  )
+
+    return (
+      <div className='flex-col'>
+            <div className='flex-1 space-y-4 p-8 pt-6'>
+                <ProductForm
+                categories={categoris}
+                colors={colors}
+                sizes={sizes}
+  initialData={product}
+                />
+  </div>
+      </div>
+    )
 }
 
 export default ProductPage

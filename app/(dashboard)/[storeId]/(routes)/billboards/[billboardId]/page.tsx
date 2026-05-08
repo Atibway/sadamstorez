@@ -3,11 +3,12 @@ import {db as prismadb} from "@/lib/prismadb";
 import React from 'react'
 import BillboardForm from './_components/BillboardForm'
 
-const BillboardPage = async({
-    params
-}: {
-    params: {billboardId:string}
-    }) => {
+const BillboardPage = async (
+    props: {
+        params: Promise<{billboardId:string}>
+        }
+) => {
+    const params = await props.params;
 
     const billboard = await prismadb.billboard.findUnique({
         where: {
@@ -17,18 +18,18 @@ const BillboardPage = async({
             BillboardImages: true
         }
     })
-    
 
 
-  return (
-    <div className='flex-col'>
-          <div className='flex-1 space-y-4 p-8 pt-6'>
-              <BillboardForm
-initialData={billboard}
-              />
-</div>
-    </div>
-  )
+
+    return (
+      <div className='flex-col'>
+            <div className='flex-1 space-y-4 p-8 pt-6'>
+                <BillboardForm
+  initialData={billboard}
+                />
+  </div>
+      </div>
+    )
 }
 
 export default BillboardPage

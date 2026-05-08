@@ -27,6 +27,15 @@ const nextConfig = {
         hostname:"c0.wallpaperflare.com"
     },
     ],
+    // Next.js 16: minimumCacheTTL default changed from 60s to 4 hours
+    // Keeping at 60s for now to maintain previous behavior
+    minimumCacheTTL: 60,
+    // Next.js 16: imageSizes default removed 16
+    // Adding it back if needed for 16px images
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    // Next.js 16: qualities default changed to [75]
+    // Supporting multiple quality levels
+    qualities: [50, 75, 100],
   },
 };
 
