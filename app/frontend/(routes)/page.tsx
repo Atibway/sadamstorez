@@ -31,9 +31,9 @@ export default async function HomePage() {
           <section className="relative w-full bg-surface-container-low min-h-[500px] flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-primary-container to-surface opacity-80" />
             <div className="relative z-10 text-center px-gutter flex flex-col items-center">
-              <h1 className="font-h1 text-h1 text-primary-container mb-stack-md">Discover Your Style</h1>
+              <h1 className="font-h1 text-h1 text-primary-container mb-stack-md">Bam Shopping Center</h1>
               <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mb-stack-lg">
-                Curated collections for the modern aesthetic. Experience premium quality and timeless design.
+                Your one-stop shop for all your needs. Discover quality products at great prices.
               </p>
               <button className="bg-accent hover:bg-accent-hover text-white font-h4 text-h4 px-8 py-4 rounded-lg transition-colors shadow-sm">
                 Shop Now

@@ -17,7 +17,7 @@ export const NavBar = async() => {
         <div className='border-b'>
             <div className='relative px-4 sm:px-6 lg:px-8 flex h-16 items-center'>
             <Link href={"/frontend"} className='ml-4 flex lg:ml-0 gap-x-2'>
-        <p className='font-bold text-xl'>sadmstores</p>
+        <p className='font-bold text-xl'>Bam Shopping Center</p>
             </Link>
         
             <NavbarActions />

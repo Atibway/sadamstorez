@@ -12,8 +12,8 @@ import ModalProvider from "@/providers/modal-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Admin Dashboard",
-  description: "Admin Dashboard",
+  title: "Bam Shopping Center",
+  description: "Bam Shopping Center - Your one-stop shop for all your needs",
 };
 
 export default async function RootLayout({

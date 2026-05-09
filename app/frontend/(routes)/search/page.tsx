@@ -1,53 +1,24 @@
-"use client";
-
-import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import getProducts from "@/actions/get-products";
 import Header from "@/components/frontend/Header";
 import Sidebar from "@/components/frontend/Sidebar";
 import { ChevronLeft, ChevronRight, Filter, X } from "lucide-react";
 import { ProductSummary } from "@/types";
 import Link from "next/link";
+import getProducts from "@/actions/get-products";
 import getCategories from "@/actions/get-categories";
 
-const SearchPage: React.FC = () => {
-  const searchParams = useSearchParams();
-  const query = searchParams.get("query");
+interface SearchPageProps {
+  searchParams: {
+    query?: string;
+  };
+}
 
-  const [products, setProducts] = useState<ProductSummary[]>([]);
-  const [loading, setIsLoading] = useState(true);
-  const [categories, setCategories] = useState<any[]>([]);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      setIsLoading(true);
-      if (query) {
-        const result = await getProducts({ query });
-        setProducts(result);
-      }
-      setIsLoading(false);
-    };
-
-    const fetchCategories = async () => {
-      try {
-        const data = await getCategories();
-        setCategories(data);
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-      }
-    };
-
-    fetchCategories();
-    fetchProducts();
-  }, [query]);
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-surface">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent"></div>
-      </div>
-    );
-  }
+const SearchPage = async ({ searchParams }: SearchPageProps) => {
+  const query = searchParams.query || "";
+  
+  const [products, categories] = await Promise.all([
+    query ? getProducts({ query }) : [],
+    getCategories()
+  ]);
 
   return (
     <div className="bg-surface min-h-screen flex flex-col">

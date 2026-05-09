@@ -159,7 +159,7 @@ const Logo = () => {
         </svg>
       </div>
       <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="font-medium text-black dark:text-white whitespace-pre">
-        SadamStores
+        Bam Shopping Center
       </motion.span>
     </Link>
   );

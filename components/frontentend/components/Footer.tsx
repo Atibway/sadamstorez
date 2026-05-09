@@ -45,7 +45,7 @@ export function Footer() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-desktop py-section-padding max-w-container-max mx-auto">
         {/* Brand & Copyright */}
         <div className="flex flex-col gap-stack-sm">
-          <div className="font-h4 text-h4 text-on-primary">SadamStorez</div>
+          <div className="font-h4 text-h4 text-on-primary">Bam Shopping Center</div>
           <p className="font-body-sm text-body-sm text-on-primary-container/80">
             Curating modern elegance for the sophisticated consumer.
           </p>
@@ -77,7 +77,7 @@ export function Footer() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-desktop pt-section-padding max-w-container-max mx-auto border-t border-outline-variant/10">
         <div className="col-span-1 md:col-span-3">
           <div className="col-span-1 md:col-span-4 text-center font-body-sm text-body-sm">
-            {new Date().getFullYear()} SadamStorez. All rights reserved.
+            {new Date().getFullYear()} Bam Shopping Center. All rights reserved.
           </div>
         </div>
         <div className="col-span-1">

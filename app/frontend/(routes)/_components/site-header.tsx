@@ -68,7 +68,7 @@ export function SiteHeader({ data }: CategoryProps) {
             </SheetContent>
           </Sheet>
           <Link href="/" className="shrink-0 font-h4 text-h4 text-primary">
-            Sadamstores
+            Bam Shopping Center
           </Link>
           <div className="flex items-center gap-unit ml-auto">
             {user? (
@@ -124,7 +124,7 @@ export function SiteHeader({ data }: CategoryProps) {
       <div className="hidden lg:block max-w-container-max mx-auto py-section-padding px-margin-desktop">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-unit">
-            <span className="font-h2 text-h2 text-primary">Sadamstores</span>
+            <span className="font-h2 text-h2 text-primary">Bam Shopping Center</span>
           </Link>
           <div className="flex flex-1 items-center gap-unit max-w-xl mx-stack-lg">
             <form className="flex w-full gap-unit" onSubmit={handleSearch}>

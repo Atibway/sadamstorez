@@ -8,7 +8,7 @@ export default function Header() {
     <header className="bg-surface/95 dark:bg-surface-container-highest/95 sticky top-0 z-50 shadow-sm border-b border-outline-variant/30 backdrop-blur-md">
       <div className="flex justify-between items-center w-full px-margin-desktop py-stack-md max-w-container-max mx-auto">
         <div className="text-h3 font-h3 font-bold tracking-tight text-primary dark:text-primary-fixed">
-          LUXE RETAIL
+          Bam Shopping Center
         </div>
         
         <nav className="hidden md:flex gap-stack-lg">

@@ -7,7 +7,7 @@ export function SiteFooter() {
         {/* Brand & Copyright */}
         <div className="flex flex-col gap-stack-sm">
           <Link href={"/"}>
-            <h3 className="font-h4 text-h4 text-on-primary mb-unit">Sadamstores</h3>
+            <h3 className="font-h4 text-h4 text-on-primary mb-unit">Bam Shopping Center</h3>
           </Link>
           <p className="font-body-sm text-body-sm text-on-primary-container/80 mb-stack-md">Your one-stop shop for all things trendy and practical.</p>
           <div className="flex space-x-unit">
@@ -71,7 +71,7 @@ export function SiteFooter() {
       {/* Copyright */}
       <div className="border-t border-outline-variant/20 py-section-padding">
         <div className="max-w-container-max mx-auto px-margin-desktop text-center font-body-sm text-body-sm">
-          &copy; {new Date().getFullYear()} Sadamstores. All rights reserved.
+          &copy; {new Date().getFullYear()} Bam Shopping Center. All rights reserved.
         </div>
       </div>
     </footer>
