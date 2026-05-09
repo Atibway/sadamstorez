@@ -26,6 +26,20 @@ export async function AllProducts(): Promise<ProductSummary[]> {
           url: true,
         },
       },
+      color: {
+        select: {
+          id: true,
+          name: true,
+          value: true,
+        },
+      },
+      size: {
+        select: {
+          id: true,
+          name: true,
+          value: true,
+        },
+      },
     },
     orderBy: {
       createdAt: "desc",
@@ -48,6 +62,8 @@ export async function AllProducts(): Promise<ProductSummary[]> {
     images: product.images,
     createdAt: product.createdAt,
     updatedAt: product.updatedAt,
+    color: product.color,
+    size: product.size,
   }));
 
   return productsWithPriceAsNumber;

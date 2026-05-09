@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { type CarouselApi } from "@/components/ui/carousel";
-import { Category, Billboard, Subcategory, BillboardImages } from '@prisma/client';
+import { Category, Billboard, Subcategory, BillboardImages } from '@/generated/prisma/client';
 import Link from 'next/link';
 
 interface CategoryProps {

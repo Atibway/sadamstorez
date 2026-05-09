@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { Card, CardContent } from '@/components/ui/card';
 
-import { Category, Billboard, BillboardImages, Subcategory } from '@prisma/client';
+import { Category, Billboard, BillboardImages, Subcategory } from '@/generated/prisma/client';
 
 interface CategoryProps {
   data: (Category & {
@@ -45,7 +45,7 @@ export const Categorycarausal: React.FC<CategoryProps> = ({ data }) => {
     <div className="w-full lg:max-w-container-max mb-stack-lg mx-auto">
       <Carousel setApi={setApi} className="w-full">
         <CarouselContent>
-          {data?.billboard.BillboardImages.map((item, index) => (
+          {data?.billboard.BillboardImages.map((item: any, index: number) => (
             <CarouselItem key={index}>
               <Card className="overflow-hidden border-none shadow-sm">
                 <CardContent className="p-0">
