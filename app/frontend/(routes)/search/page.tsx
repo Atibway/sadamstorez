@@ -6,7 +6,7 @@ import getProducts from "@/actions/get-products";
 import Header from "@/components/frontend/Header";
 import Sidebar from "@/components/frontend/Sidebar";
 import { ChevronLeft, ChevronRight, Filter, X } from "lucide-react";
-import { Product2 } from "@/types";
+import { ProductSummary } from "@/types";
 import Link from "next/link";
 import getCategories from "@/actions/get-categories";
 
@@ -14,7 +14,7 @@ const SearchPage: React.FC = () => {
   const searchParams = useSearchParams();
   const query = searchParams.get("query");
 
-  const [products, setProducts] = useState<Product2[]>([]);
+  const [products, setProducts] = useState<ProductSummary[]>([]);
   const [loading, setIsLoading] = useState(true);
   const [categories, setCategories] = useState<any[]>([]);
 

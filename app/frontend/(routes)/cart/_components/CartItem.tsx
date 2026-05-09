@@ -7,10 +7,10 @@ import { useEffect, useState } from "react";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Summary from "./Summary";
-import { Product2 } from "@/types";
+import { ProductSummary } from "@/types";
 
 interface CartItemProps {
-  products: Product2[];
+  products: ProductSummary[];
 }
 
 export const CartItem: React.FC<CartItemProps> = ({ products }) => {

@@ -1,9 +1,7 @@
 
 import React from 'react'
 import MainNav from './MainNav'
-import StoreSwitcher from './StoreSwitcher'
 import { redirect } from 'next/navigation'
-import {db} from '@/lib/prismadb'
 import { ModeToggle } from './theme-tuggle'
 import MobileDrawer from './mobileMenue'
 import { UserButton } from './auth/user-button'
@@ -24,7 +22,6 @@ const Navbar = async() => {
     <div className="">
        {/* <SidebarDashboard/> */}
       <div className="flex h-16 items-center px-4">
-        {/* <StoreSwitcher items={stores} /> */}
       <MainNav/>
        
         <div className="ml-auto flex items-center space-x-3">

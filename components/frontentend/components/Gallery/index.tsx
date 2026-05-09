@@ -4,11 +4,11 @@ import React from 'react'
 import Image from 'next/image'
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
 
-import {Image as ImageType}from "@/types"
+import type { CartItem } from "@/types"
 import GalleryTab from './GalleryTab'
 
 interface GalleryProps {
-    images: ImageType[]
+    images: CartItem["images"]
 }
 
 const Gallery: React.FC<GalleryProps> = ({

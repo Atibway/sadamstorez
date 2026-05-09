@@ -4,13 +4,13 @@ import Image from 'next/image';
 
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { Card, CardContent } from '@/components/ui/card';
-import { Product } from '@/types';
+import { ProductSummary } from '@/types';
 
 import Link from 'next/link';
 
 
 interface ProductListProps {
-    items: Product[]
+    items: ProductSummary[]
 }
 
 export const MainCarousel: React.FC<ProductListProps> = ({

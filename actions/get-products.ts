@@ -1,5 +1,6 @@
+import { Prisma } from "@/generated/prisma/client";
 import { db } from "@/lib/prismadb";
-import { Product2 } from "@/types";
+import { ProductSummary } from "@/types";
 
 interface Query {
   categoryId?: string;
@@ -10,9 +11,34 @@ interface Query {
   query?: string;
 }
 
-const getProducts = async (query: Query): Promise<Product2[]> => {
+type ProductSelectPayload = Prisma.ProductGetPayload<{
+  select: {
+    id: true;
+    name: true;
+    categoryId: true;
+    subcategoryId: true;
+    description: true;
+    countInStock: true;
+    price: true;
+    priceDiscount: true;
+    isFeatured: true;
+    isArchived: true;
+    sizeId: true;
+    colorId: true;
+    createdAt: true;
+    updatedAt: true;
+    images: {
+      select: {
+        id: true;
+        url: true;
+      };
+    };
+  };
+}>;
+
+const getProducts = async (query: Query): Promise<ProductSummary[]> => {
   try {
-    const products = await db.product.findMany({
+    const products = (await db.product.findMany({
       where: {
         categoryId: query.categoryId,
         subcategoryId: query.subcategoryId,
@@ -22,51 +48,53 @@ const getProducts = async (query: Query): Promise<Product2[]> => {
         isArchived: false,
         name: query.query ? { contains: query.query } : undefined,
       },
-      include: {
+      select: {
+        id: true,
+        name: true,
+        categoryId: true,
+        subcategoryId: true,
+        description: true,
+        countInStock: true,
+        price: true,
+        priceDiscount: true,
+        isFeatured: true,
+        isArchived: true,
+        sizeId: true,
+        colorId: true,
+        createdAt: true,
+        updatedAt: true,
         images: {
           select: {
             id: true,
             url: true,
           },
         },
-        category: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-        subCategory: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-        color: {
-          select: {
-            id: true,
-            name: true,
-            value: true,
-          },
-        },
-        size: {
-          select: {
-            id: true,
-            name: true,
-            value: true,
-          },
-        },
       },
       orderBy: {
         createdAt: "desc",
       },
-    });
+    })) as unknown as ProductSelectPayload[];
 
     // Convert Decimal to number for price fields
-    return products.map(product => ({
-      ...product,
+    const normalized: ProductSummary[] = products.map((product) => ({
+      id: product.id,
+      name: product.name,
+      categoryId: product.categoryId,
+      subcategoryId: product.subcategoryId,
+      description: product.description,
+      countInStock: product.countInStock,
       price: Number(product.price),
       priceDiscount: Number(product.priceDiscount),
-    })) as Product2[];
+      isFeatured: product.isFeatured,
+      isArchived: product.isArchived,
+      sizeId: product.sizeId,
+      colorId: product.colorId,
+      images: product.images,
+      createdAt: product.createdAt,
+      updatedAt: product.updatedAt,
+    }));
+
+    return normalized;
   } catch (error) {
     console.error("[GET_PRODUCTS]", error);
     return [];

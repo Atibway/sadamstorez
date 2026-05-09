@@ -1,5 +1,5 @@
 "use client";
-import { Billboard, Size } from "@prisma/client";
+import { Billboard, Size } from "@/generated/prisma/client";
 import { Trash } from "lucide-react";
 import React, { useState } from "react";
 import * as z from "zod";

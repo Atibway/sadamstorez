@@ -1,5 +1,5 @@
 "use client";
-import { Billboard, Color } from "@prisma/client";
+import { Billboard, Color } from "@/generated/prisma/client";
 import { Trash } from "lucide-react";
 import React, { useState } from "react";
 import * as z from "zod";

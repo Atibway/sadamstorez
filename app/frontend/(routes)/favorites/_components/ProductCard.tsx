@@ -1,6 +1,6 @@
 "use client"
 
-import { Product2 } from '@/types'
+import { CartItem, ProductSummary } from '@/types'
 import Image from 'next/image';
 import React, { MouseEventHandler } from 'react'
 import IconButton from '@/components/frontentend/components/ui/iconButton';
@@ -16,8 +16,8 @@ import { Button } from '@/components/ui/button';
 import { ShareButton } from './ShareButton';
 
 interface ProductCardProps{
-    data: Product2;
-    products: Product2[]
+    data: CartItem;
+    products: ProductSummary[]
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({

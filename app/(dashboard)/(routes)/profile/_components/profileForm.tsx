@@ -21,7 +21,7 @@ import { SettingsSchema } from "@/schemas";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import { User } from "@prisma/client";
+import { User } from "@/generated/prisma/client";
 
 export const ProfileForm = ({ userInfo }: { userInfo: User | null }) => {
   const { update } = useSession();

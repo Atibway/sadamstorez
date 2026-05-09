@@ -3,15 +3,9 @@ import {db as prismadb} from "@/lib/prismadb";
 import { SizeColumn } from './components/columns'
 import {format} from "date-fns"
 import SizesClient from './components/Client'
-import { getDefaultStore } from "@/lib/store"
 
 const SizesPage = async () => {
-    const storeId = await getDefaultStore();
-    
     const sizes = await prismadb.size.findMany({
-        where: {
-            storeId: storeId
-        },
         orderBy: {
             createdAt: "desc"
         }

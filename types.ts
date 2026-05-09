@@ -1,60 +1,81 @@
+import { Prisma } from "@/generated/prisma/client";
 
-export interface Billboard {
-    id: string;
-    label: string;
-    imageUrl: string
-}
+export type Billboard = Prisma.BillboardGetPayload<{}>;
 
-export interface Category {
-    id: string;
-    name: string;
-    billboard: Billboard;
-}
-
-export interface Product {
-    id: string;
-    category: Category;
-    name: string;
-    price: number;
-    priceDiscount?: number,
-    isFeatured: boolean;
-    size: Size;
-    countInStock?: number,
-    description?: string
-    color: Color;
-    isArchived: boolean
-    images: Image[]
-}
-
-export interface Image  {
-    id: string;
-    url: string;
-}
-export  interface Size {
-    id: string;
-    name: string;
-    value: string;
-}
-export  interface Color {
-    id: string;
-    name: string;
-    value: string;
-}
-
-// Define a type for the Product object after price conversion
-export type Product2 = {
-    id: string;
-    name: string;
-    categoryId: string;
-    description: string;
-    countInStock: number;
-    price: number;  // price is now a number instead of Decimal
-    priceDiscount: number;
-    isFeatured: boolean;
-    isArchived: boolean;
-    sizeId: string;
-    colorId: string;
-    images: Image[];  // Assuming images is an array of URLs (adjust if different)
-    createdAt: Date;
-    updatedAt: Date;
+export type BillboardWithImages = Prisma.BillboardGetPayload<{
+  include: {
+    BillboardImages: true;
   };
+}>;
+
+export type Category = Prisma.CategoryGetPayload<{}>;
+
+export type CategoryWithBillboard = Prisma.CategoryGetPayload<{
+  include: {
+    billboard: true;
+  };
+}>;
+
+export type CategoryWithTree = Prisma.CategoryGetPayload<{
+  include: {
+    subcategories: true;
+    billboard: {
+      include: {
+        BillboardImages: true;
+      };
+    };
+  };
+}>;
+
+export type ProductSummarySelect = Prisma.ProductGetPayload<{
+  select: {
+    id: true;
+    name: true;
+    categoryId: true;
+    subcategoryId: true;
+    description: true;
+    countInStock: true;
+    price: true;
+    priceDiscount: true;
+    isFeatured: true;
+    isArchived: true;
+    sizeId: true;
+    colorId: true;
+    createdAt: true;
+    updatedAt: true;
+    images: {
+      select: {
+        id: true;
+        url: true;
+      };
+    };
+  };
+}>;
+
+export type ProductSummary = Omit<ProductSummarySelect, "price" | "priceDiscount"> & {
+  price: number;
+  priceDiscount: number;
+};
+
+export type ProductWithRelationsSelect = Prisma.ProductGetPayload<{
+  include: {
+    category: true;
+    subCategory: true;
+    size: true;
+    color: true;
+    images: true;
+  };
+}>;
+
+export type ProductWithRelations = Omit<ProductWithRelationsSelect, "price" | "priceDiscount"> & {
+  price: number;
+  priceDiscount: number;
+};
+
+export type Image = Prisma.ImageGetPayload<{}>;
+
+export type Size = Prisma.SizeGetPayload<{}>;
+
+export type Color = Prisma.ColorGetPayload<{}>;
+
+export type CartItem = ProductSummary;

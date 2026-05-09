@@ -2,11 +2,11 @@
 import { useEffect, useState } from 'react';
 import Header from '@/components/frontend/Header';
 import { X, Plus, Minus, ArrowRight, ShoppingBag } from 'lucide-react';
-import { Product2 } from '@/types';
+import { ProductSummary } from '@/types';
 import { AllProducts } from '@/actions/get-all-products';
 
 const CartPage = () => {
-  const [products, setProducts] = useState<Product2[]>([]);
+  const [products, setProducts] = useState<ProductSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [cartItems, setCartItems] = useState<any[]>([]);
 

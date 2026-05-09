@@ -1,11 +1,11 @@
 "use client"
-import { Product2 } from '@/types';
+import { ProductSummary } from '@/types';
 import NoResults from './ui/NoResults';
 import ProductCard from './ui/ProductCard';
 
 interface ProductListProps {
     title: string;
-    items: Product2[]
+    items: ProductSummary[]
 }
 
 const ProductList: React.FC<ProductListProps> = ({

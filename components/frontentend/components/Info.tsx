@@ -1,6 +1,6 @@
 'use client';
 
-import { Product2 } from '@/types';
+import { CartItem } from '@/types';
 import React from 'react';
 import Currency from './ui/Currency';
 import { Button } from './ui/button';
@@ -10,7 +10,7 @@ import { Preview } from './preview';
 import { ShareButton } from '@/app/frontend/(routes)/favorites/_components/ShareButton';
 
 interface InfoProps {
-  data: Product2;
+  data: CartItem;
 }
 
 const Info: React.FC<InfoProps> = ({ data }) => {

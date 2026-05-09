@@ -1,7 +1,7 @@
 "use server"
 
 import { db } from "@/lib/prismadb";
-import { UserRole } from "@prisma/client";
+import { UserRole } from "@/generated/prisma/client";
 
 export const toggleUser=async({
     userId,

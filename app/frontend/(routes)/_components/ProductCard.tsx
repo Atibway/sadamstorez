@@ -13,12 +13,12 @@ import { useBookmark } from '@/hooks/use-bookmark';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ShareButton } from '@/app/frontend/(routes)/favorites/_components/ShareButton';
-import { Product2 } from '@/types';
+import { CartItem } from '@/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
 interface ProductCardProps {
-    data: Product2;
+    data: CartItem;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({

@@ -3,7 +3,7 @@ import authConfig from "./auth.config"
 import {PrismaAdapter} from "@auth/prisma-adapter"
 import { db } from "./lib/prismadb"
 import { getUserById } from "./data/user"
-import { UserRole } from "@prisma/client"
+import { UserRole } from "@/generated/prisma/client"
 
 import { getAccountByUserId } from "./data/account"
 export const {

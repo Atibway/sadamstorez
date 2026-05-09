@@ -3,12 +3,12 @@ import React from 'react'
 import NoResults from '@/components/frontentend/components/ui/NoResults';
 import ProductCard from './ProductCard';
 import { useBookmark } from '@/hooks/use-bookmark';
-import { Product2 } from '@/types';
+import { ProductSummary } from '@/types';
 
 
 interface ProductListProps {
     title: string;
-    products: Product2[]
+    products: ProductSummary[]
 }
 
 const ProductList: React.FC<ProductListProps> = ({

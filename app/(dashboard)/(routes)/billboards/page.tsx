@@ -3,15 +3,9 @@ import BillboardClient from './_components/Client'
 import {db as prismadb} from "@/lib/prismadb";
 import { BillboardColumn } from './_components/columns'
 import {format} from "date-fns"
-import { getDefaultStore } from "@/lib/store"
 
 const BillboardsPage = async () => {
-    const storeId = await getDefaultStore();
-    
     const billboards = await prismadb.billboard.findMany({
-        where: {
-            storeId: storeId
-        },
         orderBy: {
             createdAt: "desc"
         }

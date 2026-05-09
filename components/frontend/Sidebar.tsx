@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { 
   Laptop, 
@@ -8,14 +9,14 @@ import {
   Scissors, 
   Dumbbell 
 } from "lucide-react";
-import { Category } from "@prisma/client";
+import { CategoryWithTree } from "@/types";
 
 interface SidebarProps {
-  categories: (Category & { subcategories: any[] })[];
+  categories: CategoryWithTree[];
 }
 
 export default function Sidebar({ categories }: SidebarProps) {
-  const categoryIcons: { [key: string]: React.ReactNode } = {
+  const categoryIcons: Record<string, ReactNode> = {
     electronics: <Laptop className="h-5 w-5" />,
     fashion: <Shirt className="h-5 w-5" />,
     "home & living": <HomeIcon className="h-5 w-5" />,

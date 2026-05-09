@@ -1,5 +1,5 @@
 "use client";
-import {Category, Color, Product, Size, Subcategory, Image as PrismaImage } from "@prisma/client";
+import {Category, Color, Product, Size, Subcategory, Image as PrismaImage } from "@/generated/prisma/client";
 import { Trash } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import * as z from "zod";

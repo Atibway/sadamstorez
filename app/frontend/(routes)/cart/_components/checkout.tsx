@@ -22,7 +22,7 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useRouter } from "next/navigation";
-import { User } from "@prisma/client";
+import { User } from "@/generated/prisma/client";
 import { useCart } from "@/hooks/use-cart";
 
 export const ProfileUpdateOrProceedPage = ({ userInfo }: { userInfo: User | null }) => {

@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { File, Loader2, PlusCircle, Trash2, Edit } from "lucide-react";
-import { Category, Subcategory } from "@prisma/client";
+import { Category, Subcategory } from "@/generated/prisma/client";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
@@ -43,10 +43,10 @@ export const SubcategoryForm = ({ initialData }: SubcategoryFormProps) => {
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (values) => {
     try {
       if (editingId) {
-        await axios.patch(`/api/${initialData?.storeId}/categories/${initialData?.id}/subcategories/${editingId}`, values);
+        await axios.patch(`/api/categories/${initialData?.id}/subcategories/${editingId}`, values);
         toast.success("Subcategory Updated");
       } else {
-        await axios.post(`/api/${initialData?.storeId}/categories/${initialData?.id}/subcategories`, values);
+        await axios.post(`/api/categories/${initialData?.id}/subcategories`, values);
         toast.success("Subcategory Created");
       }
       toggleEdit();
@@ -59,7 +59,7 @@ export const SubcategoryForm = ({ initialData }: SubcategoryFormProps) => {
   const onDelete = async (id: string) => {
     try {
       setDeletingId(id);
-      await axios.delete(`/api/${initialData?.storeId}/categories/${initialData?.id}/subcategories/${id}`);
+      await axios.delete(`/api/categories/${initialData?.id}/subcategories/${id}`);
       toast.success("Subcategory Deleted");
       router.refresh();
     } catch (error) {

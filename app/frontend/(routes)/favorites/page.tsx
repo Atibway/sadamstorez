@@ -3,14 +3,14 @@
 import React, { useEffect, useState } from 'react'
 import Header from '@/components/frontend/Header';
 import { ChevronRight, ShoppingBag, Trash2, Heart, LogIn } from 'lucide-react';
-import { Product2 } from '@/types';
+import { ProductSummary } from '@/types';
 import { AllProducts } from '@/actions/get-all-products';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 
 const FavoritePage = () => {
-  const [products, setProducts] = useState<Product2[]>([]);
+  const [products, setProducts] = useState<ProductSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const { data: session } = useSession();
 

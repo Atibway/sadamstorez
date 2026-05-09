@@ -5,15 +5,9 @@ import {format} from "date-fns"
 
 import ColorClient from './_components/Client'
 import { ColorColumn } from './_components/columns'
-import { getDefaultStore } from "@/lib/store"
 
 const ColorsPage = async () => {
-    const storeId = await getDefaultStore();
-    
     const colors = await prismadb.color.findMany({
-        where: {
-            storeId: storeId
-        },
         orderBy: {
             createdAt: "desc"
         }

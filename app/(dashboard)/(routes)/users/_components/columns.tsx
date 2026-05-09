@@ -4,7 +4,7 @@ import { toggleUser } from "@/actions/toggleUser";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { UserRole } from "@prisma/client";
+import { UserRole } from "@/generated/prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import toast from "react-hot-toast";
 

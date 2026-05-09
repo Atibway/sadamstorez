@@ -1,30 +1,70 @@
 import React from 'react';
+import { Prisma } from "@/generated/prisma/client";
 import { db as prismadb } from "@/lib/prismadb";
 import { OrderColumn } from './_components/columns';
 import { format } from "date-fns";
 import { formatter } from '@/lib/utils';
 import OrderClient from './_components/Client';
-import { getDefaultStore } from "@/lib/store";
+
+type OrderWithRelations = Prisma.OrderGetPayload<{
+  select: {
+    id: true;
+    createdAt: true;
+    isPaid: true;
+    delivered: true;
+    user: {
+      select: {
+        name: true;
+        phone: true;
+        city: true;
+        country: true;
+      };
+    };
+    orderItems: {
+      select: {
+        quantity: true;
+        product: {
+          select: {
+            name: true;
+            price: true;
+          };
+        };
+      };
+    };
+  };
+}>;
 
 const OrderPage = async () => {
-  const storeId = await getDefaultStore();
-  
   const orders = await prismadb.order.findMany({
-    where: {
-      storeId: storeId,
-    },
-    include: {
-      orderItems: {
-        include: {
-          product: true,
+    select: {
+      id: true,
+      createdAt: true,
+      isPaid: true,
+      delivered: true,
+      user: {
+        select: {
+          name: true,
+          phone: true,
+          city: true,
+          country: true,
         },
       },
-      user: true,
+      orderItems: {
+        select: {
+          quantity: true,
+          product: {
+            select: {
+              name: true,
+              price: true,
+            },
+          },
+        },
+      },
     },
     orderBy: {
       createdAt: "desc",
     },
-  });
+  }) as unknown as OrderWithRelations[];
 
   const formattedOrders: OrderColumn[] = orders.map((item) => ({
     id: item.id,

@@ -4,10 +4,10 @@ import { getUserById } from "@/data/user";
 import { currentUser } from "@/lib/auth";
 import { db } from "@/lib/prismadb";
 import { ProfileUpdateSchema } from "@/schemas";
-import { Product2 } from "@/types";
+import { CartItem } from "@/types";
 import * as z from "zod";
 
-export const checkout = async (values: z.infer<typeof ProfileUpdateSchema>, items: Product2[]) => {
+export const checkout = async (values: z.infer<typeof ProfileUpdateSchema>, items: CartItem[]) => {
   const user = await currentUser();
   if (!user) {
     return { error: "Unauthorized" };

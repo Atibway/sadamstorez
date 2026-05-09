@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import { useState } from "react"
 import {  ImageIcon, Loader2, PlusCircle, Trash2 } from "lucide-react"
-import {   Product , Image } from "@prisma/client"
+import {   Product , Image } from "@/generated/prisma/client"
 import { FileUpload } from "@/components/file-upload"
 import NextImage from 'next/image'
 
@@ -33,7 +33,7 @@ const toggleEdit = ()=> setIsEditing((current)=> !current)
 
       const onSubmit = async (values: z.infer< typeof formSchema>)=> {
 try {
-  await axios.post(`/api/${initialData?.storeId}/products/${initialData?.id}/productimages`, values);
+  await axios.post(`/api/products/${initialData?.id}/productimages`, values);
   toast.success('Image updated');
   toggleEdit()
   router.refresh()
@@ -45,7 +45,7 @@ try {
       const onDelete = async (id: string)=> {
 try {
   setDeletingId(id)
-  await axios.delete(`/api/${initialData?.storeId}/products/${initialData?.id}/productimages/${id}`);
+  await axios.delete(`/api/products/${initialData?.id}/productimages/${id}`);
   
   toast.success('Image Deleted');
   

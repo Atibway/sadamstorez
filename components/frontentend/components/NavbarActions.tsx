@@ -9,14 +9,8 @@ import { FcBookmark } from "react-icons/fc";
 import { useBookmark } from '@/hooks/use-bookmark'
 import Link from 'next/link'
 import { useCurrentUser } from '@/hooks/use-current-user'
-import { UserButton } from './user-button'
-import { store } from '@prisma/client'
 
-const NavbarActions = ({
-    store
-}:{
-    store: store | null
-}) => {
+const NavbarActions = () => {
     const cart = useCart()
     const user = useCurrentUser()
     const bookmark = useBookmark()

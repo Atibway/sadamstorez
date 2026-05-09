@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { CartItem } from './CartItem';
-import { Image } from '@/types';
+import { ProductSummary } from '@/types';
 import {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -19,28 +19,10 @@ import {
 } from "@/components/ui1/dropdown-menu";
 import Link from "next/link";
 
-export type Product2 = {
-  id: string;
-  name: string;
-  storeId: string;
-  categoryId: string;
-  description: string;
-  countInStock: number;
-  price: number;  // price is now a number instead of Decimal
-  priceDiscount: number;
-  isFeatured: boolean;
-  isArchived: boolean;
-  sizeId: string;
-  colorId: string;
-  images: Image[];
-  createdAt: Date;
-  updatedAt: Date;
-};
-
 export const CartHome = ({
   products
 }: {
-  products: Product2[]
+  products: ProductSummary[]
 }) => {
 const [categories, setCategories] = useState<any[]>([]);
   const [isMounted, setIsMounted] = useState(false);

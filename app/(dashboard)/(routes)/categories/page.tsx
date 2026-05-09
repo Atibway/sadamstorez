@@ -1,24 +1,39 @@
 import React from 'react'
 import CategoryClient from './_components/Client'
+import { Prisma } from "@/generated/prisma/client";
 import {db as prismadb} from "@/lib/prismadb";
 import {  CategoryColumn } from './_components/columns'
 import {format} from "date-fns"
-import { getDefaultStore } from "@/lib/store"
+
+type CategoryWithBillboard = Prisma.CategoryGetPayload<{
+    select: {
+        id: true;
+        name: true;
+        createdAt: true;
+        billboard: {
+            select: {
+                label: true;
+            };
+        };
+    };
+}>;
 
 const CategoriesPage = async () => {
-    const storeId = await getDefaultStore();
-
     const categories = await prismadb.category.findMany({
-        where: {
-            storeId: storeId
-        },
-        include:{
-    billboard: true,
+        select: {
+            id: true,
+            name: true,
+            createdAt: true,
+            billboard: {
+                select: {
+                    label: true,
+                },
+            },
         },
         orderBy: {
             createdAt: "desc"
         }
-    })
+    }) as unknown as CategoryWithBillboard[];
 
     const formattedCategories: CategoryColumn[] = categories.map((item) => ({
         id: item.id,

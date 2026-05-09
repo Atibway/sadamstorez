@@ -1,7 +1,5 @@
 
-import { auth } from "@/auth";
 import { currentUser } from "@/lib/auth";
-import {db} from "@/lib/prismadb";
 import { redirect } from "next/navigation";
 
 export default async function SetupLayout({ children }: {
@@ -16,13 +14,9 @@ export default async function SetupLayout({ children }: {
         redirect('/frontend')
     }
     
-    // If user is ADMIN, continue to dashboard
+    // If user is ADMIN, redirect to dashboard
     if (userId && session.role === "ADMIN") {
-        const store = await db.store.findFirst()
-
-        if(store){
-            redirect(`/${store.id}`)
-        }
+        redirect(`/dashboard`)
     }
 
     return (

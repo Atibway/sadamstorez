@@ -2,7 +2,6 @@
 import {db as prismadb} from "@/lib/prismadb";
 import React from 'react'
 import CategoryForm from './components/CategoryForm'
-import { getDefaultStore } from "@/lib/store"
 
 const CategoryPage = async (
     props: {
@@ -10,7 +9,6 @@ const CategoryPage = async (
         }
 ) => {
     const params = await props.params;
-    const storeId = await getDefaultStore();
 
     const category = await prismadb.category.findUnique({
         where: {
@@ -20,11 +18,7 @@ const CategoryPage = async (
         }
     })
 
-    const billboards = await prismadb.billboard.findMany({
-        where: {
-            storeId: storeId
-        }
-    })
+    const billboards = await prismadb.billboard.findMany()
 
 
 
