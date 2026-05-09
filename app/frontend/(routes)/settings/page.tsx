@@ -1,12 +1,15 @@
 import React from 'react'
-import { LogIn } from 'lucide-react';
+import { ChevronRight, Camera, User, Contact, CreditCard, History, LogIn } from 'lucide-react';
 import { currentUser } from '@/lib/auth'
 import { db } from '@/lib/prismadb'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import ManageAccount from './_components/Home-settings-page'
-import { Prisma } from "@/generated/prisma/client";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { OrderHistory } from './_components/order-history'
 import { OrderColumn } from './_components/orders/columns'
+import ProductTracking from './_components/order-tracking'
+import { ProfileForm } from "@/app/dashboard/profile/_components/profileForm"
+import { Prisma } from "@/generated/prisma/client";
 import { format } from "date-fns";
 import { formatter } from '@/lib/utils';
 
@@ -38,8 +41,13 @@ type OrderWithRelations = Prisma.OrderGetPayload<{
   };
 }>;
 
-const SettingsPage = async() => {
+const SettingsPage = async({
+  searchParams,
+}: {
+  searchParams: { tab?: string }
+}) => {
   const user = await currentUser()
+  const defaultTab = searchParams.tab || 'personal-info'
 
   // Show login reminder instead of redirect
   if(!user){
@@ -129,8 +137,61 @@ const SettingsPage = async() => {
 
   return (
     <div className="bg-surface min-h-screen flex flex-col">
-      <main className="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-section-padding">
-        <ManageAccount orders={formattedOrders} userInfo={userInfo} />
+      <main className="flex-grow flex w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-section-padding gap-gutter">
+        {/* Settings Sidebar */}
+        <aside className="w-64 hidden lg:flex flex-col gap-stack-sm p-stack-lg border-r border-outline-variant/20 bg-surface-container-low shadow-sm h-min rounded-lg">
+          <nav className="flex flex-col gap-stack-sm">
+            <Link href="/frontend/settings?tab=personal-info" className={`flex items-center gap-stack-sm p-stack-sm rounded-lg font-semibold transition-all duration-300 ease-in-out ${defaultTab === 'personal-info' ? 'bg-secondary-container text-on-secondary-container' : 'text-on-surface-variant hover:bg-surface-container-high hover:pl-4'}`}>
+              <User className="w-5 h-5" />
+              <span className="font-body-md text-body-md">Profile</span>
+            </Link>
+            <Link href="/frontend/settings?tab=orders" className={`flex items-center gap-stack-sm p-stack-sm rounded-lg transition-all duration-300 ease-in-out ${defaultTab === 'orders' ? 'bg-secondary-container text-on-secondary-container' : 'text-on-surface-variant hover:bg-surface-container-high hover:pl-4'}`}>
+              <History className="w-5 h-5" />
+              <span className="font-body-md text-body-md">Orders</span>
+            </Link>
+          </nav>
+        </aside>
+
+        {/* Main Content Area */}
+        <section className="flex-grow">
+          {/* Breadcrumbs */}
+          <nav className="flex text-on-surface-variant font-body-sm text-body-sm mb-stack-lg">
+            <ol className="inline-flex items-center space-x-1 md:space-x-3">
+              <li className="inline-flex items-center">
+                <Link className="inline-flex items-center hover:text-primary transition-colors" href="/frontend">Home</Link>
+              </li>
+              <li>
+                <div className="flex items-center">
+                  <ChevronRight className="w-4 h-4 mx-1" />
+                  <Link className="hover:text-primary transition-colors" href="/frontend/settings">Account</Link>
+                </div>
+              </li>
+              <li>
+                <div className="flex items-center">
+                  <ChevronRight className="w-4 h-4 mx-1" />
+                  <span className="text-primary font-medium">Profile Settings</span>
+                </div>
+              </li>
+            </ol>
+          </nav>
+
+          <div className="bg-surface rounded-xl shadow-sm border border-outline-variant/10 p-stack-lg md:p-section-padding">
+            <Tabs defaultValue={defaultTab} className="space-y-stack-lg">
+              <TabsList className="bg-surface-container-low border border-outline-variant/20">
+                <TabsTrigger value="personal-info" className="font-body-sm text-body-sm">Profile</TabsTrigger>
+                <TabsTrigger value="orders" className="font-body-sm text-body-sm">Orders</TabsTrigger>
+              </TabsList>
+              <TabsContent value="personal-info">
+                <ProfileForm userInfo={userInfo}/>
+              </TabsContent>
+              <TabsContent value="orders">
+                <OrderHistory
+                orders={formattedOrders}
+                />
+              </TabsContent>
+            </Tabs>
+          </div>
+        </section>
       </main>
     </div>
   )
