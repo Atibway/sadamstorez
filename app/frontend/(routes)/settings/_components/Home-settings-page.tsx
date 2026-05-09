@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { OrderHistory } from './order-history'
 import { OrderColumn } from './orders/columns'
 import ProductTracking from './order-tracking'
-import SettingPage1 from "@/app/(dashboard)/[storeId]/(routes)/profile/page"
+import SettingPage1 from "@/app/(dashboard)/(routes)/profile/page"
 
 export default function ManageAccount({
   orders
