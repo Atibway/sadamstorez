@@ -45,7 +45,6 @@ export  interface Color {
 export type Product2 = {
     id: string;
     name: string;
-    storeId: string;
     categoryId: string;
     description: string;
     countInStock: number;
@@ -59,5 +58,3 @@ export type Product2 = {
     createdAt: Date;
     updatedAt: Date;
   };
-  
-  

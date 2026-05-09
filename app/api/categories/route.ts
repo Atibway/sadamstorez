@@ -1,27 +1,53 @@
-import { db } from '@/lib/prismadb';
-import { NextResponse } from 'next/server';
-import { handleApiError } from '@/lib/api-error-handler';
+import { auth } from "@/auth";
+
+import {db as prismadb} from "@/lib/prismadb";
+import { NextResponse } from "next/server";
+
+
+export async function POST(req: Request) {
+  try {
+    const session = await auth();
+    const body = await req.json();
+    const { name, billboardId, icon } = body;
+
+    if (!name || !billboardId) {
+      return new NextResponse("Missing required fields", { status: 400 });
+    }
+
+    if (session?.user.role === "USER") {
+      return new NextResponse("Unauthenticated", { status: 401 });
+    }
+
+    const mainCategory = await prismadb.category.create({
+      data: {
+        billboardId,
+        name,
+        icon,
+      },
+    });
+
+  
+    return NextResponse.json(mainCategory);
+  } catch (error) {
+    console.error("[CATEGORY_POST]", error);
+    return new NextResponse("Internal error", { status: 500 });
+  }
+}
 
 export async function GET(req: Request) {
   try {
-    const categories = await db.category.findMany({
-      include: {
-        billboard: {
+      const category = await prismadb.category.findMany({
           include: {
-            BillboardImages: true,
-          },
-        },
-        subcategories: true,
-      },
-    });
+              billboard: true,
+              subcategories:true
+          }
+      });
 
-    // Cache for 5 minutes
-    return NextResponse.json(categories, {
-      headers: {
-        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
-      },
-    });
+      return NextResponse.json(category)
+
   } catch (error) {
-    return handleApiError(error);
+      console.log('[CATEGORY_GET]', error);
+      return new NextResponse("Internal error", { status: 500 });
+
   }
 }

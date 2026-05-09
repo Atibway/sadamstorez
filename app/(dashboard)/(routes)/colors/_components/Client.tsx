@@ -4,7 +4,7 @@ import { Button } from '@/components/ui1/button'
 import Heading from '@/components/ui1/Heading'
 import { Separator } from '@/components/ui1/separator'
 import { Plus } from 'lucide-react'
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 import { ColorColumn, columns } from './columns'
 import { DataTable } from '@/components/ui1/data-table'
@@ -19,7 +19,6 @@ const ColorClient: React.FC<ColorClientProps> = ({
     data
 }) => {
     const router = useRouter()
-    const params = useParams()
 
   return (
     <>
@@ -29,7 +28,7 @@ const ColorClient: React.FC<ColorClientProps> = ({
                   description='Manage colors for your store'
               />
 
-              <Button onClick={()=> router.push(`/${params.storeId}/colors/new`)}>
+              <Button onClick={()=> router.push(`/dashboard/colors/new`)}>
                   <Plus className='mr-2 h-4 w-4'/>
                   Add New
               </Button>

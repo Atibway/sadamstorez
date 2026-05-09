@@ -31,7 +31,7 @@ export async function GET(req: Request, props: { params: Promise<{  categoryId: 
 
 export async function PATCH(
   req: Request,
-  props: { params: Promise<{ storeId: string; categoryId: string }> }
+  props: { params: Promise<{ categoryId: string }> }
 ) {
   const params = await props.params;
   try {
@@ -44,7 +44,7 @@ export async function PATCH(
     const body = await req.json();
     const { name, billboardId, icon } = body;
 
-    if (!name || !billboardId || !params.storeId) {
+    if (!name || !billboardId) {
       return new NextResponse('Missing required fields', { status: 400 });
     }
 
@@ -77,7 +77,7 @@ export async function PATCH(
 
 export async function DELETE(
   req: Request,
-  props: { params: Promise<{ storeId: string, categoryId: string }> }
+  props: { params: Promise<{ categoryId: string }> }
 ) {
   const params = await props.params;
   try {

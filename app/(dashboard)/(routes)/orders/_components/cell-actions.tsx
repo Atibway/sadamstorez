@@ -4,7 +4,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuLab
 import { Button } from "@/components/ui1/button";
 import { Copy, Edit, MoreHorizontal, Trash, CheckCircle, Circle } from "lucide-react";
 import toast from "react-hot-toast";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import axios from "axios";
@@ -20,7 +20,6 @@ const CellActions: React.FC<CellActionsProps> = ({ data }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const params = useParams();
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
@@ -30,7 +29,7 @@ const CellActions: React.FC<CellActionsProps> = ({ data }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/orders/${data.id}`);
+      await axios.delete(`/api/orders/${data.id}`);
       router.refresh();
       toast.success("Order Deleted");
     } catch (error) {

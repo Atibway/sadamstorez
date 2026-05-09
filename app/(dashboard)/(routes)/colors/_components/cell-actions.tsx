@@ -6,7 +6,7 @@ import { ColorColumn } from "./columns";
 import { Button } from "@/components/ui1/button";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import toast from "react-hot-toast";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import axios from "axios";
@@ -22,7 +22,6 @@ const CellActions: React.FC<CellActionsProps> = ({
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const router = useRouter()
-    const params = useParams()
 
     const onCopy = (id: string) => {
         navigator.clipboard.writeText(id);
@@ -32,7 +31,7 @@ const CellActions: React.FC<CellActionsProps> = ({
     const onDelete = async () => {
         try {
           setLoading(true);
-          await axios.delete(`/api/${params.storeId}/colors/${data.id}`);
+          await axios.delete(`/api/colors/${data.id}`);
           router.refresh();
           toast.success("Color Deleted");
         } catch (error) {
@@ -66,7 +65,7 @@ const CellActions: React.FC<CellActionsProps> = ({
                   <Copy className="mr-2 h-4 w-4" />
                   Copy Id
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={()=> router.push(`/${params.storeId}/colors/${data.id}`)}>
+              <DropdownMenuItem onClick={()=> router.push(`/dashboard/colors/${data.id}`)}>
                   <Edit className="mr-2 h-4 w-4" />
                   Update
               </DropdownMenuItem>

@@ -66,12 +66,12 @@ const ColorForm: React.FC<ColorFormProps> = ({ initialData }) => {
     try {
         setLoading(true);
         if(initialData){
-            await axios.patch(`/api/${params.storeId}/colors/${params.colorId}`, data);
+            await axios.patch(`/api/colors/${params.colorId}`, data);
         } else {
-          await axios.post(`/api/${params.storeId}/colors`, data);
+          await axios.post(`/api/colors`, data);
         }
         router.refresh();
-         router.push(`/${params.storeId}/colors`);
+         router.push(`/dashboard/colors`);
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Something went wrong");
@@ -83,9 +83,9 @@ const ColorForm: React.FC<ColorFormProps> = ({ initialData }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/colors/${params.colorId}`);
+      await axios.delete(`/api/colors/${params.colorId}`);
       router.refresh();
-     router.push(`/${params.storeId}/colors`);
+     router.push(`/dashboard/colors`);
       toast.success("color Deleted");
     } catch (error) {
       toast.error("Make sure you removed all products using this color first");

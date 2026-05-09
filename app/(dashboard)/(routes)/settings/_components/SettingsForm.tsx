@@ -20,7 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui1/form1";
 import { Input } from "@/components/ui1/input";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { AlertModal } from "@/components/models/AlertModel";
 import { ApiAlert } from "@/components/ui1/api-alert";
 import { useOrigin } from "@/hooks/use-origin";
@@ -36,7 +36,6 @@ const formSchema = z.object({
 type SettingsFormValues = z.infer<typeof formSchema>;
 
 const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
-  const params = useParams();
     const router = useRouter();
     const origin = useOrigin();
   const [open, setOpen] = useState(false);
@@ -50,7 +49,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
   const onSubmit = async (data: SettingsFormValues) => {
     try {
       setLoading(true);
-     const dta = await axios.patch(`/api/stores/${params.storeId}`, data);
+     const dta = await axios.patch(`/api/stores/${initialData.id}`, data);
       router.refresh();
       toast.success("Store updated");
     } catch (error) {
@@ -64,7 +63,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
     const onDelete = async () => {
         try {
 setLoading(true)
-            await axios.delete(`/api/stores/${params.storeId}`)
+            await axios.delete(`/api/stores/${initialData.id}`)
             router.refresh();
             router.push("/")
             toast.success("Store Deleted")
@@ -129,7 +128,7 @@ toast.error("Make sure you removed all products and categories first")
         </form>
           </Form>
           <Separator />
-          <ApiAlert variant="public" title="NEXT_PUBLIC_API_URL" description={`${origin}/api/${params.storeId}`}
+          <ApiAlert variant="public" title="NEXT_PUBLIC_API_URL" description={`${origin}/api`}
           />
     </>
   );

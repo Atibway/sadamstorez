@@ -62,12 +62,12 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => {
     try {
         setLoading(true);
         if(initialData){
-            await axios.patch(`/api/${params.storeId}/billboards/${params.billboardId}`, data).then(()=> {
+            await axios.patch(`/api/billboards/${params.billboardId}`, data).then(()=> {
               window.location.reload()
             })
           } else {
-            await axios.post(`/api/${params.storeId}/billboards`, data).then((res)=>{
-            router.push(`/${params.storeId}/billboards/${res.data.id}`);
+            await axios.post(`/api/billboards`, data).then((res)=>{
+            router.push(`/dashboard/billboards/${res.data.id}`);
           });
         }
 
@@ -83,7 +83,7 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`);
+      await axios.delete(`/api/billboards/${params.billboardId}`);
       router.refresh();
       toast.success("Billboard Deleted");
     } catch (error) {

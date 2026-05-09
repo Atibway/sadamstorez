@@ -16,8 +16,7 @@ export async function OPTIONS() {
 }
 
 // Handle POST request
-export async function POST(req: Request, props: { params: Promise<{ storeId: string }> }) {
-  const params = await props.params;
+export async function POST(req: Request) {
   try {
     const { productIds, userId } = await req.json();
 
@@ -43,7 +42,6 @@ export async function POST(req: Request, props: { params: Promise<{ storeId: str
 
     const order = await prismadb.order.create({
       data: {
-        storeId: params.storeId,
         isPaid: false,
         userId,
         orderItems: {

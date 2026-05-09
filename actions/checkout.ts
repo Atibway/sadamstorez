@@ -17,8 +17,6 @@ export const checkout = async (values: z.infer<typeof ProfileUpdateSchema>, item
     return { error: "Unauthorized" };
   }
 
-  const store = await db.store.findFirst()
-
   await db.user.update({
     where: { id: dbUser.id },
     data: {
@@ -30,7 +28,6 @@ export const checkout = async (values: z.infer<typeof ProfileUpdateSchema>, item
   const order = await db.order.create({
     data: {
       userId: dbUser.id,
-      storeId: store?.id as string, // Assuming storeId is part of the category
       isPending: true,
       isPaid: false,
       delivered: false,

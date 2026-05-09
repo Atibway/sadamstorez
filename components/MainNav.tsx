@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { IconBrandTabler } from "@tabler/icons-react";
 import Link from "next/link";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import { Sidebar , SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import { motion } from "motion/react";
@@ -14,70 +14,69 @@ const MainNav = ({
   ...props
 }: React.HTMLAttributes<HTMLElement>) => {
   const pathName = usePathname();
-  const params = useParams();
     const [open, setOpen] = useState(false);
 
   const links = [
     {
-        href: `/${params.storeId}`,
+        href: `/dashboard`,
         label: "Overview",
-        active: pathName === `/${params.storeId}`,
+        active: pathName === `/dashboard`,
         icon: (
        <IconBrandTabler className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
         ),
       },
       {
-          href: `/${params.storeId}/billboards`,
+          href: `/dashboard/billboards`,
           label: "Billboards",
-          active: pathName === `/${params.storeId}/billboards`,
+          active: pathName === `/dashboard/billboards`,
           icon: (
             <IconBrandTabler className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
              ),
       },
       {
-          href: `/${params.storeId}/categories`,
+          href: `/dashboard/categories`,
           label: "Categories",
-          active: pathName === `/${params.storeId}/categories`,
+          active: pathName === `/dashboard/categories`,
           icon: (
             <IconBrandTabler className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
              ),
       },
       {
-          href: `/${params.storeId}/sizes`,
+          href: `/dashboard/sizes`,
           label: "Sizes",
-          active: pathName === `/${params.storeId}/sizes`,
+          active: pathName === `/dashboard/sizes`,
           icon: (
             <IconBrandTabler className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
              ),
       },
       {
-          href: `/${params.storeId}/colors`,
+          href: `/dashboard/colors`,
           label: "Colors",
-          active: pathName === `/${params.storeId}/colors`,
+          active: pathName === `/dashboard/colors`,
           icon: (
             <IconBrandTabler className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
              ),
       },
       {
-          href: `/${params.storeId}/products`,
+          href: `/dashboard/products`,
           label: "Products",
-          active: pathName === `/${params.storeId}/products`,
+          active: pathName === `/dashboard/products`,
           icon: (
             <IconBrandTabler className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
              ),
       },
       {
-          href: `/${params.storeId}/orders`,
+          href: `/dashboard/orders`,
           label: "Orders",
-          active: pathName === `/${params.storeId}/orders`,
+          active: pathName === `/dashboard/orders`,
           icon: (
             <IconBrandTabler className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
              ),
       },
       {
-        href: `/${params.storeId}/settings`,
+        href: `/dashboard/settings`,
         label: "Settings",
-        active: pathName === `/${params.storeId}/settings`,
+        active: pathName === `/dashboard/settings`,
         icon: (
             <IconBrandTabler className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
              ),
@@ -90,7 +89,7 @@ const MainNav = ({
             <IconBrandTabler className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
              ),
       },
-];
+  ];
 
   return (
    <div

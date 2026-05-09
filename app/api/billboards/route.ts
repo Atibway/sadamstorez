@@ -5,8 +5,7 @@ import {db as prismadb} from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 
 
-export async function POST(req: Request, props: { params: Promise<{ storeId: string }> }) {
-  const params = await props.params;
+export async function POST(req: Request) {
   try {
     const session = await auth();
 
@@ -25,15 +24,9 @@ export async function POST(req: Request, props: { params: Promise<{ storeId: str
       return new NextResponse("Label is required", { status: 400 });
     }
   
-    if (!params.storeId) {
-      return new NextResponse("Store Id is required", { status: 400 });
-    }
-
-
     const billboard = await prismadb.billboard.create({
       data: {
         label,
-        storeId: params.storeId,
       },
     });
 
@@ -43,19 +36,9 @@ export async function POST(req: Request, props: { params: Promise<{ storeId: str
     return new NextResponse("Internal error", { status: 500 });
   }
 }
-export async function GET(req: Request, props: {params: Promise<{storeId: string}>}) {
-  const params = await props.params;
+export async function GET(req: Request) {
   try {
-
-      if (!params.storeId) {
-          return new NextResponse("Store Id is required", {status: 400})
-      }
-
-      const billboard = await prismadb.billboard.findMany({
-          where: {
-              storeId: params.storeId,
-          }
-      });
+      const billboard = await prismadb.billboard.findMany();
 
       return NextResponse.json(billboard)
 

@@ -26,7 +26,7 @@ export async function GET(req: Request, props: { params: Promise<{  sizeId: stri
 
 export async function PATCH(
   req: Request,
-  props: { params: Promise<{ storeId: string, sizeId: string }> }
+  props: { params: Promise<{ sizeId: string }> }
 ) {
   const params = await props.params;
   try {
@@ -74,7 +74,7 @@ export async function PATCH(
 
 export async function DELETE(
   req: Request,
-  props: { params: Promise<{ storeId: string, sizeId: string }> }
+  props: { params: Promise<{ sizeId: string }> }
 ) {
   const params = await props.params;
   try {

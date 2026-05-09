@@ -5,12 +5,8 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
+  url      = env("DATABASE_URL")
 }
-
-// datasource db {
-//   provider  = "mysql"
-//   url  	    = env("DATABASE_URL")
-// }
 
 enum UserRole {
   ADMIN
@@ -62,30 +58,13 @@ model Account {
 }
  
 
-model store {
-    id       String   @id @default(uuid())
-    name     String   @unique
-    billboard Billboard[] @relation("StoreToBillboard")
-    categories Category[] @relation("StoreToCategory")
-    sizes        Size[] @relation("StoreTosize")
-    colors        Color[] @relation("StoreToColor")
-    products      Product[] @relation("StoreToProduct")
-    orders       Order[] @relation("StoreToOrder")
-    createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-}
-
 model Billboard {
     id     String @id @default(uuid())
-    storeId String
-    store store @relation("StoreToBillboard", fields: [storeId], references: [id])
-     label String
-     categories Category[]
+    label String
+    categories Category[]
      createdAt DateTime @default(now())
   BillboardImages BillboardImages[]
   updatedAt DateTime @updatedAt
-    @@index([storeId])
 }
 
 model BillboardImages {
@@ -102,8 +81,6 @@ updatedAt DateTime @updatedAt
 
 model Category {
   id String @id @default(uuid())
-  storeId String
-  store store @relation("StoreToCategory", fields: [storeId], references: [id])
   billboardId String
   billboard Billboard @relation(fields: [billboardId], references: [id])
   products Product[] @relation("CategoryToProduct")
@@ -112,7 +89,6 @@ model Category {
   subcategories Subcategory[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-    @@index([storeId])
     @@index([billboardId])
 }
 
@@ -129,33 +105,24 @@ model Subcategory {
 
 model Size {
   id String @id @default(uuid())
-  storeId String
-  store store @relation("StoreTosize", fields: [storeId], references: [id])
   name String
   value String
   product Product[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
-    @@index([storeId])
 }
+
 model Color {
   id String @id @default(uuid())
-  storeId String
-  store store @relation("StoreToColor", fields: [storeId], references: [id])
   name String
   value String
   product Product[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
-    @@index([storeId])
 }
 
 model Product {
   id String @id @default(uuid())
-  storeId String
-  store store @relation("StoreToProduct", fields: [storeId], references: [id])
   categoryId String
   subcategoryId String
   description String @db.Text
@@ -179,7 +146,6 @@ model Product {
   updatedAt DateTime @updatedAt
 
 
-  @@index([storeId])
   @@index([categoryId])
   @@index([subcategoryId])
   @@index([sizeId])
@@ -199,8 +165,6 @@ model Image {
 
 model Order {
   id String @id @default(uuid())
-  storeId String
-  store store @relation("StoreToOrder", fields: [storeId], references: [id])
   userId String 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   isPending Boolean @default(false)
@@ -209,7 +173,6 @@ model Order {
   isPaid Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  @@index([storeId])
 }
 
 model OrderItem {

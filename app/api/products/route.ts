@@ -3,8 +3,7 @@ import {db as prismadb} from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 import { handleApiError, validateRequired, ApiError } from "@/lib/api-error-handler";
 
-export async function POST(req: Request, props: { params: Promise<{ storeId: string }> }) {
-  const params = await props.params;
+export async function POST(req: Request) {
   try {
     const session = await auth();
 
@@ -38,7 +37,6 @@ export async function POST(req: Request, props: { params: Promise<{ storeId: str
       colorId,
       description,
       sizeId,
-      storeId: params.storeId,
     });
 
     if (countInStock < 0) {
@@ -58,7 +56,6 @@ export async function POST(req: Request, props: { params: Promise<{ storeId: str
         priceDiscount,
         isFeatured,
         isArchived,
-        storeId: params.storeId,
       },
     });
     
@@ -68,8 +65,7 @@ export async function POST(req: Request, props: { params: Promise<{ storeId: str
   }
 }
   
-  export async function GET(req: Request, props: { params: Promise<{ storeId: string }> }) {
-    const params = await props.params;
+  export async function GET(req: Request) {
     try {
       const { searchParams } = new URL(req.url);
       const categoryId = searchParams.get("categoryId") || undefined;
@@ -79,13 +75,8 @@ export async function POST(req: Request, props: { params: Promise<{ storeId: str
       const isFeatured = searchParams.get("isFeatured") === "true" ? true : undefined;
       const query = searchParams.get("query") || undefined;
   
-      if (!params.storeId) {
-        throw new ApiError("Store Id is required", 400, "MISSING_STORE_ID");
-      }
-  
       const products = await prismadb.product.findMany({
         where: {
-          storeId: params.storeId,
           categoryId,
           subcategoryId,
           colorId,

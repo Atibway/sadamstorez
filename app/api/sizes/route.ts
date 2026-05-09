@@ -4,8 +4,7 @@ import {db as prismadb} from "@/lib/prismadb";
 
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request, props: { params: Promise<{ storeId: string }> }) {
-  const params = await props.params;
+export async function POST(req: Request) {
   try {
     const session = await auth();
 
@@ -26,15 +25,10 @@ export async function POST(req: Request, props: { params: Promise<{ storeId: str
     if (!value) {
       return new NextResponse("Value is required", { status: 400 });
     }
-    if (!params.storeId) {
-      return new NextResponse("Store Id is required", { status: 400 });
-    }
-
   
     const size = await prismadb.size.create({
       data: {
         name,
-        storeId: params.storeId,
         value,
       },
     });
@@ -46,18 +40,9 @@ export async function POST(req: Request, props: { params: Promise<{ storeId: str
   }
 }
 
-export async function GET(req: Request, props: { params: Promise<{ storeId: string }> }) {
-  const params = await props.params;
+export async function GET(req: Request) {
   try {
-    if (!params.storeId) {
-      return new NextResponse("Store Id is required", { status: 400 });
-    }
-
-    const size = await prismadb.size.findMany({
-      where: {
-        storeId: params.storeId,
-      },
-    });
+    const size = await prismadb.size.findMany();
 
     return NextResponse.json(size);
   } catch (error) {
