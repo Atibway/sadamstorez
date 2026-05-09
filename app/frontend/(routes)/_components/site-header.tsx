@@ -70,7 +70,7 @@ export function SiteHeader({ data }: CategoryProps) {
               <>
                 {user.role === 'ADMIN' && (
                   <Button
-                    onClick={() => router.push('/backend/dashboard')}
+                    onClick={() => router.push('/dashboard')}
                     className="bg-blue-600 hover:bg-blue-700 text-white text-xs"
                   >
                     Admin
@@ -169,10 +169,10 @@ export function SiteHeader({ data }: CategoryProps) {
               <>
                 {user.role === 'ADMIN' && (
                   <Button
-                    onClick={() => router.push('/backend/dashboard')}
-                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                    onClick={() => router.push('/dashboard')}
+                    className="bg-blue-600 hover:bg-blue-700 text-white text-xs"
                   >
-                    Admin Panel
+                    Admin
                   </Button>
                 )}
                 <UserButton />
