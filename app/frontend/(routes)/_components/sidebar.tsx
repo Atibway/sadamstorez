@@ -3,15 +3,10 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { ChevronDown, ChevronRight } from 'lucide-react';
-import { Billboard, BillboardImages, Category, Subcategory } from '@prisma/client';
+import { CategoryWithTree } from '@/types';
 
 interface CategoryProps {
-  data: (Category & {
-    billboard: Billboard & {
-      BillboardImages: BillboardImages[];
-    };
-    subcategories: Subcategory[];
-  })[];
+  data: CategoryWithTree[];
 }
 
 export function Sidebar({ data }: CategoryProps) {

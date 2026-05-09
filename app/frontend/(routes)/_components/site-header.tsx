@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Sidebar } from './sidebar';
-import { Billboard, BillboardImages, Category, Subcategory } from '@prisma/client';
+import { CategoryWithTree } from '@/types';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { useCart } from '@/hooks/use-cart';
 import { useBookmark } from '@/hooks/use-bookmark';
@@ -20,12 +20,7 @@ import { ModeToggle } from '@/components/theme-tuggle';
 import { useRouter } from 'next/navigation';
 
 interface CategoryProps {
-  data: (Category & {
-    billboard: Billboard & {
-      BillboardImages: BillboardImages[];
-    };
-    subcategories: Subcategory[];
-  })[];
+  data: CategoryWithTree[];
 }
 
 export function SiteHeader({ data }: CategoryProps) {
