@@ -41,7 +41,7 @@ function AutoRotatingCarousel({ images }: { images: BillboardImages[] }) {
               <img
                 src={image.url}
                 alt={image.name}
-                className="h-full w-full object-cover rounded-t-lg"
+                className="h-full w-full object-cover rounded-t-xl"
               />
             </div>
           </CarouselItem>
@@ -53,15 +53,15 @@ function AutoRotatingCarousel({ images }: { images: BillboardImages[] }) {
 
 export const CategoryGrid: React.FC<CategoryProps> = ({ data }) => {
   return (
-    <div className="bg-emerald-600 p-6">
-      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+    <div className="bg-surface-container p-section-padding">
+      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-gutter">
         {data.map((category) => (
-          <Card key={category.id} className="overflow-hidden border-none">
+          <Card key={category.id} className="overflow-hidden border-none shadow-sm">
             <Link href={`/frontend/category/${category.id}`}>
             <CardContent className="p-0">
               <AutoRotatingCarousel images={category.billboard.BillboardImages} />
-              <div className="p-3 text-center ">
-                <h3 className="text-sm font-medium">{category.name}</h3>
+              <div className="p-stack-md text-center">
+                <h3 className="font-body-sm text-body-sm font-medium text-on-surface">{category.name}</h3>
               </div>
             </CardContent>
             </Link>

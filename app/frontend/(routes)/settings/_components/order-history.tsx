@@ -10,7 +10,7 @@ import { OrderColumn } from "./orders/columns"
   }) {
     return (
       <div>
-        <h2 className="text-2xl font-semibold mb-4">Order History</h2>
+        <h2 className="font-h3 text-h3 text-primary mb-stack-lg">Order History</h2>
         <OrderClient
 data={orders}
 />

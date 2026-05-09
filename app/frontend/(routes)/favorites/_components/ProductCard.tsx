@@ -58,18 +58,18 @@ const ProductCard: React.FC<ProductCardProps> = ({
     
     
   return (
-    <div onClick={handleClick} className='bg-white group cursor-pointer rounded-xl border p-3 space-y-4'>
+    <div onClick={handleClick} className='bg-surface-container-lowest group cursor-pointer rounded-xl border border-outline-variant/10 p-stack-md shadow-sm hover:shadow-md transition-shadow duration-300'>
         {/* Images and Actions */}
 
-        <div className='aspect-square rounded-xl bg-gray-100 relative'>
+        <div className='aspect-square rounded-xl bg-surface-container relative overflow-hidden'>
                 <Image
                     src={data?.images?.[0]?.url}
                     alt={data.name}
                     fill
-                    className='aspect-square object-cover rounded-md'
+                    className='aspect-square object-cover rounded-md transition-transform duration-500 group-hover:scale-105'
                 />
               {isOutOfStock && (
-  <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white text-xl font-semibold rounded-lg">
+  <div className="absolute inset-0 bg-primary/50 flex flex-col items-center justify-center text-on-primary font-h4 text-h4 rounded-lg">
     <span>Out of Stock</span>
     <IconButton
       onClick={onAddToBookmark}
@@ -77,31 +77,31 @@ const ProductCard: React.FC<ProductCardProps> = ({
         productInBookmark ? (
           <FcBookmark className="w-6 h-6" />
         ) : (
-          <Bookmark className="w-6 h-6 text-yellow-500" />
+          <Bookmark className="w-6 h-6 text-accent" />
         )
       }
     />
   </div>
 )}
 
-                <div className="opacity-80 group-hover:opacity-90 transition absolute w-full px-6 bottom-5">
+                <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute w-full px-6 bottom-5">
                     {!isOutOfStock && (
-                        <div className='flex gap-x-6 justify-center'>
+                        <div className='flex gap-stack-md justify-center'>
                             <IconButton
                                 onClick={onPreview}
-                                icon={<Expand size={20} className='text-gray-600' />}
+                                icon={<Expand size={20} className='text-on-surface-variant' />}
                             />
                             <IconButton
                                 onClick={onAddToCart}
                                 icon={<ShoppingCart
                                     size={20} className={cn("",
-                                        productInCart ? " text-green-600" : "text-gray-600"
+                                        productInCart ? " text-accent" : "text-on-surface-variant"
                                     )}
                                 />}
                             />
                             <IconButton
                                 onClick={onAddToBookmark}
-                                icon={productInBookmark ? <FcBookmark className='w-6 h-6' /> : <Bookmark className='w-6 h-6 text-yellow-500' />}
+                                icon={productInBookmark ? <FcBookmark className='w-6 h-6' /> : <Bookmark className='w-6 h-6 text-accent' />}
                             />
 
 <ShareButton
@@ -116,10 +116,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </div>
         {/* Description */}
         <div >
-            <p className='font-semibold text-lg'>
+            <p className='font-h4 text-h4 text-primary'>
             {data.name}
             </p>
-            <p className='text-sm text-gray-500'>
+            <p className='font-body-sm text-body-sm text-on-surface-variant'>
                 {data.category?.name}
             </p>
         </div>
@@ -127,11 +127,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <div className='flex items-center justify-between'>
                 {/* If there's a discount, show both the original and discounted price */}
                 {data.priceDiscount ? (
-                    <div className="flex items-center space-x-2">
-                        <span className="text-sm text-gray-500 line-through">
+                    <div className="flex items-center gap-unit">
+                        <span className="font-body-sm text-body-sm text-on-surface-variant line-through">
                             <Currency value={data?.priceDiscount} />
                         </span>
-                        <span className="text-lg font-bold text-gray-800">
+                        <span className="font-h4 text-h4 text-primary">
                             <Currency value={data.price} />
                         </span>
                     </div>
@@ -140,8 +140,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 )}
             </div>
         {isOutOfStock && (
-                <div className="mt-4">
-                    <Button className="w-full bg-green-800 py-2 font-semibold rounded-lg ">
+                <div className="mt-stack-md">
+                    <Button className="w-full bg-accent hover:bg-accent-hover text-white py-2 font-body-md text-body-md rounded-lg">
                         Notify Me When Available
                     </Button>
                 </div>

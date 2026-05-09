@@ -32,7 +32,7 @@ export const ShareButton = ({ url, title, text }:{
   return (
     <IconButton
     onClick={handleShare}
-    icon={<Share2 size={20} className='text-blue-600' />}
+    icon={<Share2 size={20} className='text-on-surface-variant' />}
 />
     
   );

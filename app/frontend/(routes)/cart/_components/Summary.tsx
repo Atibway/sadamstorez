@@ -36,46 +36,33 @@ router.push("/auth/login")
 
     }else{
       router.push("/frontend/cart/checkout")
-      // const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
-      //   productIds: items.map((item) => item.id),
-      //   userId: user.id
-      // })
-  
-      // window.location = response.data.url
     }
   }
 
   return (
-    <div className='mt-16 rounded-lg bg-gray-50 px-4 sm:p-6 py-6 lg:col-span-5 lg:mt-0 lg:p-8'>
-      <div className='flex justify-between'>
-        <div >
-          
+    <div className='mt-section-padding rounded-xl bg-surface-container-low px-stack-lg sm:p-section-padding py-section-padding lg:mt-0 lg:p-section-padding border border-outline-variant/20 shadow-sm'>
+      <div className='flex justify-between items-center mb-stack-lg'>
         <Button
-                variant={"destructive"}
-                className=""
+                variant="outline"
+                className="text-error border-error hover:bg-error hover:text-white"
                 disabled={items.length === 0}
                 onClick={()=> removeAll()}
                 >
                   Clear cart
                 </Button>
-          
-        </div>
-        <div>
-        <Button variant="outline" asChild>
+        <Button variant="outline" asChild className="border-outline-variant text-on-surface hover:bg-surface-container">
                   <Link href="/frontend">Continue Shopping</Link>
                 </Button>
-                
-        </div>
       </div>
-        <div className="mt-6 space-y-4">
-<div className="flex items-center justify-between border-t border-gray-200 pt-4">
-<div className="text-base font-medium text-gray-900">
+        <div className="space-y-stack-md">
+<div className="flex items-center justify-between border-t border-outline-variant/30 pt-stack-md">
+<div className="font-body-md text-body-md text-on-surface">
     Order total
 </div>
 <Currency value={totalPrice}/>
 </div>
         </div>
-        <Button disabled={items.length === 0} onClick={onCheckout} className='w-full mt-6'>
+        <Button disabled={items.length === 0} onClick={onCheckout} className='w-full mt-stack-lg bg-accent hover:bg-accent-hover text-white'>
           Checkout
         </Button>
         </div>

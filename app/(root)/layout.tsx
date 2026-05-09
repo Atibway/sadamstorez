@@ -11,16 +11,18 @@ export default async function SetupLayout({ children }: {
  
     const userId = session?.id
 
-    if (!userId) {
-redirect('/auth/login')
+    // Allow browsing without login - only redirect if user is logged in as ADMIN
+    if (userId && session.role === "USER") {
+        redirect('/frontend')
     }
-    if (session.role === "USER") {
-redirect('/frontend')
-    }
-    const store = await db.store.findFirst()
+    
+    // If user is ADMIN, continue to dashboard
+    if (userId && session.role === "ADMIN") {
+        const store = await db.store.findFirst()
 
-    if(store){
-        redirect(`/${store.id}`)
+        if(store){
+            redirect(`/${store.id}`)
+        }
     }
 
     return (

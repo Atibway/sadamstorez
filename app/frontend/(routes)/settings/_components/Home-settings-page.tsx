@@ -13,12 +13,12 @@ export default function ManageAccount({
   
 
   return (
-    <div className="container mx-auto py-10">
-      <h1 className="text-3xl font-bold mb-6">Manage Your Account</h1>
-      <Tabs defaultValue="personal-info" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="personal-info">Profile</TabsTrigger>
-          <TabsTrigger value="orders">Orders</TabsTrigger>
+    <div className="max-w-container-max mx-auto py-section-padding px-margin-mobile md:px-margin-desktop">
+      <h1 className="font-h1 text-h1 text-primary mb-stack-lg">Manage Your Account</h1>
+      <Tabs defaultValue="personal-info" className="space-y-stack-lg">
+        <TabsList className="bg-surface-container-low border border-outline-variant/20">
+          <TabsTrigger value="personal-info" className="font-body-sm text-body-sm">Profile</TabsTrigger>
+          <TabsTrigger value="orders" className="font-body-sm text-body-sm">Orders</TabsTrigger>
           {/* <TabsTrigger value="tracking">Track Item</TabsTrigger> */}
         </TabsList>
         <TabsContent value="personal-info">

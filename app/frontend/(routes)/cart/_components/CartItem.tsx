@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useCart } from "@/hooks/use-cart";
 import Currency from "@/components/frontentend/components/ui/Currency";
 import { useEffect, useState } from "react";
-import { Trash2Icon } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Summary from "./Summary";
 import { Product2 } from "@/types";
@@ -34,7 +34,7 @@ export const CartItem: React.FC<CartItemProps> = ({ products }) => {
   };
 
   return (
-    <div className="grid gap-4">
+    <div className="grid gap-gutter">
       {cart.items.map((data) => {
         const productInCartFromDb = products.find((product) => product.id === data.id);
         const totalPrice = productInCartFromDb
@@ -45,29 +45,29 @@ export const CartItem: React.FC<CartItemProps> = ({ products }) => {
           productInCartFromDb?.isArchived || productInCartFromDb?.countInStock === 0;
 
         return (
-          <div key={data.id} className="flex items-center bg-white dark:bg-gray-800 shadow rounded-lg p-4">
-            <div className="relative h-24 w-24">
+          <div key={data.id} className="flex items-center bg-surface-container-lowest shadow-sm rounded-xl p-stack-md border border-outline-variant/10">
+            <div className="relative h-24 w-24 shrink-0">
               <Image
-                src={data.images?.[0]?.url || "/placeholder-image.png"} // Fallback image
+                src={data.images?.[0]?.url || "/placeholder-image.png"}
                 alt={data.name}
                 height={100}
                 width={100}
-                className="rounded object-cover"
+                className="rounded-lg object-cover"
               />
             </div>
-            <div className="ml-4 flex-1">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{data.name}</h2>
-              <p className="text-gray-600 dark:text-gray-300">
+            <div className="ml-stack-md flex-1 min-w-0">
+              <h2 className="font-h4 text-h4 text-primary truncate">{data.name}</h2>
+              <p className="font-body-sm text-body-sm text-on-surface-variant">
                 Price: <Currency value={Number(data.price)} />
               </p>
-              <div className="flex items-center space-x-2 mt-2">
+              <div className="flex items-center gap-stack-sm mt-stack-md">
                 {isOutOfStock ? (
-                  <p className="text-red-500">Out of Stock</p>
+                  <p className="font-body-sm text-body-sm text-error">Out of Stock</p>
                 ) : (
                   <select
                     value={data.countInStock}
                     onChange={(e) => handleQuantityChange(Number(e.target.value), data.id)}
-                    className="p-2 w-[4rem] border border-slate-800 rounded-lg text-black"
+                    className="p-2 w-[4rem] bg-surface border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-accent"
                   >
                     {Array.from(
                       { length: productInCartFromDb?.countInStock || 1 },
@@ -80,14 +80,15 @@ export const CartItem: React.FC<CartItemProps> = ({ products }) => {
                   </select>
                 )}
                 <Button
-                  className="bg-white"
+                  variant="ghost"
+                  className="bg-transparent hover:bg-surface-container-low"
                   onClick={() => onRemove(data.id)}
                 >
-                  <Trash2Icon className="h-4 w-4 text-red-500" />
+                  <Trash2 className="h-4 w-4 text-error" />
                   <span className="sr-only">Remove Item</span>
                 </Button>
               </div>
-              <p className="text-right text-gray-900 dark:text-white">
+              <p className="text-right font-body-md text-body-md text-on-surface mt-stack-md">
                 Total: <Currency value={totalPrice} />
               </p>
             </div>

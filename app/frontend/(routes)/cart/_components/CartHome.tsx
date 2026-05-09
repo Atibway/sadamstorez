@@ -68,10 +68,10 @@ const [categories, setCategories] = useState<any[]>([]);
   return (
     <>
    
-    <div className="min-h-screen bg-gray-100 dark:bg-background">
-      <div className="bg-white dark:bg-gray-800 shadow">
-        <div className="mx-auto py-6 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Shopping Cart</h1>
+    <div className="min-h-screen bg-surface">
+      <div className="bg-surface shadow-sm border-b border-outline-variant/10">
+        <div className="max-w-container-max mx-auto py-section-padding px-margin-mobile md:px-margin-desktop">
+          <h1 className="font-h1 text-h1 text-primary">Shopping Cart</h1>
         </div>
 
       </div>
@@ -101,7 +101,7 @@ const [categories, setCategories] = useState<any[]>([]);
           <BreadcrumbSeparator />
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="mx-auto py-6 sm:px-6 lg:px-8">
+      <div className="max-w-container-max mx-auto py-section-padding px-margin-mobile md:px-margin-desktop">
         <CartItem products={products} />
       
       </div>

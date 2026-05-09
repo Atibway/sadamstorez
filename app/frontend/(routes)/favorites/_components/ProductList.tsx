@@ -18,10 +18,10 @@ const ProductList: React.FC<ProductListProps> = ({
   const bookmarks = useBookmark()
   const items = bookmarks.items
   return (
-    <div className='space-y-4'>
-<h3 className='font-bold text-3xl'>{title}</h3>
+    <div className='space-y-stack-lg'>
+<h3 className='font-h3 text-h3 text-primary'>{title}</h3>
 {items.length=== 0 && <NoResults/>}
-<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
     {items.map((item)=> (
        <ProductCard key={item.id} data={item} products={products}/>
     ))}

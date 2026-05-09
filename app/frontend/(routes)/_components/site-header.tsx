@@ -53,29 +53,29 @@ export function SiteHeader({ data }: CategoryProps) {
   }
 
   return (
-    <header className=" top-0 w-full border-b bg-white dark:bg-gray-900 shadow-sm">
+    <header className=" top-0 w-full border-b border-outline-variant/10 bg-surface shadow-sm">
       {/* Mobile view */}
       <div className="lg:hidden">
-        <div className="flex items-center gap-3 p-2 dark:bg-gray-900">
+        <div className="flex items-center gap-unit p-stack-sm">
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="shrink-0">
-                <MenuIcon className="h-6 w-6 dark:text-white" />
+                <MenuIcon className="h-6 w-6 text-on-surface" />
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[300px] sm:w-[400px]">
               <Sidebar data={data} />
             </SheetContent>
           </Sheet>
-          <Link href="/" className="shrink-0 dark:text-white">
+          <Link href="/" className="shrink-0 font-h4 text-h4 text-primary">
             Sadamstores
           </Link>
-          <div className="flex items-center gap-1 ml-auto">
+          <div className="flex items-center gap-unit ml-auto">
             {user? (
               <UserButton />
             ):(
               <Link href={"/auth/login"}>
-                <Button>
+                <Button className="bg-accent hover:bg-accent-hover text-white font-body-sm text-body-sm">
                   Login
                 </Button>
               </Link>
@@ -83,35 +83,35 @@ export function SiteHeader({ data }: CategoryProps) {
           
             <div
               onClick={() => router.push("/frontend/cart")}
-              className="relative flex items-center justify-center  cursor-pointer dark:text-white"
+              className="relative flex items-center justify-center cursor-pointer text-on-surface"
             >
-              <ShoppingCart size={20} className="w-8 h-8 text-green-800" />
-              <span className="absolute top-[-1px] text-xs bg-orange-500 text-white font-bold rounded-full w-5 h-5 text-center">
+              <ShoppingCart size={20} className="w-8 h-8 text-accent" />
+              <span className="absolute top-[-1px] font-label-caps text-label-caps bg-accent text-white font-bold rounded-full w-5 h-5 text-center">
               {cart.items.length}
               </span>
             </div>
             <div
               onClick={() => router.push("/frontend/favorites")}
-              className="relative flex items-center justify-center  cursor-pointer dark:text-white"
+              className="relative flex items-center justify-center cursor-pointer text-on-surface"
             >
-              <BookmarkIcon size={20} className="w-8 h-8 dark:text-white" />
-              <span className="absolute top-[-1px] text-xs bg-red-500 dark:text-white font-bold rounded-full w-5 h-5 text-center">
+              <BookmarkIcon size={20} className="w-8 h-8 text-accent" />
+              <span className="absolute top-[-1px] font-label-caps text-label-caps bg-accent text-white font-bold rounded-full w-5 h-5 text-center">
                 {bookmark.items.length}
               </span>
             </div>
             <ModeToggle />
           </div>
         </div>
-        <div className="p-2 pb-3 dark:bg-gray-900">
+        <div className="p-stack-sm pb-stack-md">
           <div className="relative">
-             <form className="flex w-full gap-2" onSubmit={handleSearch}>
+             <form className="flex w-full gap-unit" onSubmit={handleSearch}>
               <Input
                 placeholder="Search products..."
-                className="flex-1 rounded-full"
+                className="flex-1 rounded-full bg-surface-container-low border-outline-variant/30 focus:border-accent font-body-sm text-body-sm text-on-surface"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <Button type="submit" variant="default" className="rounded-full bg-primary">
+              <Button type="submit" variant="default" className="rounded-full bg-accent hover:bg-accent-hover text-white font-body-sm text-body-sm">
                 <Search className="h-4 w-4" />
                 <span className="ml-2">Search</span>
               </Button>
@@ -121,42 +121,42 @@ export function SiteHeader({ data }: CategoryProps) {
       </div>
 
       {/* Desktop view */}
-      <div className="hidden lg:block container py-4">
+      <div className="hidden lg:block max-w-container-max mx-auto py-section-padding px-margin-desktop">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-2xl font-bold text-primary dark:text-white">Sadamstores</span>
+          <Link href="/" className="flex items-center gap-unit">
+            <span className="font-h2 text-h2 text-primary">Sadamstores</span>
           </Link>
-          <div className="flex flex-1 items-center gap-2 max-w-xl mx-4">
-            <form className="flex w-full gap-2" onSubmit={handleSearch}>
+          <div className="flex flex-1 items-center gap-unit max-w-xl mx-stack-lg">
+            <form className="flex w-full gap-unit" onSubmit={handleSearch}>
               <Input
                 placeholder="Search products..."
-                className="flex-1 rounded-full"
+                className="flex-1 rounded-full bg-surface-container-low border-outline-variant/30 focus:border-accent font-body-sm text-body-sm text-on-surface"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <Button type="submit" variant="default" className="rounded-full bg-primary">
+              <Button type="submit" variant="default" className="rounded-full bg-accent hover:bg-accent-hover text-white font-body-sm text-body-sm">
                 <Search className="h-4 w-4" />
                 <span className="ml-2">Search</span>
               </Button>
             </form>
           </div>
-          <nav className="flex items-center gap-4">
+          <nav className="flex items-center gap-unit">
             {user && (
-              <Link href="/frontend/settings" className="flex items-center gap-1 text-sm hover:text-primary dark:text-white dark:hover:text-primary">
+              <Link href="/frontend/settings" className="flex items-center gap-unit font-body-sm text-body-sm text-on-surface hover:text-accent transition-colors">
                 <User className="h-5 w-5" />
                 <span>Account</span>
               </Link>
             )}
-            <Link href="/frontend/cart" className="flex items-center gap-1 text-sm hover:text-primary dark:text-white dark:hover:text-primary">
+            <Link href="/frontend/cart" className="flex items-center gap-unit font-body-sm text-body-sm text-on-surface hover:text-accent transition-colors">
               <ShoppingCart className="h-5 w-5" />
-              <span className='text-orange-600'>Cart ({cart.items.length})</span>
+              <span className='text-accent font-medium'>Cart ({cart.items.length})</span>
             </Link>
             <div
               onClick={() => router.push("/frontend/favorites")}
-              className="relative flex items-center justify-center mx-2 cursor-pointer"
+              className="relative flex items-center justify-center cursor-pointer text-on-surface"
             >
-              <BookmarkIcon size={20} className="w-8 h-8 dark:text-white" />
-              <span className="absolute top-[-1px] text-xs bg-red-500 text-white font-bold rounded-full w-5 h-5 text-center">
+              <BookmarkIcon size={20} className="w-8 h-8 text-accent" />
+              <span className="absolute top-[-1px] font-label-caps text-label-caps bg-accent text-white font-bold rounded-full w-5 h-5 text-center">
                 {bookmark.items.length}
               </span>
             </div>
@@ -164,7 +164,7 @@ export function SiteHeader({ data }: CategoryProps) {
               <UserButton />
             ):(
               <Link href={"/auth/login"}>
-                <Button>
+                <Button className="bg-accent hover:bg-accent-hover text-white font-body-sm text-body-sm">
                   Login
                 </Button>
               </Link>

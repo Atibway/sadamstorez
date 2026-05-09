@@ -35,17 +35,17 @@ export const FlashSalesSection: React.FC<ProductListProps> = ({ items }) => {
   }
 
   return (
-    <div className="bg-gradient-to-r from-red-600 via-red-500 to-red-600 text-white py-8">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold">Flash Sales</h2>
-          <span className="text-lg">Time Left: <b>05days</b></span>
+    <div className="bg-surface-container text-on-surface py-section-padding">
+      <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+        <div className="flex items-center justify-between mb-stack-lg">
+          <h2 className="font-h2 text-h2 text-primary">Flash Sales</h2>
+          <span className="font-body-md text-body-md text-on-surface-variant">Time Left: <b className="text-accent">05days</b></span>
         </div>
         <div className="relative">
           {/* Left Arrow */}
           <button
             onClick={scrollLeft}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white text-red-600 p-2 rounded-full shadow-md hover:bg-gray-100 z-10"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-surface text-on-surface p-2 rounded-full shadow-md hover:bg-surface-container-low z-10 border border-outline-variant/30"
           >
             <ChevronLeft size={24} />
           </button>
@@ -53,7 +53,7 @@ export const FlashSalesSection: React.FC<ProductListProps> = ({ items }) => {
           {/* Carousel */}
           <div
             ref={carouselRef}
-            className="flex gap-4 overflow-x-scroll scrollbar-hide scroll-smooth"
+            className="flex gap-gutter overflow-x-scroll scrollbar-hide scroll-smooth"
           >
             {items.map((item) => (
               <ProductCard key={item.id} data={item} />
@@ -63,13 +63,13 @@ export const FlashSalesSection: React.FC<ProductListProps> = ({ items }) => {
           {/* Right Arrow */}
           <button
             onClick={scrollRight}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white text-red-600 p-2 rounded-full shadow-md hover:bg-gray-100 z-10"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-surface text-on-surface p-2 rounded-full shadow-md hover:bg-surface-container-low z-10 border border-outline-variant/30"
           >
             <ChevronRight size={24} />
           </button>
         </div>
-        <div className="mt-6 text-right">
-          <a href="#" className="text-white underline">
+        <div className="mt-stack-lg text-right">
+          <a href="#" className="font-body-sm text-body-sm text-accent hover:text-accent-hover font-medium">
             See All
           </a>
         </div>

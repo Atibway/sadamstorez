@@ -1,10 +1,8 @@
 "use client";
 
 import { delivery } from "@/actions/mark-as-delivered";
-import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { CheckCheck, CircleIcon, XCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { CheckCheck, Circle, XCircle } from "lucide-react";
 import toast from "react-hot-toast";
 
 
@@ -45,12 +43,12 @@ export const columns: ColumnDef<OrderColumn>[] = [
     cell:({row})=> (
       <div>
         {row.original.isPaid? (
-          <div className="flex items-center text-green-600 bg-green-100 rounded-full px-3 py-1 text-sm font-medium">
+          <div className="flex items-center text-on-surface-container bg-surface-container-high rounded-full px-3 py-1 font-label-caps text-label-caps font-medium">
         <CheckCheck className="mr-2 h-4 w-4" />
         Paid
       </div>
         ):(
-<div className="flex items-center text-red-600 bg-red-100 rounded-full px-3 py-1 text-sm font-medium">
+<div className="flex items-center text-error bg-error-container rounded-full px-3 py-1 font-label-caps text-label-caps font-medium">
       <XCircle className="mr-2 h-4 w-4" />
       Not Paid
     </div>
@@ -60,26 +58,24 @@ export const columns: ColumnDef<OrderColumn>[] = [
     },
   {
     accessorKey: "delivered",
-    header: "Deliverly Status",
-    cell: ({row})=> {
+    header: "Delivery Status",
+    cell:({row})=> {
       return (
         <div className="">
 {row.original.delivered? (
-   <Button
-   variant="ghost"
-   className="text-green-600 hover:text-green-700 bg-green-100 hover:bg-green-300"
+   <button
+   className="text-on-surface-container bg-surface-container-high hover:bg-surface-container-highest px-3 py-1 rounded-full font-label-caps text-label-caps font-medium transition-colors"
  >
    <CheckCheck className="mr-2 h-4 w-4" />
    Delivered
- </Button>
+ </button>
 ):(
-  <Button
-      variant="outline"
-      className="text-blue-600 hover:text-blue-700 bg-blue-100 hover:bg-blue-300"
+  <button
+      className="text-accent bg-surface-container-low hover:bg-surface-container px-3 py-1 rounded-full font-label-caps text-label-caps font-medium transition-colors"
     >
-      <CircleIcon className="mr-2  h-4 w-4" />
+      <Circle className="mr-2 h-4 w-4" />
       Not Delivered
-    </Button>
+    </button>
 )}
 
       </div>
@@ -87,6 +83,5 @@ export const columns: ColumnDef<OrderColumn>[] = [
     }
     },
     
-
 
 ];

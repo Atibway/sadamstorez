@@ -1,10 +1,9 @@
 "use client"
 
-import { Button } from '@/components/ui/button';
 import IconButton from '@/components/frontentend/components/ui/iconButton';
 import { Color, Size } from '@/types'
 import { Dialog, DialogPanel } from '@headlessui/react';
-import { Plus, X } from 'lucide-react';
+import { Filter as FilterIcon, X } from 'lucide-react';
 import React, { useState } from 'react'
 import Filter from './Filter';
 
@@ -24,20 +23,20 @@ const onClose = () => setOpen(false)
 
   return (
     <>
-    <Button onClick={onOpen} className=' flex items-center gap-x-2 lg:hidden'>
-Filters
-<Plus/>
-    </Button>
+    <button onClick={onOpen} className='lg:hidden flex items-center gap-unit bg-surface-container-low border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface p-stack-sm'>
+      <FilterIcon className="w-5 h-5" />
+      Filters
+    </button>
 
     <Dialog open={open} as='div' className={"relative z-40 lg:hidden"} onClose={onClose}>
         {/* background */}
-<div className='fixed inset-0 bg-black bg-opacity-45'/>
+<div className='fixed inset-0 bg-primary/40'/>
 {/* Dialog Position */}
 <div className="fixed inset-0 z-40 flex">
-<DialogPanel className={"relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white dark:bg-background py-4 pb-6 shadow-xl"}>
+<DialogPanel className={"relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-surface py-4 pb-6 shadow-xl"}>
     {/* close button */}
     <div className="flex items-center justify-end px-4">
-<IconButton icon={<X className='dark:text-black' size={15}/>} onClick={onClose}/>
+<IconButton icon={<X className="text-on-surface" size={20}/>} onClick={onClose}/>
     </div>
 {/* Render the filters */}
 <div className='p-4'>

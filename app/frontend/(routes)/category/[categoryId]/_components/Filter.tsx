@@ -1,6 +1,5 @@
 "use client"
 
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Color, Size } from '@/types';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -43,33 +42,33 @@ const Filter: React.FC<FilterProps> = ({
     router.push(url)
   }
   return (
-    <div className='mb-8'>
-<h3 className='text-lg font-semibold'>
-  {name}
-</h3>
-<hr className='my-4' />
-<div className='flex flex-wrap gap-2'>
-{data.map((filter)=> (
-
-<div key={filter.id} className='flex items-center'>
-<Button
-className={cn(
-  "rounded-xl text-sm text-gray-800 p-2 bg-white border border-black grid grid-cols-2",
-  selectedValue === filter.id && "bg-black text-white"
-)}
-onClick={()=> onClick(filter.id)}
->
-{filter.name}
-{name== "Colors" && (
-<div
-className="h-6 w-6 rounded-full border"
-style={{backgroundColor: filter.value}}
-/>
-)}
-</Button>
-</div>
-))}
-</div>
+    <div className='mb-stack-lg'>
+      <h3 className='font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-stack-sm'>
+        {name}
+      </h3>
+      <div className='flex flex-wrap gap-unit'>
+        {data.map((filter)=> (
+          <div key={filter.id} className='flex items-center'>
+            <button
+              className={cn(
+                "rounded-lg font-body-sm text-body-sm px-3 py-2 bg-surface border border-outline-variant text-on-surface hover:bg-surface-container-low transition-colors",
+                selectedValue === filter.id && "bg-accent text-white border-accent hover:bg-accent-hover"
+              )}
+              onClick={()=> onClick(filter.id)}
+            >
+              <div className="flex items-center gap-2">
+                {filter.name}
+                {name === "Colors" && (
+                  <div
+                    className="h-4 w-4 rounded-full border border-outline-variant/30"
+                    style={{backgroundColor: filter.value}}
+                  />
+                )}
+              </div>
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
