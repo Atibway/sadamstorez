@@ -2,7 +2,7 @@ import getProduct from '@/actions/get-Product';
 import getProducts from '@/actions/get-products';
 import Header from '@/components/frontend/Header';
 import ProductList from '@/components/frontentend/components/ProductList';
-import { Star, ChevronRight, LocalShipping, AssignmentReturn, Heart } from 'lucide-react';
+import { Star, ChevronRight, Truck, ArrowUpLeft, Heart } from 'lucide-react';
 import { db } from '@/lib/prismadb';
 import Link from 'next/link';
 
@@ -176,11 +176,11 @@ const ProductPage: React.FC<ProductPageProps> = async props => {
             {/* Shipping Info */}
             <div className="bg-surface-container-low rounded-lg p-stack-md flex flex-col gap-unit mt-stack-sm text-body-sm font-body-sm text-on-surface-variant">
               <div className="flex items-center gap-unit">
-                <LocalShipping className="w-5 h-5 text-accent" />
+                <Truck className="w-5 h-5 text-accent" />
                 <span>Free Standard Shipping on orders over Shs150</span>
               </div>
               <div className="flex items-center gap-unit">
-                <AssignmentReturn className="w-5 h-5 text-accent" />
+                <ArrowUpLeft className="w-5 h-5 text-accent" />
                 <span>Free 30-day returns. <Link className="underline hover:text-primary" href="#">Read Policy</Link></span>
               </div>
             </div>
