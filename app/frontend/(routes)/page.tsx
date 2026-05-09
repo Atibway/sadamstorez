@@ -1,6 +1,5 @@
 import getProducts from "@/actions/get-products";
 import ProductList from "@/components/frontentend/components/ProductList";
-import Header from "@/components/frontend/Header";
 import Sidebar from "@/components/frontend/Sidebar";
 import { db } from "@/lib/prismadb";
 
@@ -21,14 +20,12 @@ export default async function HomePage() {
 
   return (
     <div className="bg-surface min-h-screen flex flex-col">
-      <Header />
-      
       <div className="flex flex-1 max-w-container-max mx-auto w-full">
         <Sidebar categories={categories} />
         
         <main className="flex-1 w-full min-w-0">
           {/* Hero Section */}
-          <section className="relative w-full bg-surface-container-low min-h-[500px] flex items-center justify-center overflow-hidden">
+          <section className="relative w-full bg-surface-container-low min-h-[300px] flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-primary-container to-surface opacity-80" />
             <div className="relative z-10 text-center px-gutter flex flex-col items-center">
               <h1 className="font-h1 text-h1 text-primary-container mb-stack-md">Bam Shopping Center</h1>
@@ -42,7 +39,7 @@ export default async function HomePage() {
           </section>
 
           {/* Featured Products */}
-          <section className="py-section-padding px-gutter md:px-margin-desktop">
+          <section className="py-8 px-gutter md:px-margin-desktop">
             <div className="flex justify-between items-end mb-stack-lg">
               <div>
                 <h2 className="font-h2 text-h2 text-primary">Featured Products</h2>

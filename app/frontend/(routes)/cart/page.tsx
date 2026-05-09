@@ -1,6 +1,5 @@
 "use client"
 import { useEffect, useState } from 'react';
-import Header from '@/components/frontend/Header';
 import { X, Plus, Minus, ArrowRight, ShoppingBag } from 'lucide-react';
 import { ProductSummary } from '@/types';
 import { AllProducts } from '@/actions/get-all-products';
@@ -42,8 +41,6 @@ const CartPage = () => {
 
   return (
     <div className="bg-surface min-h-screen flex flex-col">
-      <Header />
-      
       <main className="flex-grow px-margin-mobile md:px-margin-desktop py-section-padding max-w-container-max mx-auto w-full">
         <div className="mb-stack-lg">
           <h1 className="font-h1 text-h1 text-primary">Your Cart</h1>

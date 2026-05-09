@@ -1,5 +1,4 @@
 import React from 'react'
-import Header from '@/components/frontend/Header';
 import { ChevronRight, Camera, User, Contact, CreditCard, History, LogIn } from 'lucide-react';
 import { currentUser } from '@/lib/auth'
 import { db } from '@/lib/prismadb'
@@ -13,8 +12,6 @@ const SettingsPage = async() => {
   if(!user){
     return (
       <div className="bg-surface min-h-screen flex flex-col">
-        <Header />
-        
         <main className="flex-grow w-full max-w-container-max mx-auto px-margin-desktop py-section-padding">
           <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-section-padding text-center">
             <div className="flex justify-center mb-stack-md">
@@ -52,8 +49,6 @@ const SettingsPage = async() => {
 
   return (
     <div className="bg-surface min-h-screen flex flex-col">
-      <Header />
-      
       <main className="flex-grow flex w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-section-padding gap-gutter">
         {/* Settings Sidebar */}
         <aside className="w-64 hidden lg:flex flex-col gap-stack-sm p-stack-lg border-r border-outline-variant/20 bg-surface-container-low shadow-sm h-min rounded-lg">

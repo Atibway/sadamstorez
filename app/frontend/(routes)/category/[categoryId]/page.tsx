@@ -2,7 +2,6 @@ import getCategory from "@/actions/get-Category";
 import getColors from "@/actions/get-colors";
 import getProducts from "@/actions/get-products";
 import getSizes from "@/actions/get-sizes";
-import Header from "@/components/frontend/Header";
 import Sidebar from "@/components/frontend/Sidebar";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import React from "react";
@@ -58,8 +57,6 @@ const CategoryPage: React.FC<CategoryPageProps> = async props => {
 
   return (
     <div className="bg-surface min-h-screen flex flex-col">
-      <Header />
-      
       <main className="flex-grow flex flex-col md:flex-row w-full max-w-container-max mx-auto">
         {/* Sidebar */}
         <Sidebar categories={categories} />

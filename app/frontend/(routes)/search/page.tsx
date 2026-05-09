@@ -1,4 +1,3 @@
-import Header from "@/components/frontend/Header";
 import Sidebar from "@/components/frontend/Sidebar";
 import { ChevronLeft, ChevronRight, Filter, X } from "lucide-react";
 import { ProductSummary } from "@/types";
@@ -22,8 +21,6 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
 
   return (
     <div className="bg-surface min-h-screen flex flex-col">
-      <Header />
-      
       {/* Main Content Area */}
       <main className="flex-grow flex flex-col lg:flex-row w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg gap-gutter">
         {/* Search Header Context (Mobile only) */}

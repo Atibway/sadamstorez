@@ -1,5 +1,4 @@
 import React from 'react'
-import Header from '@/components/frontend/Header';
 import { Lock, Verified, Shield, LogIn } from 'lucide-react';
 import { currentUser } from '@/lib/auth'
 import { db } from '@/lib/prismadb'
@@ -14,8 +13,6 @@ const page= async()=>{
     if(!user){
         return (
             <div className="bg-surface min-h-screen flex flex-col">
-                <Header />
-                
                 <main className="flex-grow w-full max-w-container-max mx-auto px-margin-desktop py-section-padding">
                     <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-section-padding text-center">
                         <div className="flex justify-center mb-stack-md">
@@ -53,8 +50,6 @@ const page= async()=>{
      
   return (
     <div className="bg-surface min-h-screen flex flex-col">
-      <Header />
-      
       <main className="flex-grow w-full max-w-container-max mx-auto px-margin-desktop py-section-padding">
         {/* Checkout Header & Progress */}
         <div className="mb-stack-lg">

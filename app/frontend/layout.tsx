@@ -1,7 +1,4 @@
 import type { Metadata } from "next";
-import { NavBar } from "@/components/frontentend/components/NavBar";
-import {Footer} from "@/components/frontentend/components/Footer";
-
 import { SiteHeader } from "./(routes)/_components/site-header";
 import { db } from "@/lib/prismadb";
 import { SiteFooter } from "./(routes)/_components/site-footer";

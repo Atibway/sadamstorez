@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useEffect, useState } from 'react'
-import Header from '@/components/frontend/Header';
 import { ChevronRight, ShoppingBag, Trash2, Heart, LogIn } from 'lucide-react';
 import { ProductSummary } from '@/types';
 import { AllProducts } from '@/actions/get-all-products';
@@ -33,8 +32,6 @@ const FavoritePage = () => {
 
   return (
     <div className="bg-surface min-h-screen flex flex-col">
-      <Header />
-      
       <main className="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-section-padding">
         <div className="flex items-center justify-between mb-stack-lg">
           <h1 className="font-h2 text-h2 text-primary">Your Wishlist</h1>

@@ -1,6 +1,5 @@
 import getProduct from '@/actions/get-Product';
 import getProducts from '@/actions/get-products';
-import Header from '@/components/frontend/Header';
 import ProductList from '@/components/frontentend/components/ProductList';
 import { Star, ChevronRight, Truck, ArrowUpLeft, Heart } from 'lucide-react';
 import { db } from '@/lib/prismadb';
@@ -20,7 +19,6 @@ const ProductPage: React.FC<ProductPageProps> = async props => {
   if (!product) {
     return (
       <div className="bg-surface min-h-screen flex flex-col">
-        <Header />
         <main className="flex-grow w-full max-w-container-max mx-auto px-margin-desktop py-section-padding">
           <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-section-padding text-center">
             <h1 className="font-h2 text-h2 text-primary mb-stack-sm">Product Not Found</h1>
@@ -75,8 +73,6 @@ const ProductPage: React.FC<ProductPageProps> = async props => {
 
   return (
     <div className="bg-surface min-h-screen flex flex-col">
-      <Header />
-      
       <main className="flex-grow">
         {/* Breadcrumbs */}
         <div className="max-w-container-max mx-auto px-margin-desktop py-stack-md">

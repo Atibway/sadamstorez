@@ -51,7 +51,7 @@ export function SiteHeader({ data }: CategoryProps) {
     <header className=" top-0 w-full border-b border-outline-variant/10 bg-surface shadow-sm">
       {/* Mobile view */}
       <div className="lg:hidden">
-        <div className="flex items-center gap-unit p-stack-sm">
+        <div className="flex items-center gap-unit p-2">
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="shrink-0">
@@ -67,7 +67,17 @@ export function SiteHeader({ data }: CategoryProps) {
           </Link>
           <div className="flex items-center gap-unit ml-auto">
             {user? (
-              <UserButton />
+              <>
+                {user.role === 'ADMIN' && (
+                  <Button
+                    onClick={() => router.push('/backend/dashboard')}
+                    className="bg-blue-600 hover:bg-blue-700 text-white text-xs"
+                  >
+                    Admin
+                  </Button>
+                )}
+                <UserButton />
+              </>
             ):(
               <Link href={"/auth/login"}>
                 <Button className="bg-accent hover:bg-accent-hover text-white font-body-sm text-body-sm">
@@ -94,7 +104,7 @@ export function SiteHeader({ data }: CategoryProps) {
                 {bookmark.items.length}
               </span>
             </div>
-            <ModeToggle />
+            {/* <ModeToggle /> */}
           </div>
         </div>
         <div className="p-stack-sm pb-stack-md">
@@ -116,7 +126,7 @@ export function SiteHeader({ data }: CategoryProps) {
       </div>
 
       {/* Desktop view */}
-      <div className="hidden lg:block max-w-container-max mx-auto py-section-padding px-margin-desktop">
+      <div className="hidden lg:block max-w-container-max mx-auto py-2 px-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-unit">
             <span className="font-h2 text-h2 text-primary">Bam Shopping Center</span>
@@ -156,7 +166,17 @@ export function SiteHeader({ data }: CategoryProps) {
               </span>
             </div>
             {user? (
-              <UserButton />
+              <>
+                {user.role === 'ADMIN' && (
+                  <Button
+                    onClick={() => router.push('/backend/dashboard')}
+                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                  >
+                    Admin Panel
+                  </Button>
+                )}
+                <UserButton />
+              </>
             ):(
               <Link href={"/auth/login"}>
                 <Button className="bg-accent hover:bg-accent-hover text-white font-body-sm text-body-sm">
@@ -164,7 +184,7 @@ export function SiteHeader({ data }: CategoryProps) {
                 </Button>
               </Link>
             )}
-            <ModeToggle />
+            {/* <ModeToggle /> */}
           </nav>
         </div>
       </div>

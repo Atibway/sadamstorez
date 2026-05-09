@@ -1,7 +1,6 @@
 import getColors from "@/actions/get-colors";
 import getProducts from "@/actions/get-products";
 import getSizes from "@/actions/get-sizes";
-import Header from "@/components/frontend/Header";
 import Sidebar from "@/components/frontend/Sidebar";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import React from "react";
@@ -68,8 +67,6 @@ const SubcategoryPage: React.FC<SubcategoryPageProps> = async props => {
 
   return (
     <div className="bg-surface min-h-screen flex flex-col">
-      <Header />
-      
       {/* Subcategory Tabs & Breadcrumbs */}
       <div className="bg-surface border-b border-outline-variant/20 sticky top-[73px] z-40">
         <div className="max-w-container-max mx-auto px-margin-desktop py-stack-sm flex flex-col gap-stack-sm">
