@@ -1,11 +1,9 @@
-import {db as prismadb} from "@/lib/prismadb";
+import { db as prismadb } from "@/lib/prismadb";
 import { NextResponse } from "next/server";
-import stripe from "@/lib/stripe";
-
 
 // CORS headers
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "*", // Change "*" to specific origin if needed for security, like "http://localhost:3001"
+  "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
@@ -31,38 +29,22 @@ export async function POST(req: Request) {
       where: { id: { in: productIds } },
     });
 
-    const line_items = products.map((product) => ({
-      quantity: 1,
-      price_data: {
-        currency: "USD",
-        product_data: { name: product.name },
-        unit_amount: product.price.toNumber() * 100,
-      },
-    }));
-
+    // Create order directly without Stripe
     const order = await prismadb.order.create({
       data: {
         isPaid: false,
         userId,
+        isPending: true,
+        delivered: false,
         orderItems: {
-          create: productIds.map((id:string) => ({
+          create: productIds.map((id: string) => ({
             product: { connect: { id } },
           })),
         },
       },
     });
 
-    const session = await stripe.checkout.sessions.create({
-      line_items,
-      mode: "payment",
-      billing_address_collection: "required",
-      phone_number_collection: { enabled: true },
-      success_url: `https://atidu-stores.vercel.app/frontend/cart?success=1`,
-      cancel_url: `https://atidu-stores.vercel.app/frontend/cart?canceled=1`,
-      metadata: { orderId: order.id },
-    });
-
-    return NextResponse.json({ url: session.url }, { headers: corsHeaders });
+    return NextResponse.json({ orderId: order.id }, { headers: corsHeaders });
   } catch (error) {
     console.error("Error in Checkout:", error);
     return new NextResponse("Internal Server Error", { status: 500 });
