@@ -5,6 +5,7 @@ import ProductList from '@/components/frontentend/components/ProductList';
 import { Star, ChevronRight, Truck, ArrowUpLeft, Heart } from 'lucide-react';
 import { db } from '@/lib/prismadb';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 interface ProductPageProps {
     params: {
@@ -15,6 +16,28 @@ interface ProductPageProps {
 const ProductPage: React.FC<ProductPageProps> = async props => {
   const params = await props.params;
   const product = await getProduct(params.productId)
+  
+  if (!product) {
+    return (
+      <div className="bg-surface min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-grow w-full max-w-container-max mx-auto px-margin-desktop py-section-padding">
+          <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-section-padding text-center">
+            <h1 className="font-h2 text-h2 text-primary mb-stack-sm">Product Not Found</h1>
+            <p className="font-body-lg text-body-lg text-on-surface-variant mb-stack-lg">
+              The product you're looking for doesn't exist or has been removed.
+            </p>
+            <Link href="/frontend">
+              <Button className="bg-accent hover:bg-accent-hover text-white font-body-md text-body-md px-8">
+                Back to Home
+              </Button>
+            </Link>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   const product1 = await db.product.findUnique({
       where:{
           id: params.productId
@@ -37,7 +60,7 @@ const ProductPage: React.FC<ProductPageProps> = async props => {
 
   const category = await db.category.findUnique({
     where:{
-        id:product.category.id
+        id:product!.category.id
     },
     include:{
         subcategories: true
@@ -74,7 +97,7 @@ const ProductPage: React.FC<ProductPageProps> = async props => {
               </>
             )}
             <ChevronRight className="w-4 h-4" />
-            <span className="text-primary font-bold">{product.name}</span>
+            <span className="text-primary font-bold">{product!.name}</span>
           </nav>
         </div>
 
@@ -83,25 +106,25 @@ const ProductPage: React.FC<ProductPageProps> = async props => {
           {/* Left Column: Gallery (60%) */}
           <div className="lg:col-span-7 flex flex-col gap-stack-md">
             <div className="w-full aspect-[4/5] bg-surface-container-low rounded-xl overflow-hidden relative">
-              {product.images && product.images.length > 0 ? (
+              {product!.images && product!.images.length > 0 ? (
                 <img 
-                  alt={product.name} 
+                  alt={product!.name} 
                   className="w-full h-full object-cover" 
-                  src={product.images[0].url}
+                  src={product!.images[0].url}
                 />
               ) : (
                 <div className="w-full h-full bg-surface-container flex items-center justify-center">
                   <span className="text-on-surface-variant">No image</span>
                 </div>
               )}
-              {product.isFeatured && (
+              {product!.isFeatured && (
                 <div className="absolute top-stack-md left-stack-md bg-primary-container text-on-primary font-label-caps text-label-caps px-unit py-1 rounded">
                   NEW
                 </div>
               )}
             </div>
             <div className="grid grid-cols-4 gap-stack-sm">
-              {product.images?.slice(0, 4).map((image, index) => (
+              {product!.images?.slice(0, 4).map((image, index) => (
                 <div key={image.id} className={`aspect-square bg-surface-container-low rounded-lg overflow-hidden border cursor-pointer ${index === 0 ? 'border-2 border-primary' : 'border border-outline-variant/30 hover:border-primary/50'} transition-colors`}>
                   <img 
                     alt={`Thumbnail ${index + 1}`} 
@@ -117,7 +140,7 @@ const ProductPage: React.FC<ProductPageProps> = async props => {
           <div className="lg:col-span-5 flex flex-col gap-stack-lg py-stack-md">
             {/* Title & Rating */}
             <div className="flex flex-col gap-unit">
-              <h1 className="font-h1 text-h1 text-primary">{product.name}</h1>
+              <h1 className="font-h1 text-h1 text-primary">{product!.name}</h1>
               <div className="flex items-center gap-unit text-on-surface-variant">
                 <div className="flex text-accent">
                   {[...Array(5)].map((_, i) => (
@@ -130,11 +153,11 @@ const ProductPage: React.FC<ProductPageProps> = async props => {
 
             {/* Price */}
             <div className="text-[40px] font-bold text-accent leading-tight">
-              Shs{product.price.toFixed(2)}
+              Shs{product!.price.toFixed(2)}
             </div>
             
             <p className="font-body-md text-body-md text-on-surface-variant border-b border-outline-variant/20 pb-stack-lg">
-              {product.description || 'Premium quality product designed for everyday use.'}
+              {product!.description || 'Premium quality product designed for everyday use.'}
             </p>
 
             {/* Color Selector */}
@@ -199,7 +222,7 @@ const ProductPage: React.FC<ProductPageProps> = async props => {
               <div>
                 <h3 className="font-h3 text-h3 text-primary mb-stack-md">Product Description</h3>
                 <p className="font-body-md text-body-md text-on-surface-variant mb-stack-md">
-                  {product.description || 'Premium quality product designed for everyday use. Crafted with attention to detail and using only the finest materials.'}
+                  {product!.description || 'Premium quality product designed for everyday use. Crafted with attention to detail and using only the finest materials.'}
                 </p>
               </div>
               <div className="bg-surface-container-low p-stack-lg rounded-xl">

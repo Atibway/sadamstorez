@@ -1,6 +1,6 @@
 "use client"
 
-import { Product } from '@/types'
+import { Product2 } from '@/types'
 import Image from 'next/image';
 import React, { MouseEventHandler } from 'react'
 import IconButton from '@/components/frontentend/components/ui/iconButton';
@@ -16,8 +16,8 @@ import { Button } from '@/components/ui/button';
 import { ShareButton } from './ShareButton';
 
 interface ProductCardProps{
-    data: Product;
-    products: Product[]
+    data: Product2;
+    products: Product2[]
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -118,9 +118,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <div >
             <p className='font-h4 text-h4 text-primary'>
             {data.name}
-            </p>
-            <p className='font-body-sm text-body-sm text-on-surface-variant'>
-                {data.category?.name}
             </p>
         </div>
         {/* Price */}

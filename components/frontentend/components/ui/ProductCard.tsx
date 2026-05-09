@@ -13,12 +13,12 @@ import { useBookmark } from '@/hooks/use-bookmark';
 import { cn } from '@/lib/utils';
 import { Button } from './button';
 import { ShareButton } from '@/app/frontend/(routes)/favorites/_components/ShareButton';
-import { Product } from '@/types';
+import { Product2 } from '@/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
 interface ProductCardProps {
-    data: Product;
+    data: Product2;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -111,9 +111,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </div>
         <div className="sm:p-4 p-2">
           <h3 className="sm:mb-2 mb-1 line-clamp-2 text-sm font-medium">{data?.name }</h3>
-          <p className='text-sm text-gray-500 dark:text-primary'>
-            {data?.category?.name}
-          </p>
           <div className="flex items-center justify-between">
             {/* If there's a discount, show both the original and discounted price */}
             {data.priceDiscount ? (

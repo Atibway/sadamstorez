@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import {db as prismadb} from "@/lib/prismadb";
 import { NextResponse } from "next/server";
+import { handleApiError, validateRequired, ApiError } from "@/lib/api-error-handler";
 
 export async function POST(req: Request, props: { params: Promise<{ storeId: string }> }) {
   const params = await props.params;
@@ -8,10 +9,9 @@ export async function POST(req: Request, props: { params: Promise<{ storeId: str
     const session = await auth();
 
     if (!session?.user) {
-      return new NextResponse("Unauthenticated", { status: 401 });
+      throw new ApiError("Unauthenticated", 401, "UNAUTHORIZED");
     }
 
-    const userId = session.user.id;
     const body = await req.json();
     const {
       name,
@@ -26,38 +26,25 @@ export async function POST(req: Request, props: { params: Promise<{ storeId: str
       priceDiscount,
       subcategoryId
     } = body;
-console.log(subcategoryId);
 
     if (session.user.role === "USER") {
-      return new NextResponse("Unauthenticated", { status: 401 });
+      throw new ApiError("Unauthorized", 401, "FORBIDDEN");
     }
-    if (!name) {
-      return new NextResponse("Name is required", { status: 400 });
-    }
-    if (!price) {
-      return new NextResponse("Price is required", { status: 400 });
-    }
-    if (!categoryId) {
-      return new NextResponse("Category Id is required", { status: 400 });
-    }
-    if (!colorId) {
-      return new NextResponse("Color Id is required", { status: 400 });
-    }
-    if (!description) {
-      return new NextResponse("Description Id is required", { status: 400 });
-    }
+
+    validateRequired({
+      name,
+      price,
+      categoryId,
+      colorId,
+      description,
+      sizeId,
+      storeId: params.storeId,
+    });
+
     if (countInStock < 0) {
-      return new NextResponse("Count In Stock is required", { status: 400 });
-    }
-    if (!sizeId) {
-      return new NextResponse("Size Id is required", { status: 400 });
+      throw new ApiError("Count In Stock must be non-negative", 400, "INVALID_STOCK");
     }
     
-    if (!params.storeId) {
-      return new NextResponse("Store Id is required", { status: 400 });
-    }
-
-
     const product = await prismadb.product.create({
       data: {
         name,
@@ -77,8 +64,7 @@ console.log(subcategoryId);
     
     return NextResponse.json(product);
   } catch (error) {
-    console.log("[PRODUCT_POST]", error);
-    return new NextResponse("Internal error", { status: 500 });
+    return handleApiError(error);
   }
 }
   
@@ -94,7 +80,7 @@ console.log(subcategoryId);
       const query = searchParams.get("query") || undefined;
   
       if (!params.storeId) {
-        return new NextResponse("Store Id is required", { status: 400 });
+        throw new ApiError("Store Id is required", 400, "MISSING_STORE_ID");
       }
   
       const products = await prismadb.product.findMany({
@@ -109,23 +95,52 @@ console.log(subcategoryId);
           name: query ? { contains: query } : undefined,
         },
         include: {
-          images: true,
-          category: true,
-          subCategory: true,
-          color: true,
-          size: true,
+          images: {
+            select: {
+              id: true,
+              url: true,
+            },
+          },
+          category: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          subCategory: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          color: {
+            select: {
+              id: true,
+              name: true,
+              value: true,
+            },
+          },
+          size: {
+            select: {
+              id: true,
+              name: true,
+              value: true,
+            },
+          },
         },
         orderBy: {
           createdAt: "asc",
         },
       });
   
-      return NextResponse.json(products);
+      // Cache for 2 minutes
+      return NextResponse.json(products, {
+        headers: {
+          'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=300',
+        },
+      });
     } catch (error) {
-      console.log('[PRODUCTS_GET]', error);
-      return new NextResponse("Internal error", { status: 500 });
+      return handleApiError(error);
     }
   }
-  
-  
   

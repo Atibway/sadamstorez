@@ -1,26 +1,27 @@
-
 import { db } from '@/lib/prismadb';
 import { NextResponse } from 'next/server';
+import { handleApiError } from '@/lib/api-error-handler';
 
-export async function GET(
-  req: Request,
-) {
+export async function GET(req: Request) {
   try {
-  
+    const categories = await db.category.findMany({
+      include: {
+        billboard: {
+          include: {
+            BillboardImages: true,
+          },
+        },
+        subcategories: true,
+      },
+    });
 
-      const categories = await db.category.findMany({
-         include: {
-           billboard: {
-             include: {
-               BillboardImages: true,
-             },
-           },
-           subcategories: true,
-         },
-       });
-    return NextResponse.json(categories);
+    // Cache for 5 minutes
+    return NextResponse.json(categories, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+      },
+    });
   } catch (error) {
-    console.log('[SIZES_GET]', error);
-    return new NextResponse("Internal error", { status: 500 });
+    return handleApiError(error);
   }
 }

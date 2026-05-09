@@ -1,11 +1,19 @@
-import { Size } from "@/types";
+"use server";
 
-const URL = `${process.env.NEXT_PUBLIC_API_URL}/sizes`;
+import { db } from "@/lib/prismadb";
 
-const getSizes = async (): Promise<Size[]> => {
-    const res = await fetch(URL)
-
-    return res.json()
-}
+const getSizes = async () => {
+  try {
+    const sizes = await db.size.findMany({
+      orderBy: {
+        name: "asc",
+      },
+    });
+    return sizes;
+  } catch (error) {
+    console.error("[GET_SIZES]", error);
+    return [];
+  }
+};
 
 export default getSizes;

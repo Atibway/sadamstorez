@@ -1,12 +1,12 @@
 "use client";
 
 import ProductCard from "@/components/frontentend/components/ui/ProductCard";
-import { Product } from "@/types";
+import { Product2 } from "@/types";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 
 interface ProductListProps {
-  items: Product[];
+  items: Product2[];
 }
 
 export const FlashSalesSection: React.FC<ProductListProps> = ({ items }) => {

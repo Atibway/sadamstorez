@@ -1,12 +1,27 @@
-import { Category } from "@/types";
+"use server";
 
-const URL = `${process.env.NEXT_PUBLIC_API_URL}/categories`;
+import { db } from "@/lib/prismadb";
 
-const getCategory = async (id: string): Promise<Category> => {
-    const res = await fetch(`${URL}/${id}`)
-
-
-    return res.json()
-}
+const getCategory = async (id: string) => {
+  try {
+    const category = await db.category.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        billboard: {
+          include: {
+            BillboardImages: true,
+          },
+        },
+        subcategories: true,
+      },
+    });
+    return category;
+  } catch (error) {
+    console.error("[GET_CATEGORY]", error);
+    return null;
+  }
+};
 
 export default getCategory;

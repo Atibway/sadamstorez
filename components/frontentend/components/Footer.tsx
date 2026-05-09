@@ -3,28 +3,40 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import axios from 'axios'
 import toast from 'react-hot-toast'
 
 export function Footer() {
   const [email, setEmail] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault()
+    if (isSubmitting) return
+    
+    setIsSubmitting(true)
     try {
-      await axios.post("https://www.mailminted.com/api/subscribe", {
-        apiKey:process.env.NEXT_PUBLIC_API_KEY,
-        email: email
-      }).then((res)=> {
-        console.log(res);
-        setEmail("")
+      const response = await fetch("https://www.mailminted.com/api/subscribe", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          apiKey: process.env.NEXT_PUBLIC_API_KEY,
+          email: email
+        }),
       })
-      toast.success("Subscribed successfully")
-      setEmail("")
+      
+      if (response.ok) {
+        toast.success("Subscribed successfully")
+        setEmail("")
+      } else {
+        throw new Error('Subscription failed')
+      }
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong")
-      setEmail("")
+    } finally {
+      setIsSubmitting(false)
     }
   }
   
@@ -65,7 +77,7 @@ export function Footer() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-desktop pt-section-padding max-w-container-max mx-auto border-t border-outline-variant/10">
         <div className="col-span-1 md:col-span-3">
           <div className="col-span-1 md:col-span-4 text-center font-body-sm text-body-sm">
-            © {new Date().getFullYear()} SadamStorez. All rights reserved.
+            {new Date().getFullYear()} SadamStorez. All rights reserved.
           </div>
         </div>
         <div className="col-span-1">
@@ -77,12 +89,18 @@ export function Footer() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={isSubmitting}
             />
             <button 
               onClick={handleSubmit}
-              className="bg-accent text-white px-3 py-2 rounded-r-lg hover:bg-accent-hover transition-colors flex items-center justify-center"
+              disabled={isSubmitting}
+              className="bg-accent text-white px-3 py-2 rounded-r-lg hover:bg-accent-hover transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <ArrowRight className="w-4 h-4" />
+              {isSubmitting ? (
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+              ) : (
+                <ArrowRight className="w-4 h-4" />
+              )}
             </button>
           </div>
         </div>
@@ -90,4 +108,3 @@ export function Footer() {
     </footer>
   )
 }
-

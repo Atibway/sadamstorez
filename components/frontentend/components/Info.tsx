@@ -1,6 +1,6 @@
 'use client';
 
-import { Product } from '@/types';
+import { Product2 } from '@/types';
 import React from 'react';
 import Currency from './ui/Currency';
 import { Button } from './ui/button';
@@ -10,7 +10,7 @@ import { Preview } from './preview';
 import { ShareButton } from '@/app/frontend/(routes)/favorites/_components/ShareButton';
 
 interface InfoProps {
-  data: Product;
+  data: Product2;
 }
 
 const Info: React.FC<InfoProps> = ({ data }) => {
@@ -39,13 +39,13 @@ const Info: React.FC<InfoProps> = ({ data }) => {
         <div className="grid grid-cols-2">
           <div className="flex items-center gap-x-2">
             <h3 className="font-semibold text-black dark:text-primary-foreground">Size:</h3>
-            <p className="mr-2">{data.size?.name}</p>
+            <p className="mr-2">{data.sizeId}</p>
           </div>
           <div className="flex items-center gap-x-2">
             <h3 className="font-semibold text-black dark:text-primary-foreground">Color:</h3>
             <div
               className="h-6 w-6 rounded-full border border-gray-600 dark:border-primary-foreground"
-              style={{ backgroundColor: data.color?.value }}
+              style={{ backgroundColor: data.colorId }}
             />
           </div>
           <div className="flex items-center gap-x-2">

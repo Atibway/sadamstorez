@@ -1,11 +1,19 @@
-import { Color } from "@/types";
+"use server";
 
-const URL = `${process.env.NEXT_PUBLIC_API_URL}/colors`;
+import { db } from "@/lib/prismadb";
 
-const getColors = async (): Promise<Color[]> => {
-    const res = await fetch(URL)
-
-    return res.json()
-}
+const getColors = async () => {
+  try {
+    const colors = await db.color.findMany({
+      orderBy: {
+        name: "asc",
+      },
+    });
+    return colors;
+  } catch (error) {
+    console.error("[GET_COLORS]", error);
+    return [];
+  }
+};
 
 export default getColors;

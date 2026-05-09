@@ -1,13 +1,13 @@
 
 
-import { Product } from "@/types";
+import { Product2 } from "@/types";
 import toast from "react-hot-toast";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 interface BookmarkStore {
-    items: Product[];
-    addItem: (data:Product) => void;
+    items: Product2[];
+    addItem: (data:Product2) => void;
     removeItem: (id:string)=> void;
     removeAll: ()=> void;
 }
@@ -16,7 +16,7 @@ interface BookmarkStore {
 export const useBookmark = create(
     persist<BookmarkStore>((set, get)=> ({
    items: [],
-   addItem: (data: Product)=> {
+   addItem: (data: Product2)=> {
 const currentItems = get().items;
 const existingItem = currentItems.find((item)=> item.id === data.id);
 
