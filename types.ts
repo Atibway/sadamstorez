@@ -49,6 +49,20 @@ export type ProductSummarySelect = Prisma.ProductGetPayload<{
         url: true;
       };
     };
+    color: {
+      select: {
+        id: true;
+        name: true;
+        value: true;
+      };
+    };
+    size: {
+      select: {
+        id: true;
+        name: true;
+        value: true;
+      };
+    };
   };
 }>;
 

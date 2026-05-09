@@ -24,9 +24,9 @@ const Info: React.FC<InfoProps> = ({ data }) => {
     <div className="p-4 bg-white dark:bg-slate-900 dark:text-white shadow-md rounded-md">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-primary-foreground">{data.name}</h1>
-        <p className="text-2xl text-gray-900 dark:text-primary-foreground">
+        <div className="text-2xl text-gray-900 dark:text-primary-foreground">
           <Currency value={data.price} />
-        </p>
+        </div>
       </div>
 
       <hr className="my-4 dark:border-primary-foreground" />
@@ -39,13 +39,13 @@ const Info: React.FC<InfoProps> = ({ data }) => {
         <div className="grid grid-cols-2">
           <div className="flex items-center gap-x-2">
             <h3 className="font-semibold text-black dark:text-primary-foreground">Size:</h3>
-            <p className="mr-2">{data.sizeId}</p>
+            <p className="mr-2">{data.size?.value}</p>
           </div>
           <div className="flex items-center gap-x-2">
             <h3 className="font-semibold text-black dark:text-primary-foreground">Color:</h3>
             <div
               className="h-6 w-6 rounded-full border border-gray-600 dark:border-primary-foreground"
-              style={{ backgroundColor: data.colorId }}
+              style={{ backgroundColor: data.color?.value }}
             />
           </div>
           <div className="flex items-center gap-x-2">

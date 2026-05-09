@@ -33,6 +33,20 @@ type ProductSelectPayload = Prisma.ProductGetPayload<{
         url: true;
       };
     };
+    color: {
+      select: {
+        id: true;
+        name: true;
+        value: true;
+      };
+    };
+    size: {
+      select: {
+        id: true;
+        name: true;
+        value: true;
+      };
+    };
   };
 }>;
 
@@ -69,6 +83,20 @@ const getProducts = async (query: Query): Promise<ProductSummary[]> => {
             url: true,
           },
         },
+        color: {
+          select: {
+            id: true,
+            name: true,
+            value: true,
+          },
+        },
+        size: {
+          select: {
+            id: true,
+            name: true,
+            value: true,
+          },
+        },
       },
       orderBy: {
         createdAt: "desc",
@@ -92,6 +120,8 @@ const getProducts = async (query: Query): Promise<ProductSummary[]> => {
       images: product.images,
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
+      color: product.color,
+      size: product.size,
     }));
 
     return normalized;

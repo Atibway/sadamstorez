@@ -4,7 +4,6 @@ import "./globals.css";
 
 import { ModelProvider } from "@/providers/model-provider";
 import { ToastProvider } from "@/providers/toast-provider";
-import { ThemeProvider } from "@/providers/theme-provider";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import ModalProvider from "@/providers/modal-provider";
@@ -14,6 +13,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Bam Shopping Center",
   description: "Bam Shopping Center - Your one-stop shop for all your needs",
+  manifest: "/manifest.json",
 };
 
 export default async function RootLayout({
@@ -27,19 +27,10 @@ export default async function RootLayout({
       <SessionProvider session={session}>
         <html lang="en" suppressHydrationWarning>
                 <body className={inter.className}>
-                 <ThemeProvider
-                    attribute="class"
-                    defaultTheme="system"
-                    enableSystem
-                    disableTransitionOnChange
-                  >
-
                     <ToastProvider/>
            <ModelProvider/>
            <ModalProvider/>
             {children}
-                  </ThemeProvider>
-
           </body>
         </html>
         </SessionProvider>

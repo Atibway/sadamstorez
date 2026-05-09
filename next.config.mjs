@@ -26,6 +26,10 @@ const nextConfig = {
         protocol: "https",
         hostname:"c0.wallpaperflare.com"
     },
+    {
+      protocol: "https",
+      hostname: "images.unsplash.com",
+    },
     ],
     // Next.js 16: minimumCacheTTL default changed from 60s to 4 hours
     // Keeping at 60s for now to maintain previous behavior

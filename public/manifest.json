@@ -1,0 +1,17 @@
+{
+  "name": "Bam Shopping Center",
+  "short_name": "Bam Shopping",
+  "description": "Bam Shopping Center - Your one-stop shop for all your needs",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#00000b",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}
