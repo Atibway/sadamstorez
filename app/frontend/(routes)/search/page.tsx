@@ -7,8 +7,8 @@ import Header from "@/components/frontend/Header";
 import Sidebar from "@/components/frontend/Sidebar";
 import { ChevronLeft, ChevronRight, Filter, X } from "lucide-react";
 import { Product } from "@/types";
-import { db } from "@/lib/prismadb";
 import Link from "next/link";
+import getCategories from "@/actions/get-categories";
 
 const SearchPage: React.FC = () => {
   const searchParams = useSearchParams();
@@ -30,16 +30,7 @@ const SearchPage: React.FC = () => {
 
     const fetchCategories = async () => {
       try {
-        const data = await db.category.findMany({
-          include: {
-            billboard: {
-              include: {
-                BillboardImages: true,
-              },
-            },
-            subcategories: true,
-          },
-        });
+        const data = await getCategories();
         setCategories(data);
       } catch (error) {
         console.error('Error fetching categories:', error);
