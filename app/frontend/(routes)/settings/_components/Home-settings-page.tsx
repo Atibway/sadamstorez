@@ -3,12 +3,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { OrderHistory } from './order-history'
 import { OrderColumn } from './orders/columns'
 import ProductTracking from './order-tracking'
-import SettingPage1 from "@/app/dashboard/profile/page"
+import { ProfileForm } from "@/app/dashboard/profile/_components/profileForm"
 
 export default function ManageAccount({
-  orders
+  orders,
+  userInfo
 }:{
-  orders: OrderColumn[]
+  orders: OrderColumn[],
+  userInfo: any
 }) {
   
 
@@ -22,7 +24,7 @@ export default function ManageAccount({
           {/* <TabsTrigger value="tracking">Track Item</TabsTrigger> */}
         </TabsList>
         <TabsContent value="personal-info">
-          <SettingPage1/>
+          <ProfileForm userInfo={userInfo}/>
         </TabsContent>
         <TabsContent value="orders">
           <OrderHistory
